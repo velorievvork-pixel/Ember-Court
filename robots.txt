@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://velorievvork-pixel.github.io/Ember-Court/sitemap.xml
