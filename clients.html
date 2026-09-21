@@ -1,8 +1,8 @@
 <title>Клиенты — Ember Court</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Критерии Ember Court: кому подходит сотрудничество по outbound-потоку и сайтам.">
+<meta name="description" content="С кем работает Ember Court: outbound-поток для Camirix и критерии, кому подходит сотрудничество.">
 <meta property="og:title" content="Клиенты — Ember Court">
-<meta property="og:description" content="Кому подходит сотрудничество с Ember Court.">
+<meta property="og:description" content="С кем работает Ember Court и кому подходит сотрудничество.">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600&family=Cormorant:ital,wght@0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="styles.css">
@@ -47,8 +47,28 @@
 
   <section class="pagehead">
     <div class="eyebrow" data-i18n="ph.eyebrow">Клиенты</div>
-    <h1 data-i18n="ph.heading">Берём не всех подряд</h1>
-    <p class="lede" data-i18n="ph.lede">Outbound — это ежедневная ручная работа, а не кнопка «запустить рассылку». Каждому новому клиенту физически нужно то же внимание, что и первому, поэтому число проектов одновременно ограничено. Ниже — кому это подходит.</p>
+    <h1 data-i18n="ph.heading">Один клиент. Не потому что больше не зовут.</h1>
+    <p class="lede" data-i18n="ph.lede">Outbound — это ежедневная ручная работа, а не кнопка «запустить рассылку». Пятому клиенту одновременно физически не достанется того же внимания, что первому, поэтому пятого пока и нет. Ниже — с кем работаем сейчас.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <section>
+    <div class="client-card">
+      <div class="client-top">
+        <span class="client-name">Camirix</span>
+        <span class="client-tag" data-i18n="camirix.tag">Outbound-поток</span>
+      </div>
+      <p class="client-about" data-i18n="camirix.about">Camirix — SaaS-платформа для автоматизации продаж и клиентского сервиса: CRM-аналитика, AI-квалификация заявок и AI Customer Support для растущих B2B-компаний.</p>
+
+      <div class="client-scope">
+        <div class="client-scope-item"><b data-i18n="camirix.scope.what.k">Задача</b><span data-i18n="camirix.scope.what.v">Ежедневный поиск и проверка компаний с реальным сигналом интереса к автоматизации продаж, среди 2-3+ разных отраслей за цикл.</span></div>
+        <div class="client-scope-item"><b data-i18n="camirix.scope.icp.k">Профиль</b><span data-i18n="camirix.scope.icp.v">Растущий B2B, 30-150 сотрудников, выручка $1-30 млн+, уже есть отдел продаж и CRM.</span></div>
+        <div class="client-scope-item"><b data-i18n="camirix.scope.deliver.k">Результат</b><span data-i18n="camirix.scope.deliver.v">Проверенные компании с найденным контактом и лицом, принимающим решения, персональный текст под каждую, ведение в общей базе.</span></div>
+      </div>
+
+      <div class="note-box" data-i18n="camirix.note">Работа идёт ежедневно, без пауз на выходные. Подборки не дополняются слабыми кандидатами для объёма — часть циклов заканчивается списком короче целевого, и это указывается в отчёте прямо.</div>
+    </div>
   </section>
 
   <div class="rule"></div>
@@ -113,8 +133,14 @@ EmberI18n.init({
   ru:{
     "nav.home":"Главная","nav.services":"Услуги","nav.clients":"Клиенты","nav.cta":"Написать",
     "ph.eyebrow":"Клиенты",
-    "ph.heading":"Берём не всех подряд",
-    "ph.lede":"Outbound — это ежедневная ручная работа, а не кнопка «запустить рассылку». Каждому новому клиенту физически нужно то же внимание, что и первому, поэтому число проектов одновременно ограничено. Ниже — кому это подходит.",
+    "ph.heading":"Один клиент. Не потому что больше не зовут.",
+    "ph.lede":"Outbound — это ежедневная ручная работа, а не кнопка «запустить рассылку». Пятому клиенту одновременно физически не достанется того же внимания, что первому, поэтому пятого пока и нет. Ниже — с кем работаем сейчас.",
+    "camirix.tag":"Outbound-поток",
+    "camirix.about":"Camirix — SaaS-платформа для автоматизации продаж и клиентского сервиса: CRM-аналитика, AI-квалификация заявок и AI Customer Support для растущих B2B-компаний.",
+    "camirix.scope.what.k":"Задача","camirix.scope.what.v":"Ежедневный поиск и проверка компаний с реальным сигналом интереса к автоматизации продаж, среди 2-3+ разных отраслей за цикл.",
+    "camirix.scope.icp.k":"Профиль","camirix.scope.icp.v":"Растущий B2B, 30-150 сотрудников, выручка $1-30 млн+, уже есть отдел продаж и CRM.",
+    "camirix.scope.deliver.k":"Результат","camirix.scope.deliver.v":"Проверенные компании с найденным контактом и лицом, принимающим решения, персональный текст под каждую, ведение в общей базе.",
+    "camirix.note":"Работа идёт ежедневно, без пауз на выходные. Подборки не дополняются слабыми кандидатами для объёма — часть циклов заканчивается списком короче целевого, и это указывается в отчёте прямо.",
     "fit.eyebrow":"Кому подходит",
     "fit.heading":"Подходит не всем компаниям",
     "fit.yes.h":"Подходит, если",
@@ -134,8 +160,14 @@ EmberI18n.init({
   en:{
     "nav.home":"Home","nav.services":"Services","nav.clients":"Clients","nav.cta":"Get in touch",
     "ph.eyebrow":"Clients",
-    "ph.heading":"We don't take on everyone",
-    "ph.lede":"Outbound is daily manual work, not a “launch campaign” button. Every new client needs the same attention as the first, so the number of projects running at once stays limited. Below is who this fits.",
+    "ph.heading":"One client. Not for lack of offers.",
+    "ph.lede":"Outbound is daily manual work, not a “launch campaign” button. A fifth client at the same time simply wouldn't get the attention the first one does — so there isn't a fifth one yet. Below is who we work with right now.",
+    "camirix.tag":"Outbound",
+    "camirix.about":"Camirix is a SaaS platform for sales automation and customer service — CRM analytics, AI lead qualification, and AI Customer Support for growing B2B companies.",
+    "camirix.scope.what.k":"Scope","camirix.scope.what.v":"Daily sourcing and vetting of companies with a genuine signal of interest in sales automation, across 2-3+ industries per cycle.",
+    "camirix.scope.icp.k":"Profile","camirix.scope.icp.v":"Growing B2B companies, 30-150 employees, $1-30M+ revenue, with an existing sales team and CRM.",
+    "camirix.scope.deliver.k":"Delivered","camirix.scope.deliver.v":"Vetted companies with a contact and, where possible, a named decision-maker, a personal message for each, tracked in a shared database.",
+    "camirix.note":"Work runs daily, seven days a week. Lists aren't padded with weak candidates to hit a number — some cycles end with a shorter list than the target, and the report says so plainly.",
     "fit.eyebrow":"Fit",
     "fit.heading":"Not built for every company",
     "fit.yes.h":"A good fit if",
@@ -155,8 +187,14 @@ EmberI18n.init({
   uk:{
     "nav.home":"Головна","nav.services":"Послуги","nav.clients":"Клієнти","nav.cta":"Написати",
     "ph.eyebrow":"Клієнти",
-    "ph.heading":"Беремо не всіх поспіль",
-    "ph.lede":"Outbound — це щоденна ручна робота, а не кнопка «запустити розсилку». Кожному новому клієнту фізично потрібна та сама увага, що й першому, тому кількість проєктів одночасно обмежена. Нижче — кому це підходить.",
+    "ph.heading":"Один клієнт. Не тому, що більше не кличуть.",
+    "ph.lede":"Outbound — це щоденна ручна робота, а не кнопка «запустити розсилку». П'ятому клієнту одночасно фізично не дістанеться тієї ж уваги, що першому, тому п'ятого поки й немає. Нижче — з ким працюємо зараз.",
+    "camirix.tag":"Outbound-потік",
+    "camirix.about":"Camirix — SaaS-платформа для автоматизації продажів і клієнтського сервісу: CRM-аналітика, AI-кваліфікація заявок і AI Customer Support для B2B-компаній, що зростають.",
+    "camirix.scope.what.k":"Завдання","camirix.scope.what.v":"Щоденний пошук і перевірка компаній із реальним сигналом інтересу до автоматизації продажів, серед 2-3+ різних галузей за цикл.",
+    "camirix.scope.icp.k":"Профіль","camirix.scope.icp.v":"Зростаючий B2B, 30-150 співробітників, виручка $1-30 млн+, вже є відділ продажів і CRM.",
+    "camirix.scope.deliver.k":"Результат","camirix.scope.deliver.v":"Перевірені компанії зі знайденим контактом і особою, яка приймає рішення, персональний текст під кожну, ведення у спільній базі.",
+    "camirix.note":"Робота йде щодня, без пауз на вихідні. Добірки не доповнюються слабкими кандидатами заради обсягу — частина циклів завершується списком коротшим за цільовий, і це вказано у звіті прямо.",
     "fit.eyebrow":"Кому підходить",
     "fit.heading":"Підходить не всім компаніям",
     "fit.yes.h":"Підходить, якщо",
