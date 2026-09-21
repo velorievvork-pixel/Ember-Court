@@ -25,3 +25,26 @@ window.EmberI18n = (function(){
 
   return { init: init };
 })();
+
+(function(){
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) {}
+  if (reduce) return;
+  document.addEventListener('DOMContentLoaded', function(){
+    var targets = document.querySelectorAll('.wrap > section');
+    if (!targets.length || !('IntersectionObserver' in window)) return;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(function(el, i){
+      el.classList.add('reveal');
+      if (i === 0) { el.classList.add('is-visible'); return; }
+      io.observe(el);
+    });
+  });
+})();

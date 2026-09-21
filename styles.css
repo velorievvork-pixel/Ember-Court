@@ -230,6 +230,9 @@ footer{
   font-family:var(--font-caption); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint);
 }
 
+.reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.is-visible{ opacity:1; transform:translateY(0); }
+
 @media (prefers-reduced-motion: no-preference){
   .flicker{ animation: flicker 6s ease-in-out infinite; transform-origin:50% 62%; }
   .spark{ animation: rise 4.5s ease-in infinite; }
