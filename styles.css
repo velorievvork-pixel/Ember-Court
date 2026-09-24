@@ -276,6 +276,8 @@ body{ overflow-x:clip; }
 /* service cards as a grid with glow */
 .svc-cards.three{ display:grid; grid-template-columns:1fr; }
 @media (min-width:680px){ .svc-cards.three{ grid-template-columns:repeat(3,1fr); } .svc-cards.three .svc-card p{ font-size:14.5px; } }
+.svc-cards.four{ display:grid; grid-template-columns:1fr; }
+@media (min-width:620px){ .svc-cards.four{ grid-template-columns:repeat(2,1fr); } .svc-cards.four .svc-card p{ font-size:14.5px; } }
 .svc-card{ position:relative; overflow:hidden; transition:background .3s ease; }
 .svc-card .ico{ width:34px; height:34px; color:var(--ember-mid); }
 .svc-card .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
