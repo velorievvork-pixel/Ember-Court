@@ -1,8 +1,8 @@
-<title>Ember Court — аутсорс-агентство для B2B: outbound и сайты</title>
+<title>Ember Court — аутсорс-агентство для B2B: outbound, сайты и видео</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Ember Court — outbound-поток клиентов и сайты для B2B-команд на раннем этапе роста. Поиск и проверка компаний вручную, персональные тексты, запуск сайтов.">
+<meta name="description" content="Ember Court — outbound-поток клиентов, сайты и видео для B2B-команд на раннем этапе роста. Поиск и проверка компаний вручную, запуск сайтов, монтаж, обработка и создание видео.">
 <meta property="og:title" content="Ember Court">
-<meta property="og:description" content="Аутсорс-агентство для B2B-команд: outbound-поток клиентов и сайты, которым можно доверять.">
+<meta property="og:description" content="Аутсорс-агентство для B2B-команд: outbound-поток клиентов, сайты и видео, которым можно доверять.">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@500;600&family=Cormorant:ital,wght@0,500;0,600;1,400&family=Jost:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="styles.css">
@@ -54,6 +54,8 @@
 <div class="wrap">
 
   <section class="hero">
+    <canvas class="hero-fire" aria-hidden="true"></canvas>
+    <canvas class="hero-fire-src" hidden></canvas>
     <svg class="ember-mark flicker" viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="64" r="52" fill="url(#glow)"/>
       <circle cx="60" cy="64" r="26" fill="#2A0F06" filter="url(#soft)"/>
@@ -65,20 +67,30 @@
     </svg>
 
     <div class="stack" style="gap:12px;">
-      <h1>Ember Court</h1>
+      <h1>Ember <span class="accent">Court</span></h1>
       <div class="hero-tagline" data-i18n="hero.tagline">Мы открываем двери. Закрывать сделки — по-прежнему вам.</div>
     </div>
 
     <p class="lede" data-i18n="hero.lede">Холодные письма обычно летят в спам не потому, что продукт плохой, а потому что их писали под копирку в два часа ночи. Мы вручную находим тех, кому это правда сейчас нужно, проверяем каждую компанию так, будто сами туда устраиваемся на работу, и открываем разговор так, чтобы на него хотелось ответить.</p>
 
     <div class="hero-foot">
-      <div class="hero-stat"><b data-i18n="hero.stat1.n">2 направления</b><span data-i18n="hero.stat1.l">outbound и сайты</span></div>
+      <div class="hero-stat"><b data-i18n="hero.stat1.n">3 направления</b><span data-i18n="hero.stat1.l">outbound, сайты, видео</span></div>
       <div class="hero-stat"><b data-i18n="hero.stat2.n">0 шаблонов</b><span data-i18n="hero.stat2.l">каждая работа с нуля</span></div>
       <div class="hero-stat"><b data-i18n="hero.stat3.n">1 клиент</b><span data-i18n="hero.stat3.l">на странице «Клиенты»</span></div>
     </div>
   </section>
 
-  <div class="rule"></div>
+  <div class="ticker">
+    <div class="ticker-track">
+      <span data-i18n="tk.1">Outbound-поток</span>
+      <span data-i18n="tk.2">Проверка лидов вручную</span>
+      <span data-i18n="tk.3">Сайты</span>
+      <span data-i18n="tk.4">Монтаж видео</span>
+      <span data-i18n="tk.5">Цветокоррекция и звук</span>
+      <span data-i18n="tk.6">Ролики с нуля</span>
+      <span data-i18n="tk.7">Reels и Shorts</span>
+    </div>
+  </div>
 
   <section class="situation">
     <div class="eyebrow" data-i18n="situation.eyebrow">Ситуация</div>
@@ -94,21 +106,48 @@
   <section>
     <div class="section-head">
       <div class="eyebrow" data-i18n="svc.eyebrow">Направления</div>
-      <h2 data-i18n="svc.heading">Два инструмента. Оба работают до того момента, когда нужны уже вы</h2>
+      <h2 data-i18n="svc.heading">Три инструмента. Все работают до того момента, когда нужны уже вы</h2>
     </div>
-    <div class="svc-cards">
+    <div class="svc-cards three">
       <a class="svc-card" href="services.html#outbound">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></svg>
         <span class="num">01</span>
         <h3 data-i18n="svc.outbound.title">Outbound-поток</h3>
         <p data-i18n="svc.outbound.body">Не рассылка на пятьсот адресов и молитва, а компании, у которых действительно есть повод вас выслушать — найденные, проверенные и открытые для разговора вручную.</p>
+        <div class="tags"><b data-i18n="svc.outbound.t1">Поиск</b><b data-i18n="svc.outbound.t2">Проверка</b><b data-i18n="svc.outbound.t3">Первое касание</b></div>
         <span class="go" data-i18n="svc.more">Подробнее →</span>
       </a>
       <a class="svc-card" href="services.html#sites">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></svg>
         <span class="num">02</span>
         <h3 data-i18n="svc.sites.title">Сайты</h3>
         <p data-i18n="svc.sites.body">Карточка на маркетплейсе — это не сайт, это место, куда клиент не заходит дважды. Мы строим то, ради чего он останется хотя бы на минуту.</p>
+        <div class="tags"><b data-i18n="svc.sites.t1">Дизайн</b><b data-i18n="svc.sites.t2">Тексты</b><b data-i18n="svc.sites.t3">Запуск</b></div>
         <span class="go" data-i18n="svc.more">Подробнее →</span>
       </a>
+      <a class="svc-card beam" href="services.html#video">
+        <span class="badge" data-i18n="svc.video.badge">Новое</span>
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12.296 3.464 3.02 3.956"/><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z"/><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="m6.18 5.276 3.1 3.899"/></svg>
+        <span class="num">03</span>
+        <h3 data-i18n="svc.video.title">Видео</h3>
+        <p data-i18n="svc.video.body">Монтаж из ваших исходников, обработка того, что уже снято, и ролики с нуля — для сайта, соцсетей и презентаций. Смотрят до конца, а не пролистывают на второй секунде.</p>
+        <div class="tags"><b data-i18n="svc.video.t1">Монтаж</b><b data-i18n="svc.video.t2">Обработка</b><b data-i18n="svc.video.t3">Создание</b></div>
+        <span class="go" data-i18n="svc.more">Подробнее →</span>
+      </a>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <section>
+    <div class="section-head">
+      <div class="eyebrow" data-i18n="flow.eyebrow">Как работаем</div>
+      <h2 data-i18n="flow.heading">От первого сообщения до результата — три шага</h2>
+    </div>
+    <div class="flow">
+      <div class="flow-step"><h4 data-i18n="flow.1.h">Пара сообщений</h4><p data-i18n="flow.1.p">Рассказываете, чем занимается компания и что нужно. Без брифа на десять страниц.</p></div>
+      <div class="flow-step"><h4 data-i18n="flow.2.h">Честный ответ</h4><p data-i18n="flow.2.p">Говорим, какое направление подходит — outbound, сайт, видео или их связка — и подходит ли вообще.</p></div>
+      <div class="flow-step"><h4 data-i18n="flow.3.h">Работа вручную</h4><p data-i18n="flow.3.p">Без шаблонов и конвейера. Показываем промежуточный результат, а не только финальный.</p></div>
     </div>
   </section>
 
@@ -154,13 +193,58 @@
 </footer>
 
 <script src="i18n.js"></script>
+<script type="module">
+import { createBlaze } from "./blaze.js";
+const hero = document.querySelector(".hero");
+const output = hero && hero.querySelector(".hero-fire");
+if (output) {
+  const inst = createBlaze(
+    // content = output: the effect clips to content width, and our fire is full-bleed
+    { source: hero.querySelector(".hero-fire-src"), content: output, output },
+    { height: 0.75, sparks: 0.6, sparkDensity: 1.6, sparkSize: 1.2, layers: 5,
+      smoke: 0.3, glow: 1.6, speed: 0.8,
+      sparkColor: [1, 0.55, 0.2], smokeColor: [1, 0.42, 0.21] }
+  );
+  if (inst) hero.classList.add("has-fire");
+}
+</script>
 <script>
 EmberI18n.init({
   ru:{
+    "hero.stat1.n":"3 направления",
+    "hero.stat1.l":"outbound, сайты, видео",
+    "svc.heading":"Три инструмента. Все работают до того момента, когда нужны уже вы",
+    "tk.1":"Outbound-поток",
+    "tk.2":"Проверка лидов вручную",
+    "tk.3":"Сайты",
+    "tk.4":"Монтаж видео",
+    "tk.5":"Цветокоррекция и звук",
+    "tk.6":"Ролики с нуля",
+    "tk.7":"Reels и Shorts",
+    "svc.outbound.t1":"Поиск",
+    "svc.outbound.t2":"Проверка",
+    "svc.outbound.t3":"Первое касание",
+    "svc.sites.t1":"Дизайн",
+    "svc.sites.t2":"Тексты",
+    "svc.sites.t3":"Запуск",
+    "svc.video.badge":"Новое",
+    "svc.video.title":"Видео",
+    "svc.video.body":"Монтаж из ваших исходников, обработка того, что уже снято, и ролики с нуля — для сайта, соцсетей и презентаций. Смотрят до конца, а не пролистывают на второй секунде.",
+    "svc.video.t1":"Монтаж",
+    "svc.video.t2":"Обработка",
+    "svc.video.t3":"Создание",
+    "flow.eyebrow":"Как работаем",
+    "flow.heading":"От первого сообщения до результата — три шага",
+    "flow.1.h":"Пара сообщений",
+    "flow.1.p":"Рассказываете, чем занимается компания и что нужно. Без брифа на десять страниц.",
+    "flow.2.h":"Честный ответ",
+    "flow.2.p":"Говорим, какое направление подходит — outbound, сайт, видео или их связка — и подходит ли вообще.",
+    "flow.3.h":"Работа вручную",
+    "flow.3.p":"Без шаблонов и конвейера. Показываем промежуточный результат, а не только финальный.",
     "nav.home":"Главная","nav.services":"Услуги","nav.clients":"Клиенты","nav.cta":"Написать",
     "hero.tagline":"Мы открываем двери. Закрывать сделки — по-прежнему вам.",
     "hero.lede":"Холодные письма обычно летят в спам не потому, что продукт плохой, а потому что их писали под копирку в два часа ночи. Мы вручную находим тех, кому это правда сейчас нужно, проверяем каждую компанию так, будто сами туда устраиваемся на работу, и открываем разговор так, чтобы на него хотелось ответить.",
-    "hero.stat1.n":"2 направления","hero.stat1.l":"outbound и сайты",
+    
     "hero.stat2.n":"0 шаблонов","hero.stat2.l":"каждая работа с нуля",
     "hero.stat3.n":"1 клиент","hero.stat3.l":"на странице «Клиенты»",
     "situation.eyebrow":"Ситуация",
@@ -168,7 +252,7 @@ EmberI18n.init({
     "situation.body1":"Сделки на раннем этапе почти всегда закрывает основатель — и это правильно, он знает продукт лучше всех. Но на холодный поиск у него остаётся от силы час-два в день между звонками с инвесторами, наймом и тушением пожаров — и этот час обычно уходит на скролл LinkedIn, а не на системную работу.",
     "situation.body2":"Мы забираем именно этот час — поиск, проверку, первый контакт — и возвращаем его уже в виде готового к разговору человека на другом конце переписки. Закрывать сделку остаётся вам: это по-прежнему единственная часть, которую не стоит отдавать на аутсорс.",
     "svc.eyebrow":"Направления",
-    "svc.heading":"Два инструмента. Оба работают до того момента, когда нужны уже вы",
+    
     "svc.outbound.title":"Outbound-поток",
     "svc.outbound.body":"Не рассылка на пятьсот адресов и молитва, а компании, у которых действительно есть повод вас выслушать — найденные, проверенные и открытые для разговора вручную.",
     "svc.sites.title":"Сайты",
@@ -184,10 +268,40 @@ EmberI18n.init({
     "footer.tag":"Точность вместо объёма"
   },
   en:{
+    "hero.stat1.n":"3 lines of work",
+    "hero.stat1.l":"outbound, sites, video",
+    "svc.heading":"Three tools. All do their job right up to the point where you're needed",
+    "tk.1":"Outbound",
+    "tk.2":"Hand-vetted leads",
+    "tk.3":"Websites",
+    "tk.4":"Video editing",
+    "tk.5":"Color & sound",
+    "tk.6":"Videos from scratch",
+    "tk.7":"Reels & Shorts",
+    "svc.outbound.t1":"Sourcing",
+    "svc.outbound.t2":"Vetting",
+    "svc.outbound.t3":"First touch",
+    "svc.sites.t1":"Design",
+    "svc.sites.t2":"Copy",
+    "svc.sites.t3":"Launch",
+    "svc.video.badge":"New",
+    "svc.video.title":"Video",
+    "svc.video.body":"Editing from your raw footage, polishing what's already shot, and videos made from scratch — for your site, social media and pitches. Watched to the end, not swiped away in two seconds.",
+    "svc.video.t1":"Editing",
+    "svc.video.t2":"Post-production",
+    "svc.video.t3":"Production",
+    "flow.eyebrow":"How we work",
+    "flow.heading":"From first message to result — three steps",
+    "flow.1.h":"A couple of messages",
+    "flow.1.p":"Tell us what the company does and what you need. No ten-page brief.",
+    "flow.2.h":"An honest answer",
+    "flow.2.p":"We tell you which line fits — outbound, a site, video or a mix — and whether any does.",
+    "flow.3.h":"Hands-on work",
+    "flow.3.p":"No templates, no conveyor belt. You see work in progress, not just the final result.",
     "nav.home":"Home","nav.services":"Services","nav.clients":"Clients","nav.cta":"Get in touch",
     "hero.tagline":"We open the doors. Closing is still yours to do.",
     "hero.lede":"Cold emails usually end up in spam not because the product is bad, but because they were copy-pasted at two in the morning. We find the companies that genuinely have a reason to listen, vet each one as if we were about to work there ourselves, and open the conversation in a way that's actually worth answering.",
-    "hero.stat1.n":"2 lines of work","hero.stat1.l":"outbound and sites",
+    
     "hero.stat2.n":"0 templates","hero.stat2.l":"every job from scratch",
     "hero.stat3.n":"1 client","hero.stat3.l":"listed on the Clients page",
     "situation.eyebrow":"Situation",
@@ -195,7 +309,7 @@ EmberI18n.init({
     "situation.body1":"At an early stage the founder almost always closes deals personally — and rightly so, nobody knows the product better. But there's an hour, maybe two, left for cold outreach between investor calls, hiring, and putting out fires — and that hour usually goes to scrolling LinkedIn, not to doing the work systematically.",
     "situation.body2":"We take exactly that hour — sourcing, vetting, first contact — and hand it back as someone on the other end of the conversation who's actually ready to talk. Closing stays with you: it's still the one part not worth outsourcing.",
     "svc.eyebrow":"Services",
-    "svc.heading":"Two tools. Both do their job right up to the point where you're needed",
+    
     "svc.outbound.title":"Outbound",
     "svc.outbound.body":"Not five hundred addresses and a prayer — companies that genuinely have a reason to hear you out, found, vetted, and opened for conversation by hand.",
     "svc.sites.title":"Websites",
@@ -206,15 +320,45 @@ EmberI18n.init({
     "clientsteaser.body":"The list is short not because we lack offers — it's because we say no more often than yes. The Clients page covers exactly what we do for the ones who made the cut.",
     "clientsteaser.link":"See the Clients page →",
     "close.heading":"Tell us what the company does",
-    "close.line":"No ten-page brief, no introductory call required. Describe the product and your current clients in a couple of messages — we'll tell you honestly which line of work fits, and whether either does.",
+    "close.line":"No ten-page brief, no introductory call required. Describe the product and your current clients in a couple of messages — we'll tell you honestly which line of work fits, and whether any does.",
     "close.alt":"Response within one business day, on any channel",
     "footer.tag":"Precision over volume"
   },
   uk:{
+    "hero.stat1.n":"3 напрямки",
+    "hero.stat1.l":"outbound, сайти, відео",
+    "svc.heading":"Три інструменти. Усі працюють до моменту, коли потрібні вже ви",
+    "tk.1":"Outbound-потік",
+    "tk.2":"Перевірка лідів вручну",
+    "tk.3":"Сайти",
+    "tk.4":"Монтаж відео",
+    "tk.5":"Кольорокорекція і звук",
+    "tk.6":"Ролики з нуля",
+    "tk.7":"Reels і Shorts",
+    "svc.outbound.t1":"Пошук",
+    "svc.outbound.t2":"Перевірка",
+    "svc.outbound.t3":"Перший контакт",
+    "svc.sites.t1":"Дизайн",
+    "svc.sites.t2":"Тексти",
+    "svc.sites.t3":"Запуск",
+    "svc.video.badge":"Нове",
+    "svc.video.title":"Відео",
+    "svc.video.body":"Монтаж із ваших вихідників, обробка вже знятого і ролики з нуля — для сайту, соцмереж і презентацій. Дивляться до кінця, а не гортають на другій секунді.",
+    "svc.video.t1":"Монтаж",
+    "svc.video.t2":"Обробка",
+    "svc.video.t3":"Створення",
+    "flow.eyebrow":"Як працюємо",
+    "flow.heading":"Від першого повідомлення до результату — три кроки",
+    "flow.1.h":"Пара повідомлень",
+    "flow.1.p":"Розповідаєте, чим займається компанія і що потрібно. Без брифу на десять сторінок.",
+    "flow.2.h":"Чесна відповідь",
+    "flow.2.p":"Кажемо, який напрямок підходить — outbound, сайт, відео чи їх зв'язка — і чи підходить взагалі.",
+    "flow.3.h":"Робота вручну",
+    "flow.3.p":"Без шаблонів і конвеєра. Показуємо проміжний результат, а не лише фінальний.",
     "nav.home":"Головна","nav.services":"Послуги","nav.clients":"Клієнти","nav.cta":"Написати",
     "hero.tagline":"Ми відчиняємо двері. Закривати угоди — досі ваша справа.",
     "hero.lede":"Холодні листи зазвичай летять у спам не тому, що продукт поганий, а тому що їх писали під копірку о другій ночі. Ми вручну знаходимо тих, кому це справді зараз потрібно, перевіряємо кожну компанію так, ніби самі туди влаштовуємося на роботу, і відкриваємо розмову так, щоб на неї хотілося відповісти.",
-    "hero.stat1.n":"2 напрямки","hero.stat1.l":"outbound і сайти",
+    
     "hero.stat2.n":"0 шаблонів","hero.stat2.l":"кожна робота з нуля",
     "hero.stat3.n":"1 клієнт","hero.stat3.l":"на сторінці «Клієнти»",
     "situation.eyebrow":"Ситуація",
@@ -222,7 +366,7 @@ EmberI18n.init({
     "situation.body1":"Угоди на ранньому етапі майже завжди закриває засновник — і це правильно, він знає продукт найкраще. Але на холодний пошук у нього лишається година-дві на день між дзвінками з інвесторами, наймом і гасінням пожеж — і ця година зазвичай іде на скрол LinkedIn, а не на системну роботу.",
     "situation.body2":"Ми забираємо саме цю годину — пошук, перевірку, перший контакт — і повертаємо її вже у вигляді людини на іншому кінці переписки, готової говорити. Закривати угоду залишається вам: це досі єдина частина, яку не варто віддавати на аутсорс.",
     "svc.eyebrow":"Напрямки",
-    "svc.heading":"Два інструменти. Обидва працюють до моменту, коли потрібні вже ви",
+    
     "svc.outbound.title":"Outbound-потік",
     "svc.outbound.body":"Не розсилка на п'ятсот адрес і молитва, а компанії, у яких справді є привід вас вислухати — знайдені, перевірені й відкриті для розмови вручну.",
     "svc.sites.title":"Сайти",

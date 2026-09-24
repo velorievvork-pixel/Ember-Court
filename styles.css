@@ -4,7 +4,7 @@
   --panel:#100E0C;
   --ink:#EDE6DA;
   --ink-soft:#A79C8B;
-  --ink-faint:#5C5449;
+  --ink-faint:#8A7F71;  /* was #5C5449 (2.66:1) — raised to pass WCAG AA 4.5:1 for small text */
   --rule:#241F19;
   --gold:#C9A227;
   --gold-dim:#7A6420;
@@ -136,7 +136,7 @@ section{ padding:clamp(44px,8.5vw,76px) 0; }
   display:flex; flex-direction:column; gap:10px;
 }
 .svc-card:hover{ background:var(--panel); }
-.svc-card .num{ font-family:var(--font-caption); font-size:11px; letter-spacing:0.16em; color:var(--gold-dim); text-transform:uppercase; }
+.svc-card .num{ font-family:var(--font-caption); font-size:11px; letter-spacing:0.16em; color:var(--ink-faint); text-transform:uppercase; }
 .svc-card h3{ font-size:23px; color:var(--ink); }
 .svc-card p{ font-size:15px; color:var(--ink-soft); max-width:56ch; }
 .svc-card .go{ font-family:var(--font-caption); font-size:12px; letter-spacing:0.08em; color:var(--gold); margin-top:4px; }
@@ -230,8 +230,6 @@ footer{
   font-family:var(--font-caption); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-faint);
 }
 
-.reveal{ opacity:0; transform:translateY(16px); transition:opacity .7s ease, transform .7s ease; }
-.reveal.is-visible{ opacity:1; transform:translateY(0); }
 
 @media (prefers-reduced-motion: no-preference){
   .flicker{ animation: flicker 6s ease-in-out infinite; transform-origin:50% 62%; }
@@ -250,3 +248,108 @@ footer{
   12%{ opacity:.9; }
   100%{ transform:translateY(-38px) scale(0.3); opacity:0; }
 }
+
+/* ================= v2: livelier layout ================= */
+
+/* hero: WebGL fire (Canvas UI Blaze) full-bleed behind the content */
+body{ overflow-x:clip; }
+.hero-fire{
+  position:absolute; z-index:-1; pointer-events:none;
+  top:-80px; bottom:0; left:calc(50% - 50vw); width:100vw; height:calc(100% + 80px);
+  opacity:0; transition:opacity 1.6s ease .3s;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 25%, #000 62%, transparent 100%);
+  mask-image:linear-gradient(to bottom, transparent 0, #000 25%, #000 62%, transparent 100%);
+}
+.hero.has-fire .hero-fire{ opacity:1; }
+.hero{ position:relative; isolation:isolate; }
+.hero h1 .accent{
+  background:linear-gradient(100deg, var(--ember-core), var(--ember-mid) 45%, var(--gold));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+
+/* product line */
+.ticker{ border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:14px 0; }
+.ticker-track{ display:flex; flex-wrap:wrap; gap:6px 22px; }
+.ticker span{ font-family:var(--font-display); font-size:18px; letter-spacing:0.03em; color:var(--ink-soft); display:inline-flex; align-items:center; gap:22px; }
+.ticker span:not(:last-child)::after{ content:"✦"; font-size:9px; color:var(--ember-mid); }
+
+/* service cards as a grid with glow */
+.svc-cards.three{ display:grid; grid-template-columns:1fr; }
+@media (min-width:680px){ .svc-cards.three{ grid-template-columns:repeat(3,1fr); } .svc-cards.three .svc-card p{ font-size:14.5px; } }
+.svc-card{ position:relative; overflow:hidden; transition:background .3s ease; }
+.svc-card .ico{ width:34px; height:34px; color:var(--ember-mid); }
+.svc-card .tags{ display:flex; flex-wrap:wrap; gap:6px; margin-top:2px; }
+.svc-card .tags b{
+  font-family:var(--font-caption); font-weight:500; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--ink-faint); border:1px solid var(--rule); border-radius:20px; padding:3px 9px;
+}
+.svc-card .badge{
+  position:absolute; top:18px; right:18px; font-family:var(--font-caption); font-size:9.5px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--ground-deep); background:linear-gradient(180deg, var(--ember-core), var(--ember-mid));
+  padding:3px 8px; border-radius:2px;
+}
+
+/* how we work: horizontal flow */
+.flow{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--rule); border:1px solid var(--rule); counter-reset:flow; }
+@media (min-width:620px){ .flow{ grid-template-columns:repeat(3,1fr); } }
+.flow-step{ background:var(--ground); padding:22px 20px; display:flex; flex-direction:column; gap:8px; counter-increment:flow; }
+.flow-step::before{
+  content:counter(flow, decimal-leading-zero); font-family:var(--font-display); font-size:30px; font-weight:600;
+  background:linear-gradient(180deg, var(--ember-core), var(--ember-hot)); -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.flow-step h4{ font-family:var(--font-display); font-weight:600; font-size:19px; margin:0; color:var(--ink); }
+.flow-step p{ font-size:14px; color:var(--ink-soft); }
+
+/* video section: film-strip frame */
+.reel{
+  position:relative; border:1px solid var(--rule); border-radius:2px; background:var(--panel);
+  padding:30px 20px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+}
+.reel::before, .reel::after{
+  content:""; position:absolute; left:10px; right:10px; height:8px;
+  background:repeating-linear-gradient(90deg, var(--rule) 0 10px, transparent 10px 20px);
+}
+.reel::before{ top:10px; } .reel::after{ bottom:10px; }
+.frame{
+  aspect-ratio:16/10; border-radius:2px; position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #1B1410, #0E0B09);
+  display:flex; align-items:flex-end; padding:8px;
+  font-family:var(--font-caption); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-soft);
+}
+.frame::before{
+  content:""; position:absolute; inset:0;
+  background:radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--ember-mid) 35%, transparent), transparent 60%);
+}
+.frame:nth-child(2)::before{ background:linear-gradient(90deg, color-mix(in srgb, #4A7BA8 40%, transparent), color-mix(in srgb, var(--ember-mid) 40%, transparent)); }
+.frame:nth-child(3)::before{ background:radial-gradient(circle at 30% 60%, color-mix(in srgb, var(--gold) 35%, transparent), transparent 60%); }
+.frame:nth-child(4)::before{ background:repeating-linear-gradient(0deg, transparent 0 6px, color-mix(in srgb, var(--ember-hot) 18%, transparent) 6px 7px); }
+.frame span{ position:relative; }
+@media (max-width:520px){ .reel{ grid-template-columns:repeat(2,1fr); } }
+
+@media (prefers-reduced-motion: no-preference){
+}
+
+/* one orchestrated moment: hero entrance */
+@media (prefers-reduced-motion: no-preference){
+  .hero > :not(canvas){ animation:enter .9s cubic-bezier(.2,.7,.2,1) both; }
+  .hero > :nth-child(3){ animation-delay:.05s; }
+  .hero > :nth-child(4){ animation-delay:.2s; }
+  .hero > :nth-child(5){ animation-delay:.38s; }
+  .hero > :nth-child(6){ animation-delay:.55s; }
+}
+@keyframes enter{ from{ opacity:0; transform:translateY(14px); filter:blur(4px); } to{ opacity:1; transform:none; filter:none; } }
+
+/* border beam — only on the one card we want noticed */
+@property --beam-a{ syntax:"<angle>"; inherits:false; initial-value:0deg; }
+.beam::after{
+  content:""; position:absolute; inset:0; padding:1px; pointer-events:none;
+  background:conic-gradient(from var(--beam-a), transparent 0 76%, color-mix(in srgb, var(--ember-hot) 70%, transparent) 86%, var(--ember-core) 91%, transparent 96%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+@media (prefers-reduced-motion: no-preference){ .beam::after{ animation:beam 5s linear infinite; } }
+@media (prefers-reduced-motion: reduce){ .beam::after{ --beam-a:220deg; } }
+@keyframes beam{ to{ --beam-a:360deg; } }
+
+/* keyboard focus */
+a:focus-visible, button:focus-visible{ outline:1px solid var(--gold); outline-offset:3px; }
