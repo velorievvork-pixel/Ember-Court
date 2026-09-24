@@ -251,14 +251,17 @@ footer{
 
 /* ================= v2: livelier layout ================= */
 
-/* hero: drifting embers behind the heading */
-.hero{ position:relative; isolation:isolate; }
-.hero-embers{ position:absolute; inset:-40px -24px 0; z-index:-1; pointer-events:none; overflow:hidden; }
-.hero-embers i{
-  position:absolute; bottom:-10px; width:3px; height:3px; border-radius:50%;
-  background:var(--ember-mid); box-shadow:0 0 8px 2px color-mix(in srgb, var(--ember-hot) 60%, transparent);
-  opacity:0;
+/* hero: WebGL fire (Canvas UI Blaze) full-bleed behind the content */
+body{ overflow-x:clip; }
+.hero-fire{
+  position:absolute; z-index:-1; pointer-events:none;
+  top:-80px; bottom:0; left:calc(50% - 50vw); width:100vw; height:calc(100% + 80px);
+  opacity:0; transition:opacity 1.6s ease .3s;
+  -webkit-mask-image:linear-gradient(to bottom, transparent 0, #000 25%, #000 62%, transparent 100%);
+  mask-image:linear-gradient(to bottom, transparent 0, #000 25%, #000 62%, transparent 100%);
 }
+.hero.has-fire .hero-fire{ opacity:1; }
+.hero{ position:relative; isolation:isolate; }
 .hero h1 .accent{
   background:linear-gradient(100deg, var(--ember-core), var(--ember-mid) 45%, var(--gold));
   -webkit-background-clip:text; background-clip:text; color:transparent;
@@ -324,21 +327,15 @@ footer{
 @media (max-width:520px){ .reel{ grid-template-columns:repeat(2,1fr); } }
 
 @media (prefers-reduced-motion: no-preference){
-  .hero-embers i{ animation:drift var(--d,9s) linear infinite; animation-delay:var(--delay,0s); }
-}
-@keyframes drift{
-  0%{ transform:translate(0,0) scale(1); opacity:0; }
-  10%{ opacity:.85; }
-  100%{ transform:translate(var(--x,20px), -420px) scale(.2); opacity:0; }
 }
 
 /* one orchestrated moment: hero entrance */
 @media (prefers-reduced-motion: no-preference){
-  .hero > :not(.hero-embers){ animation:enter .9s cubic-bezier(.2,.7,.2,1) both; }
-  .hero > :nth-child(2){ animation-delay:.05s; }
-  .hero > :nth-child(3){ animation-delay:.2s; }
-  .hero > :nth-child(4){ animation-delay:.38s; }
-  .hero > :nth-child(5){ animation-delay:.55s; }
+  .hero > :not(canvas){ animation:enter .9s cubic-bezier(.2,.7,.2,1) both; }
+  .hero > :nth-child(3){ animation-delay:.05s; }
+  .hero > :nth-child(4){ animation-delay:.2s; }
+  .hero > :nth-child(5){ animation-delay:.38s; }
+  .hero > :nth-child(6){ animation-delay:.55s; }
 }
 @keyframes enter{ from{ opacity:0; transform:translateY(14px); filter:blur(4px); } to{ opacity:1; transform:none; filter:none; } }
 

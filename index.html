@@ -54,7 +54,8 @@
 <div class="wrap">
 
   <section class="hero">
-    <div class="hero-embers" aria-hidden="true"></div>
+    <canvas class="hero-fire" aria-hidden="true"></canvas>
+    <canvas class="hero-fire-src" hidden></canvas>
     <svg class="ember-mark flicker" viewBox="0 0 120 120" aria-hidden="true">
       <circle cx="60" cy="64" r="52" fill="url(#glow)"/>
       <circle cx="60" cy="64" r="26" fill="#2A0F06" filter="url(#soft)"/>
@@ -192,6 +193,21 @@
 </footer>
 
 <script src="i18n.js"></script>
+<script type="module">
+import { createBlaze } from "./blaze.js";
+const hero = document.querySelector(".hero");
+const output = hero && hero.querySelector(".hero-fire");
+if (output) {
+  const inst = createBlaze(
+    // content = output: the effect clips to content width, and our fire is full-bleed
+    { source: hero.querySelector(".hero-fire-src"), content: output, output },
+    { height: 0.75, sparks: 0.6, sparkDensity: 1.6, sparkSize: 1.2, layers: 5,
+      smoke: 0.3, glow: 1.6, speed: 0.8,
+      sparkColor: [1, 0.55, 0.2], smokeColor: [1, 0.42, 0.21] }
+  );
+  if (inst) hero.classList.add("has-fire");
+}
+</script>
 <script>
 EmberI18n.init({
   ru:{
