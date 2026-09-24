@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://velorievvork-pixel.github.io/Ember-Court/sitemap.xml
+Sitemap: https://ember-court.vercel.app/sitemap.xml
