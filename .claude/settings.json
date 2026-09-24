@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__Gmail__send_message|mcp__Gmail__reply|mcp__Gmail__forward",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/outbound_guard.py\"",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}
