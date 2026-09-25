@@ -1,7 +1,7 @@
 {
   "color": {
     "paper": {
-      "$value": "#F2F3EF",
+      "$value": "#121A2B",
       "$type": "color",
       "$description": "page surface",
       "$extensions": {
@@ -12,7 +12,7 @@
       }
     },
     "paper-deep": {
-      "$value": "#E6E9E3",
+      "$value": "#18223A",
       "$type": "color",
       "$description": "quiet band",
       "$extensions": {
@@ -23,7 +23,7 @@
       }
     },
     "ink": {
-      "$value": "#17233A",
+      "$value": "#E6E9EF",
       "$type": "color",
       "$description": "text, primary button",
       "$extensions": {
@@ -34,7 +34,7 @@
       }
     },
     "ink-muted": {
-      "$value": "#4B566B",
+      "$value": "#9AA4B5",
       "$type": "color",
       "$description": "secondary text",
       "$extensions": {
@@ -45,7 +45,7 @@
       }
     },
     "rule": {
-      "$value": "#C9D2DF",
+      "$value": "#2A3550",
       "$type": "color",
       "$description": "index-card lines",
       "$extensions": {
@@ -56,7 +56,7 @@
       }
     },
     "pen": {
-      "$value": "#B3302A",
+      "$value": "#F0766B",
       "$type": "color",
       "$description": "annotations only",
       "$extensions": {

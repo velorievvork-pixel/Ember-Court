@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
-/* Tokens mirror DESIGN.md frontmatter. One light theme: paper, ink and a red pen. */
+/* Tokens mirror DESIGN.md frontmatter. One dark theme: night-blue paper, pale ink and a red pen. */
 @theme {
-  --color-paper: #f2f3ef;
-  --color-paper-deep: #e6e9e3;
-  --color-sheet: #ffffff;
-  --color-ink: #17233a;
-  --color-ink-muted: #4b566b;
-  --color-rule: #c9d2df;
-  --color-pen: #b3302a;
+  --color-paper: #121a2b;
+  --color-paper-deep: #18223a;
+  --color-sheet: #1a2439;
+  --color-ink: #e6e9ef;
+  --color-ink-muted: #9aa4b5;
+  --color-rule: #2a3550;
+  --color-pen: #f0766b;
 
   --font-sans: var(--font-golos), system-ui, sans-serif;
   --font-letter: var(--font-pt-serif), Georgia, serif;
@@ -18,7 +18,7 @@
 }
 
 html {
-  color-scheme: light;
+  color-scheme: dark;
   background: var(--color-paper);
 }
 
@@ -36,7 +36,7 @@ body {
 
 /* Index-card lines behind letter text: one rule per line of 18px × 1.7. */
 .ruled {
-  background-image: linear-gradient(to bottom, transparent calc(1.7em - 1px), color-mix(in srgb, var(--color-rule) 55%, transparent) calc(1.7em - 1px));
+  background-image: linear-gradient(to bottom, transparent calc(1.7em - 1px), color-mix(in srgb, var(--color-rule) 70%, transparent) calc(1.7em - 1px));
   background-size: 100% 1.7em;
 }
 

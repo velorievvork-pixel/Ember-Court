@@ -5,15 +5,15 @@ source: src/ (Next.js site); references reboot.studio, tinloof.com, dayjob.work 
 captured_at: 2026-09-25
 description: |
   A small B2B studio that finds clients by hand and writes the first message itself.
-  The site reads like well-kept correspondence: cool paper, blue-black ink, index-card
-  rules, and one red editor's pen that explains why each line of a letter is there.
+  The site reads like correspondence at a desk at night: night-blue paper, pale ink,
+  faint index-card rules, and one red editor's pen that explains why each line of a letter is there.
 colors:
-  paper: "#F2F3EF"
-  paper-deep: "#E6E9E3"
-  ink: "#17233A"
-  ink-muted: "#4B566B"
-  rule: "#C9D2DF"
-  pen: "#B3302A"
+  paper: "#121A2B"
+  paper-deep: "#18223A"
+  ink: "#E6E9EF"
+  ink-muted: "#9AA4B5"
+  rule: "#2A3550"
+  pen: "#F0766B"
 typography:
   display: { fontFamily: "Golos Text, sans-serif", fontSize: 48px, fontWeight: 600, lineHeight: 1.06, letterSpacing: -0.025em }
   heading: { fontFamily: "Golos Text, sans-serif", fontSize: 32px, fontWeight: 600, lineHeight: 1.15, letterSpacing: -0.015em }
@@ -31,7 +31,7 @@ components:
   button-primary: { backgroundColor: "{colors.ink}", textColor: "{colors.paper}", rounded: "{rounded.control}", padding: 12px 20px }
   button-secondary: { backgroundColor: "transparent", textColor: "{colors.ink}", rounded: "{rounded.control}", padding: 12px 20px }
   text-link: { textColor: "{colors.ink}" }
-  letter-sheet: { backgroundColor: "#FFFFFF", rounded: "{rounded.sheet}", padding: 32px 36px }
+  letter-sheet: { backgroundColor: "#1A2439", rounded: "{rounded.sheet}", padding: 32px 36px }
   service-row: { padding: 28px 0 }
 ---
 
@@ -54,7 +54,7 @@ Letters, not landing-page chrome. The hero shows the actual product: a first mes
 ### 1.1 Surface description
 
 - Personality: exact, calm, literate, unhurried ✅
-- Mood: a well-kept desk: paper, ink, a red pen for corrections ✅
+- Mood: a desk at night: dark paper, pale ink, a red pen for corrections ✅
 - Stylistic references: editorial correspondence, library index cards, proofreading marks ⚠️
 - Information density: low; long measures are capped at 64ch ✅
 - Implicit positioning: a small team selling judgment, not volume ✅
@@ -65,7 +65,7 @@ The visitor is a founder who receives bad cold messages every day. The site does
 
 ### 1.3 The "ONE brand thing"
 
-- The thing: the red pen `{colors.pen}` (#B3302A) as margin notes and underlines on a letter.
+- The thing: the red pen `{colors.pen}` (#F0766B) as margin notes and underlines on a letter.
 - Why: it is what the studio actually does, reading and correcting each line before sending.
 - Restraint: everything else is `{colors.ink}` on `{colors.paper}`; no second hue, no gradients.
 - Where: hero annotations, strike-through on "what we don't do", the "new" tag. Never on buttons or large fills.
@@ -76,14 +76,14 @@ The visitor is a founder who receives bad cold messages every day. The site does
 
 | Token | Hex | Role | Where it appears | Confidence |
 |---|---|---|---|---|
-| `paper` | #F2F3EF | page surface | body background | ✅ |
-| `paper-deep` | #E6E9E3 | quiet band | audit offer, fit section | ✅ |
-| `ink` | #17233A | text, primary button | headings, body, CTA fill | ✅ |
-| `ink-muted` | #4B566B | secondary text | ledes, descriptions | ✅ |
-| `rule` | #C9D2DF | index-card lines | row dividers, letter lines | ✅ |
-| `pen` | #B3302A | annotations only | margin notes, strike-throughs | ✅ |
+| `paper` | #121A2B | page surface | body background | ✅ |
+| `paper-deep` | #18223A | quiet band | audit offer, fit section | ✅ |
+| `ink` | #E6E9EF | text, primary button | headings, body, CTA fill | ✅ |
+| `ink-muted` | #9AA4B5 | secondary text | ledes, descriptions | ✅ |
+| `rule` | #2A3550 | index-card lines | row dividers, letter lines | ✅ |
+| `pen` | #F0766B | annotations only | margin notes, strike-throughs | ✅ |
 
-Single light theme. The letter sheet is plain `#FFFFFF` to lift it from the paper.
+Single dark theme (switched from light on request). The background is a night-blue `#121A2B`, not near-black, and the accent stays confined to annotations, which keeps it out of the "black + one bright accent" default. The letter sheet `#1A2439` sits one step above the paper with a 1px rule border.
 
 ### 2.2 Typography
 
@@ -113,24 +113,24 @@ Two values: `{rounded.control}` (6px) for buttons, `{rounded.sheet}` (4px) for t
 | Level | Name | Treatment | Use |
 |---|---|---|---|
 | 0 | flat | none | everything |
-| 1 | sheet | `0 1px 0 #C9D2DF, 0 12px 32px -18px rgba(23,35,58,0.35)` | letter sheet only |
+| 1 | sheet | 1px `{colors.rule}` border + `0 24px 48px -24px rgba(0,0,0,0.6)` | letter sheet only |
 
 Flat by design; one lifted object per page.
 
 ### 2.6 Borders
 
-1px `{colors.rule}` (#C9D2DF) between rows, like the lines of an index card. Focus: 2px `{colors.ink}` outline, 3px offset.
+1px `{colors.rule}` (#2A3550) between rows, like the lines of an index card. Focus: 2px `{colors.ink}` outline, 3px offset.
 
 ### 2.7 Accessibility quick-check
 
-From `design-a11y.md`: ink on paper 14.08:1 AAA; ink-muted on paper 6.63:1 AA; ink-muted on paper-deep 6.03:1 AA; pen on paper 5.59:1 AA; paper on ink (button) 14.08:1 AAA; ink on paper-deep 12.8:1 AAA.
+From `design-a11y.md`: ink on paper 14.29:1 AAA; ink-muted on paper 6.91:1 AA; ink-muted on paper-deep 6.29:1 AA; pen on paper 6.21:1 AA; pen on sheet 5.54:1 AA; paper on ink (button) 14.29:1 AAA; ink on sheet 12.74:1 AAA.
 
 ## 3. Components Inventory
 
 ### 3.1 Generic components
 
 #### button-primary
-- Ink fill `{colors.ink}` (#17233A), paper text, `{rounded.control}` (6px), 12px 20px.
+- Pale ink fill `{colors.ink}` (#E6E9EF), dark paper text, `{rounded.control}` (6px), 12px 20px.
 - One per intent: "Написать в Telegram".
 - Hover: text underline; no scale, no glow.
 
@@ -142,7 +142,7 @@ From `design-a11y.md`: ink on paper 14.08:1 AAA; ink-muted on paper 6.63:1 AA; i
 - Ink text with a 1px underline at 30% opacity; hover makes the underline solid. No appended arrows.
 
 #### letter-sheet
-- White sheet, `{rounded.sheet}` (4px), level-1 elevation, faint `{colors.rule}` lines behind the text every 30.6px (18px × 1.7).
+- Sheet one tone above the paper, `{rounded.sheet}` (4px), level-1 elevation, faint `{colors.rule}` lines behind the text every 30.6px (18px × 1.7).
 
 #### service-row
 - Title (heading) on the left third, description and link on the right; 1px rule above; 28px vertical padding.
@@ -156,7 +156,7 @@ From `design-a11y.md`: ink on paper 14.08:1 AAA; ink-muted on paper 6.63:1 AA; i
 
 ### 4.1 Grid & containers
 
-One reading column, max width 880px, 24px side padding (16px on phones). Large reading text (24-34px, weight 500) carries the home page; ink for the point, `{colors.ink-muted}` (#4B566B) for the explanation. Hierarchy by size and weight, never by colour.
+One reading column, max width 880px, 24px side padding (16px on phones). Large reading text (24-34px, weight 500) carries the home page; ink for the point, `{colors.ink-muted}` (#9AA4B5) for the explanation. Hierarchy by size and weight, never by colour.
 
 ### 4.2 Composition patterns
 
@@ -188,7 +188,7 @@ Stack: Next.js App Router, Tailwind 4 `@theme` tokens, Motion for the single her
 ## 6. Do's and Don'ts
 
 ### Do
-- Keep `{colors.pen}` (#B3302A) for annotations, strike-throughs and the "new" tag only.
+- Keep `{colors.pen}` (#F0766B) for annotations, strike-throughs and the "new" tag only.
 - Set every heading in sentence case in Golos Text 600 with negative tracking.
 - Use PT Serif only inside a letter sheet.
 - Use numbers only for real sequences (process steps, letter notes).
@@ -199,7 +199,7 @@ Stack: Next.js App Router, Tailwind 4 `@theme` tokens, Motion for the single her
 - Don't colour or italicise a single word in a headline.
 - Don't animate sections on scroll; the hero letter is the one moment of motion.
 - Don't append arrows to links or buttons.
-- Don't introduce a dark theme, gradients or a second accent hue.
+- Don't use pure black, gradients or a second accent hue.
 
 ## 7. Open Questions
 

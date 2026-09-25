@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#f2f3ef", colorScheme: "light" };
+export const viewport: Viewport = { themeColor: "#121a2b", colorScheme: "dark" };
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;

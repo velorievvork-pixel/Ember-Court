@@ -21,7 +21,7 @@ export default function Letter({ greeting, paragraphs, notes, caption, signature
 
   return (
     <figure>
-      <div className="rounded-[4px] bg-sheet px-6 py-7 shadow-[0_1px_0_#C9D2DF,0_12px_32px_-18px_rgba(23,35,58,0.35)] sm:px-9 sm:py-8">
+      <div className="rounded-[4px] bg-sheet px-6 py-7 border border-rule shadow-[0_24px_48px_-24px_rgba(0,0,0,0.6)] sm:px-9 sm:py-8">
         <div className="ruled font-letter text-[17px] leading-[1.7] text-ink sm:text-[18px]">
           <p>{greeting}</p>
           <ol className="mt-[1.7em] grid gap-y-[1.7em]">
