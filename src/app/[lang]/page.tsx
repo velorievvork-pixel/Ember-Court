@@ -3,7 +3,7 @@ import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Letter from "@/components/Letter";
-import { body, btnPrimary, btnSecondary, h1, h2, link, muted, section, wrap } from "@/components/ui";
+import { btnPrimary, btnSecondary, h2, lead, link, muted, section, wrap } from "@/components/ui";
 import { auditLink, contacts, descriptions, getT, href, langLabel, SITE, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
 
@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">) {
   return pageMetadata((await params).lang as Locale, "index");
 }
 
-// Order follows the offer: outbound first, then what supports it. `isNew` marks the two newest services.
+// Outbound first, then what supports it. `isNew` marks the two newest services.
 const SERVICES = [
   { key: "outbound", anchor: "outbound" },
   { key: "sites", anchor: "sites" },
@@ -33,100 +33,116 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     sameAs: [contacts.telegram], areaServed: "Worldwide", availableLanguage: ["ru", "en", "uk"],
   };
 
+  const facts: [string, React.ReactNode][] = [
+    [t("facts.what.k"), t("facts.what.v")],
+    [t("facts.who.k"), t("facts.who.v")],
+    [t("facts.clients.k"), <Link key="c" href={href(lang, "clients")} className={link}>{t("facts.clients.v")}</Link>],
+    [t("facts.lang.k"), t("facts.lang.v")],
+    [t("facts.reply.k"), t("facts.reply.v")],
+    [t("facts.contact.k"), (
+      <span key="x">
+        <a className={link} href={contacts.telegram}>Telegram {contacts.telegramHandle}</a>
+        <br /><a className={link} href={`mailto:${contacts.email}`}>{contacts.email}</a>
+        <br /><a className={link} href={contacts.whatsapp}>WhatsApp {contacts.whatsappLabel}</a>
+      </span>
+    )],
+  ];
+
   return (
     <>
       <Header lang={lang} page="index" labels={{ home: t("nav.home"), services: t("nav.services"), clients: t("nav.clients"), cta: t("nav.cta"), lang: langLabel[lang] }} />
       <main>
-        <section className={`${wrap} grid items-start gap-12 pb-16 pt-12 sm:pt-20 md:grid-cols-12 md:pb-24`}>
-          <div className="md:col-span-5 md:pt-6">
-            <h1 className={h1}>{t("hero.h1a")} {t("hero.h1b")}</h1>
-            <p className={`${muted} mt-6 max-w-[40ch]`}>{t("hero.sub")}</p>
-            <div className="mt-8 flex flex-wrap gap-2">
-              <a href={contacts.telegram} className={`${btnPrimary} px-4`}>{t("hero.cta")}</a>
-              <a href={auditLink(lang)} className={`${btnSecondary} px-4`}>{t("hero.audit")}</a>
-            </div>
-          </div>
-          <div className="md:col-span-7">
-            <Letter
-              greeting={t("letter.greeting")}
-              paragraphs={[1, 2, 3, 4].map((n) => t(`letter.p${n}`))}
-              notes={[1, 2, 3, 4].map((n) => t(`letter.n${n}`))}
-              caption={t("letter.caption")}
-              signature="Ember Court"
-            />
+        {/* One column of large text, like a letter to the founder; ink for the point, grey for the explanation. */}
+        <section className={`${wrap} pb-14 pt-16 sm:pt-24`}>
+          <h1 className="text-[clamp(1.875rem,4vw,3rem)] font-semibold leading-[1.15] tracking-[-0.025em]">
+            {t("hero.h1a")} {t("hero.h1b")}{" "}
+            <span className="font-medium text-ink-muted">{t("hero.sub")}</span>
+          </h1>
+          <div className="mt-10 flex flex-wrap gap-2">
+            <a href={contacts.telegram} className={btnPrimary}>{t("hero.cta")}</a>
+            <a href={auditLink(lang)} className={btnSecondary}>{t("hero.audit")}</a>
           </div>
         </section>
 
-        <section className={`border-t border-rule ${section}`}>
-          <div className={`${wrap} grid gap-8 md:grid-cols-12`}>
-            <h2 className={`${h2} md:col-span-5`}>{t("situation.heading")}</h2>
-            <div className="grid max-w-[64ch] gap-5 md:col-span-7">
-              <p className={muted}>{t("situation.body1")}</p>
-              <p className={body}>{t("situation.body2")}</p>
-            </div>
-          </div>
+        <section className={`${wrap} pb-20 sm:pb-28`}>
+          <Letter
+            greeting={t("letter.greeting")}
+            paragraphs={[1, 2, 3, 4].map((n) => t(`letter.p${n}`))}
+            notes={[1, 2, 3, 4].map((n) => t(`letter.n${n}`))}
+            caption={t("letter.caption")}
+            signature="Ember Court"
+          />
         </section>
 
+        <section className={`${wrap} pb-20 sm:pb-28`}>
+          <p className={`${lead} text-ink-muted`}>
+            <span className="text-ink">{t("situation.heading")}</span> {t("situation.body1")}
+          </p>
+          <p className={`${lead} mt-8`}>{t("situation.body2")}</p>
+        </section>
+
+        <section className={`${wrap} pb-20 sm:pb-28`}>
+          <p className={`${lead} text-ink-muted`}>{t("svc.lead")}</p>
+          <ul className="mt-6 flex flex-wrap gap-x-[0.45em] gap-y-1">
+            {SERVICES.map(({ key, anchor, isNew }, i) => (
+              <li key={key} className={lead}>
+                <Link href={href(lang, "services", `#${anchor}`)} className="underline decoration-ink/20 decoration-2 underline-offset-[6px] transition-colors hover:decoration-pen">
+                  {t(`svc.${key}.title`)}
+                </Link>
+                {isNew && <sup className="ml-1 text-[13px] font-medium text-pen">{t("svc.new")}</sup>}
+                {i < SERVICES.length - 1 ? "," : "."}
+              </li>
+            ))}
+          </ul>
+          <dl className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2">
+            {SERVICES.map(({ key }) => (
+              <div key={key}>
+                <dt className="text-[16px] font-semibold">{t(`svc.${key}.title`)}</dt>
+                <dd className="mt-1 text-[15px] leading-[1.55] text-ink-muted">{t(`svc.${key}.body`)}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className={`${wrap} pb-20 sm:pb-28`}>
+          <p className={`${lead} text-ink-muted`}>{t("flow.lead")}</p>
+          <ol className="mt-6 grid gap-6">
+            {[1, 2, 3].map((n) => (
+              <li key={n} className="grid grid-cols-[2rem_1fr] border-t border-rule pt-5">
+                <span className="text-[15px] font-semibold text-ink-muted tabular-nums">{n}</span>
+                <p className="text-[17px] leading-[1.6]">
+                  <span className="font-semibold">{t(`flow.${n}.h`)}.</span> <span className="text-ink-muted">{t(`flow.${n}.p`)}</span>
+                </p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* Facts, key-value (tinloof.com reference): what a founder checks before writing. */}
         <section className={`border-t border-rule ${section}`}>
           <div className={wrap}>
-            <h2 className={`${h2} max-w-[30ch]`}>{t("svc.heading")}</h2>
-            <ul className="mt-10">
-              {SERVICES.map(({ key, anchor, isNew }) => (
-                <li key={key} className="grid gap-3 border-t border-rule py-7 md:grid-cols-12 md:gap-8">
-                  <h3 className="text-[22px] font-semibold tracking-[-0.01em] md:col-span-4">
-                    {t(`svc.${key}.title`)}
-                    {isNew && <span className="ml-2 align-middle text-[13px] font-medium text-pen">{t("svc.new")}</span>}
-                  </h3>
-                  <div className="md:col-span-7">
-                    <p className={muted}>{t(`svc.${key}.body`)}</p>
-                    <Link href={href(lang, "services", `#${anchor}`)} className={`${link} mt-3 inline-block text-[15px] font-medium`}>
-                      {t("svc.more")}
-                      <span className="sr-only">: {t(`svc.${key}.title`)}</span>
-                    </Link>
-                  </div>
-                </li>
+            <h2 className={h2}>{t("facts.h")}</h2>
+            <dl className="mt-8 text-[15.5px]">
+              {facts.map(([k, v]) => (
+                <div key={k} className="grid gap-1 border-t border-rule py-3.5 sm:grid-cols-[11rem_1fr] sm:gap-6">
+                  <dt className="text-ink-muted">{k}</dt>
+                  <dd className="text-ink">{v}</dd>
+                </div>
               ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className={`border-t border-rule ${section}`}>
-          <div className={wrap}>
-            <h2 className={`${h2} max-w-[30ch]`}>{t("flow.heading")}</h2>
-            <ol className="mt-10 grid gap-8 md:grid-cols-3 md:gap-10">
-              {[1, 2, 3].map((n) => (
-                <li key={n}>
-                  <p className="text-[15px] font-semibold text-ink-muted tabular-nums">{n}</p>
-                  <h3 className="mt-2 text-[20px] font-semibold">{t(`flow.${n}.h`)}</h3>
-                  <p className={`${muted} mt-2 text-[16px]`}>{t(`flow.${n}.p`)}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </section>
-
-        <section className={`${wrap} pb-16 sm:pb-24`}>
-          <div className="grid gap-6 rounded-[4px] border border-ink/20 p-7 sm:p-10 md:grid-cols-12 md:items-center">
-            <div className="md:col-span-8">
-              <h2 className={h2}>{t("audit.band.h")}</h2>
-              <p className={`${muted} mt-3 max-w-[56ch]`}>{t("audit.band.p")}</p>
-            </div>
-            <div className="md:col-span-4 md:justify-self-end">
-              <a href={auditLink(lang)} className={btnPrimary}>{t("hero.audit")}</a>
-            </div>
+            </dl>
           </div>
         </section>
 
         <section className={`bg-paper-deep ${section}`}>
           <div className={wrap}>
             <h2 className={h2}>{tc("fit.heading")}</h2>
-            <div className="mt-10 grid gap-10 md:grid-cols-2">
+            <div className="mt-8 grid gap-10 sm:grid-cols-2">
               {([["yes", 4], ["no", 3]] as const).map(([col, n]) => (
                 <div key={col}>
-                  <h3 className="text-[18px] font-semibold">{tc(`fit.${col}.h`)}</h3>
-                  <ul className="mt-4 grid gap-3">
+                  <h3 className="text-[17px] font-semibold">{tc(`fit.${col}.h`)}</h3>
+                  <ul className="mt-3 grid gap-2.5">
                     {Array.from({ length: n }, (_, i) => (
-                      <li key={i} className={`border-t border-rule pt-3 ${col === "yes" ? body : muted} text-[16px]`}>
+                      <li key={i} className={`border-t border-rule pt-2.5 text-[15.5px] leading-[1.55] ${col === "yes" ? "text-ink" : "text-ink-muted"}`}>
                         {tc(`fit.${col}.${i + 1}`)}
                       </li>
                     ))}
@@ -138,12 +154,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         </section>
 
         <section className={section}>
-          <div className={`${wrap} grid gap-6 md:grid-cols-12`}>
-            <h2 className={`${h2} md:col-span-5`}>{t("clientsteaser.heading")}</h2>
-            <div className="max-w-[60ch] md:col-span-7">
-              <p className={muted}>{t("clientsteaser.body")}</p>
-              <Link href={href(lang, "clients")} className={`${link} mt-4 inline-block text-[15px] font-medium`}>{t("clientsteaser.link")}</Link>
-            </div>
+          <div className={wrap}>
+            <h2 className={h2}>{t("audit.band.h")}</h2>
+            <p className={`${muted} mt-3 max-w-[56ch]`}>{t("audit.band.p")}</p>
+            <a href={auditLink(lang)} className={`${btnSecondary} mt-6`}>{t("hero.audit")}</a>
           </div>
         </section>
 

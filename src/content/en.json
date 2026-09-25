@@ -101,7 +101,21 @@
   "letter.caption": "An example first message. The red notes say why each line is there.",
   "svc.new": "new",
   "fit.link": "More about our clients",
-  "contacts.or": "or"
+  "contacts.or": "or",
+  "facts.h": "The short version",
+  "facts.what.k": "What we do",
+  "facts.what.v": "Outbound, websites, video, social media, website audits, lead automation",
+  "facts.who.k": "Who for",
+  "facts.who.v": "B2B companies where the founder still handles sales",
+  "facts.clients.k": "Current clients",
+  "facts.clients.v": "Camirix, daily outbound",
+  "facts.lang.k": "Languages",
+  "facts.lang.v": "Russian, English, Ukrainian",
+  "facts.reply.k": "Reply time",
+  "facts.reply.v": "Within one business day",
+  "facts.contact.k": "Contact",
+  "svc.lead": "Six lines of work, all of them doing their job right up to the point where you're needed:",
+  "flow.lead": "How we start:"
  },
  "services": {
   "jump.5": "Website audit",

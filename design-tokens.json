@@ -422,7 +422,7 @@
   },
   "$extensions": {
     "anydesign": {
-      "source": "src/ (Next.js site) and the previous dark build at commit e62a1f9",
+      "source": "src/ (Next.js site); references reboot.studio, tinloof.com, dayjob.work (seesaw.website, curated.design); negative reference commit e62a1f9",
       "captured_at": "2026-09-25",
       "method": "generated from design.md by scripts/build_tokens_json.py",
       "spec": "W3C Design Tokens Community Group 2025.10"

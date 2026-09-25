@@ -1,5 +1,5 @@
 /** Class strings shared across pages; values come from DESIGN.md. */
-export const wrap = "mx-auto w-full max-w-[1120px] px-4 sm:px-6";
+export const wrap = "mx-auto w-full max-w-[880px] px-4 sm:px-6";
 export const btnPrimary =
   "inline-flex min-h-11 items-center gap-2 whitespace-nowrap rounded-[6px] bg-ink px-5 py-3 text-[15px] font-medium text-paper " +
   "underline-offset-4 hover:underline";
@@ -12,3 +12,5 @@ export const h2 = "text-[clamp(1.625rem,3vw,2rem)] font-semibold leading-[1.15] 
 export const body = "text-[17px] leading-[1.6] text-ink";
 export const muted = "text-[17px] leading-[1.6] text-ink-muted";
 export const section = "py-16 sm:py-24";
+/** Large reading text: the page speaks in full sentences (reboot.studio reference). */
+export const lead = "text-[clamp(1.5rem,2.8vw,2.125rem)] font-medium leading-[1.3] tracking-[-0.015em]";

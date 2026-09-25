@@ -1,7 +1,7 @@
 ---
 version: anydesign-1
 name: Ember Court
-source: src/ (Next.js site) and the previous dark build at commit e62a1f9
+source: src/ (Next.js site); references reboot.studio, tinloof.com, dayjob.work (seesaw.website, curated.design); negative reference commit e62a1f9
 captured_at: 2026-09-25
 description: |
   A small B2B studio that finds clients by hand and writes the first message itself.
@@ -42,6 +42,8 @@ components:
 ## Source
 
 Type: the site's own source in `src/`, written against this file, plus the previous build (commit `e62a1f9`) captured with `capture_site.py` at desktop 1440 and mobile 375. The previous build is the negative reference: near-black `#0B0A09` with one orange accent, uppercase mono eyebrows, an italic accent phrase in the hero, WebGL fire, a marquee, a bento of identical cards and fade-up on every section. Those are the generated-page defaults this system replaces.
+
+References picked from seesaw.website and curated.design and captured with `capture_site.py` (desktop, 3 frames each): **reboot.studio** (one narrow column of large Inter text, the point in black and the explanation in grey, no cards), **tinloof.com** (facts as a key-value column in small type), **dayjob.work** (proof as a dated log of facts). Ember Court takes the single-column reading flow, the key-value facts block and the "facts, not promises" stance; a dated log is deferred until there are real milestones.
 
 ## TL;DR
 
@@ -154,11 +156,11 @@ From `design-a11y.md`: ink on paper 14.08:1 AAA; ink-muted on paper 6.63:1 AA; i
 
 ### 4.1 Grid & containers
 
-Max width 1120px, 24px side padding (16px on phones). Hierarchy by size and weight, never by colour.
+One reading column, max width 880px, 24px side padding (16px on phones). Large reading text (24-34px, weight 500) carries the home page; ink for the point, `{colors.ink-muted}` (#4B566B) for the explanation. Hierarchy by size and weight, never by colour.
 
 ### 4.2 Composition patterns
 
-Home: split hero (text left, letter right) → plain two-column situation text → service rows → numbered three-step line (real sequence) → fit lists → audit band on `paper-deep` → clients paragraph → contacts. Services: page head, inline section index, then for each service: heading, ordered steps, included items as rows, struck exclusions.
+Home: one-column statement (ink sentence + muted sentence) with two CTAs → annotated letter → situation as large text → services as one linked sentence plus a two-column definition list → numbered three-step list (real sequence) → key-value facts → fit lists on `paper-deep` → audit offer → contacts. Services: page head, inline section index, then for each service: heading, ordered steps, included items as rows, struck exclusions.
 
 ### 4.3 Responsive behavior
 
