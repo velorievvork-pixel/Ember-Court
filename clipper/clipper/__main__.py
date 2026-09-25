@@ -118,7 +118,7 @@ def cmd_run(a) -> None:
         md += [f"## {c['file']} — {c['title']}", f"- Время: {c['start']:.1f}–{c['end']:.1f} с ({c['duration']} с), оценка {c['score']}",
                f"- Хук: {c['hook']}", f"- Почему: {c['reason']}", "", f"> {c['text']}", ""]
     (out / "clips.md").write_text("\n".join(md), encoding="utf-8")
-    log(f"Готово: {len(clips)} клипов в {out}/ за {time.time() - t0:.0f} с")
+    log(f"Готово, клипов: {len(clips)}. Папка {out}/, время {time.time() - t0:.0f} с")
 
 
 def main(argv=None) -> None:

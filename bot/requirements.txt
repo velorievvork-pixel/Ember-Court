@@ -1,0 +1,2 @@
+aiogram>=3.13        # Telegram Stars subscriptions (subscription_period) need 3.13+
+-r ../clipper/requirements.txt
