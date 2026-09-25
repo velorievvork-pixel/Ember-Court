@@ -1,0 +1,26 @@
+# Спокойный стиль: строчные буквы, без увеличения слова, мягкая подсветка — для экспертных и B2B-подкастов.
+captions:
+  font: DejaVu Sans
+  size: 60
+  bold: true
+  uppercase: false
+  color: "#FFFFFF"
+  highlight: "#8FD3FF"
+  outline: 0
+  box: true
+  back_color: "#000000"
+  back_opacity: 0.55
+  max_words: 5
+  max_chars: 30
+  margin_v: 380
+  pop: false
+hook:
+  enabled: true
+  duration: 2.5
+  size: 54
+  margin_v: 240
+zoom:
+  enabled: true
+  every: 5.0
+  scale: 1.06
+color: {}

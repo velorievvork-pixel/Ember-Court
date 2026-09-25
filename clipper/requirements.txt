@@ -1,0 +1,7 @@
+faster-whisper>=1.0
+opencv-python-headless>=4.8
+numpy>=1.24
+pyyaml>=6.0
+imageio-ffmpeg>=0.5   # static ffmpeg with libass; a system ffmpeg is used first if present
+anthropic>=0.60       # optional: only for --selector claude
+pydantic>=2.0         # optional: only for --selector claude

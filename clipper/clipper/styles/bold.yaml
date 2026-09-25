@@ -1,0 +1,30 @@
+# Крупные субтитры по 2–3 слова, текущее слово подсвечено — классика Reels про бизнес и подкасты.
+captions:
+  font: DejaVu Sans        # положите свой .ttf в clipper/fonts/ и укажите имя шрифта
+  size: 82
+  bold: true
+  uppercase: true
+  color: "#FFFFFF"
+  highlight: "#FFD23F"
+  outline: 7
+  outline_color: "#000000"
+  shadow: 0
+  max_words: 3
+  max_chars: 16
+  margin_v: 520            # отступ снизу в пикселях при высоте 1920
+  pop: true                # слово «выпрыгивает» в момент произнесения
+hook:
+  enabled: true
+  duration: 2.5
+  size: 64
+  color: "#FFFFFF"
+  box_color: "#000000"
+  box_opacity: 0.75
+  margin_v: 260
+zoom:
+  enabled: true
+  every: 3.0
+  scale: 1.12
+color:
+  contrast: 1.05
+  saturation: 1.1

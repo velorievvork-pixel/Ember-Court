@@ -1,0 +1,27 @@
+# Быстрый стиль под TikTok: одно-два слова, яркий зелёный, частые зумы.
+captions:
+  font: DejaVu Sans
+  size: 104
+  bold: true
+  uppercase: true
+  color: "#FFFFFF"
+  highlight: "#3CFF6B"
+  outline: 9
+  shadow: 3
+  max_words: 2
+  max_chars: 11
+  margin_v: 700
+  pop: true
+hook:
+  enabled: true
+  duration: 2.0
+  size: 70
+  uppercase: true
+  margin_v: 240
+zoom:
+  enabled: true
+  every: 1.8
+  scale: 1.16
+color:
+  contrast: 1.12
+  saturation: 1.25
