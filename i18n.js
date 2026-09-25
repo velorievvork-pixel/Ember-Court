@@ -7,6 +7,7 @@ window.EmberI18n = (function(){
     document.querySelectorAll('.langsw button').forEach(function(b){
       b.setAttribute('aria-current', b.getAttribute('data-lang') === lang ? 'true' : 'false');
     });
+    document.documentElement.lang = lang;
     try { localStorage.setItem('ec-lang', lang); } catch(e) {}
   }
 
