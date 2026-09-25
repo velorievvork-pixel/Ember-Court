@@ -12,8 +12,6 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // Vendored, minified WebGL effect (Canvas UI by David Haz).
-    "src/lib/blaze.js",
   ]),
 ]);
 

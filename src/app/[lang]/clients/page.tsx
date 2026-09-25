@@ -1,9 +1,7 @@
-import { Check, Minus } from "@phosphor-icons/react/dist/ssr";
-import Close from "@/components/Close";
+import Contacts from "@/components/Contacts";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { Reveal, RevealItem } from "@/components/Reveal";
-import { eyebrow, h2, lede, wrap } from "@/components/ui";
+import { body, h1, h2, muted, section, wrap } from "@/components/ui";
 import { getT, langLabel, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
 
@@ -14,70 +12,57 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/clients">)
 export default async function Clients({ params }: PageProps<"/[lang]/clients">) {
   const lang = (await params).lang as Locale;
   const t = getT(lang, "clients");
+  const ti = getT(lang, "index");
 
   return (
     <>
       <Header lang={lang} page="clients" labels={{ home: t("nav.home"), services: t("nav.services"), clients: t("nav.clients"), cta: t("nav.cta"), lang: langLabel[lang] }} />
       <main>
-        <section className={`${wrap} pb-20 pt-20 sm:pt-28`}>
-          <Reveal>
-            <p className={eyebrow}>{t("ph.eyebrow")}</p>
-            <h1 className="mt-5 max-w-[20ch] font-display text-[clamp(2.2rem,5vw,4rem)] font-medium leading-[1.05] tracking-[-0.01em]">{t("ph.heading")}</h1>
-            <p className={`${lede} mt-7`}>{t("ph.lede")}</p>
-          </Reveal>
+        <section className={`${wrap} pb-12 pt-12 sm:pb-16 sm:pt-20`}>
+          <h1 className={`${h1} max-w-[22ch]`}>{t("ph.heading")}</h1>
+          <p className={`${muted} mt-6 max-w-[64ch]`}>{t("ph.lede")}</p>
         </section>
 
-        {/* The client: one large editorial block rather than a card grid. */}
-        <section className="border-t border-rule">
-          <div className={`${wrap} grid gap-12 py-24 md:grid-cols-12 sm:py-28`}>
-            <Reveal className="md:col-span-5">
-              <span className="rounded-full bg-ember/15 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-ember">{t("camirix.tag")}</span>
-              <h2 className="mt-6 font-display text-[clamp(3rem,7vw,5.5rem)] font-medium leading-none">Camirix</h2>
-              <p className="mt-6 text-[16.5px] leading-relaxed text-ink-soft">{t("camirix.about")}</p>
-            </Reveal>
+        <section className={`border-t border-rule ${section}`}>
+          <div className={`${wrap} grid gap-10 md:grid-cols-12`}>
+            <div className="md:col-span-5">
+              <h2 className="text-[clamp(2.25rem,4vw,3rem)] font-semibold tracking-[-0.025em]">Camirix</h2>
+              <p className="mt-1 text-[15px] font-medium text-ink-muted">{t("camirix.tag")}</p>
+              <p className={`${muted} mt-5`}>{t("camirix.about")}</p>
+            </div>
             <div className="md:col-span-7">
-              <Reveal stagger as="div" className="grid">
+              <dl>
                 {(["what", "icp", "deliver"] as const).map((k) => (
-                  <RevealItem key={k} className="grid gap-2 border-t border-rule py-6 sm:grid-cols-[140px_1fr] sm:gap-8">
-                    <h3 className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-faint sm:pt-1">{t(`camirix.scope.${k}.k`)}</h3>
-                    <p className="text-[16px] leading-relaxed text-ink">{t(`camirix.scope.${k}.v`)}</p>
-                  </RevealItem>
+                  <div key={k} className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                    <dt className="text-[15px] font-semibold text-ink-muted">{t(`camirix.scope.${k}.k`)}</dt>
+                    <dd className={`${body} text-[16px]`}>{t(`camirix.scope.${k}.v`)}</dd>
+                  </div>
                 ))}
-              </Reveal>
-              <Reveal className="mt-6 rounded-[2px] border-l-2 border-ember/60 bg-panel px-6 py-5 text-[15px] leading-relaxed text-ink-soft">
-                {t("camirix.note")}
-              </Reveal>
+              </dl>
+              <p className="mt-4 border-t border-rule pt-5 text-[15px] leading-[1.6] text-ink-muted">{t("camirix.note")}</p>
             </div>
           </div>
         </section>
 
-        <section className="border-t border-rule bg-panel/40">
-          <div className={`${wrap} py-24 sm:py-28`}>
-            <Reveal>
-              <p className={eyebrow}>{t("fit.eyebrow")}</p>
-              <h2 className={`${h2} mt-5`}>{t("fit.heading")}</h2>
-            </Reveal>
-            <Reveal stagger className="mt-12 grid gap-12 md:grid-cols-2">
+        <section className={`bg-paper-deep ${section}`}>
+          <div className={wrap}>
+            <h2 className={h2}>{t("fit.heading")}</h2>
+            <div className="mt-10 grid gap-10 md:grid-cols-2">
               {([["yes", 4], ["no", 3]] as const).map(([col, n]) => (
-                <RevealItem key={col}>
-                  <h3 className="font-display text-[24px] font-medium">{t(`fit.${col}.h`)}</h3>
-                  <ul className="mt-6 grid gap-4">
+                <div key={col}>
+                  <h3 className="text-[18px] font-semibold">{t(`fit.${col}.h`)}</h3>
+                  <ul className="mt-4 grid gap-3">
                     {Array.from({ length: n }, (_, i) => (
-                      <li key={i} className="grid grid-cols-[22px_1fr] gap-3 text-[16px] leading-relaxed text-ink-soft">
-                        {col === "yes"
-                          ? <Check size={18} weight="bold" className="mt-[3px] text-ember" />
-                          : <Minus size={18} weight="bold" className="mt-[3px] text-ink-faint" />}
-                        {t(`fit.${col}.${i + 1}`)}
-                      </li>
+                      <li key={i} className={`border-t border-rule pt-3 ${col === "yes" ? body : muted} text-[16px]`}>{t(`fit.${col}.${i + 1}`)}</li>
                     ))}
                   </ul>
-                </RevealItem>
+                </div>
               ))}
-            </Reveal>
+            </div>
           </div>
         </section>
 
-        <Close heading={t("close.heading")} line={t("close.line")} alt={t("close.alt")} />
+        <Contacts heading={t("close.heading")} line={t("close.line")} alt={t("close.alt")} cta={ti("hero.cta")} or={ti("contacts.or")} />
       </main>
       <Footer tag={t("footer.tag")} />
     </>

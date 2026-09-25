@@ -1,13 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { Cormorant, Geist, Geist_Mono } from "next/font/google";
-import SmoothScroll from "@/components/SmoothScroll";
+import { Golos_Text, PT_Serif } from "next/font/google";
 import { isLocale, locales, SITE } from "@/lib/i18n";
 import "../globals.css";
 
-const cormorant = Cormorant({ subsets: ["latin", "cyrillic"], weight: ["500", "600"], style: ["normal", "italic"], variable: "--font-cormorant" });
-const geist = Geist({ subsets: ["latin", "cyrillic"], variable: "--font-geist" });
-const geistMono = Geist_Mono({ subsets: ["latin", "cyrillic"], variable: "--font-geist-mono" });
+const golos = Golos_Text({ subsets: ["latin", "cyrillic"], variable: "--font-golos" });
+const ptSerif = PT_Serif({ subsets: ["latin", "cyrillic"], weight: ["400"], variable: "--font-pt-serif" });
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -21,15 +19,14 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
-export const viewport: Viewport = { themeColor: "#0b0a09", colorScheme: "dark" };
+export const viewport: Viewport = { themeColor: "#f2f3ef", colorScheme: "light" };
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   return (
-    <html lang={lang} className={`${cormorant.variable} ${geist.variable} ${geistMono.variable}`}>
-      <body className="grain min-h-[100dvh] antialiased">
-        <SmoothScroll />
+    <html lang={lang} className={`${golos.variable} ${ptSerif.variable}`}>
+      <body className="min-h-[100dvh]">
         {children}
       </body>
     </html>

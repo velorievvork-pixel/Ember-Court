@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { List, X } from "@phosphor-icons/react";
-import { AnimatePresence, motion } from "motion/react";
+import { useEffect, useState } from "react";
 import EmberMark from "./EmberMark";
 import { btnPrimary, wrap } from "./ui";
 import { contacts, href, locales, type Locale, type Page } from "@/lib/i18n";
@@ -14,59 +12,59 @@ export default function Header({ lang, page, labels }: {
   lang: Locale; page: Page; labels: { home: string; services: string; clients: string; cta: string; lang: string };
 }) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   const nav: [Page, string][] = [["index", labels.home], ["services", labels.services], ["clients", labels.clients]];
-
-  const links = (onClick?: () => void) =>
-    nav.map(([p, label]) => (
-      <Link key={p} href={href(lang, p)} onClick={onClick} aria-current={p === page ? "page" : undefined}
-        className="text-[15px] text-ink-soft transition-colors hover:text-ink aria-[current=page]:text-ember">
-        {label}
-      </Link>
-    ));
-
+  const links = nav.map(([p, label]) => (
+    <Link key={p} href={href(lang, p)} onClick={() => setOpen(false)} aria-current={p === page ? "page" : undefined}
+      className="py-2 text-[15px] text-ink-muted hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-pen aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8">
+      {label}
+    </Link>
+  ));
   const langs = (
-    <nav aria-label={labels.lang} className="flex items-center gap-1 font-mono text-[12px]">
+    <nav aria-label={labels.lang} className="flex items-center gap-3 text-[14px]">
       {locales.map((l) => (
-        <a key={l} href={href(l, page)} hrefLang={l} lang={l}
-          aria-current={l === lang ? "true" : undefined}
-          className="rounded-[2px] px-2 py-1 text-ink-faint transition-colors hover:text-ink aria-[current=true]:bg-panel aria-[current=true]:text-ember">
+        <Link key={l} href={href(l, page)} hrefLang={l} lang={l} aria-current={l === lang ? "true" : undefined}
+          className="py-2 text-ink-muted hover:text-ink aria-[current=true]:font-semibold aria-[current=true]:text-ink">
           {LANG_LABEL[l]}
-        </a>
+        </Link>
       ))}
     </nav>
   );
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rule/70 bg-ground/75 backdrop-blur-md">
+    <header className="border-b border-rule">
       <div className={`${wrap} flex h-16 items-center justify-between gap-6`}>
-        <Link href={href(lang, "index")} className="flex items-center gap-2.5" aria-label="Ember Court">
-          <EmberMark className="h-7 w-7" />
-          <span className="font-display text-[21px] font-semibold tracking-[0.02em]">Ember Court</span>
+        <Link href={href(lang, "index")} className="flex items-center gap-2 text-[17px] font-semibold tracking-[-0.01em]">
+          <EmberMark className="h-5 w-5" /> Ember Court
         </Link>
-        <nav className="hidden items-center gap-7 md:flex">{links()}</nav>
-        <div className="hidden items-center gap-4 md:flex">
+        <nav className="hidden items-center gap-7 md:flex" aria-label="Main">{links}</nav>
+        <div className="hidden items-center gap-6 md:flex">
           {langs}
-          <a href={contacts.telegram} className={`${btnPrimary} px-5 py-2 text-[14px]`}>{labels.cta}</a>
+          <a href={contacts.telegram} className={`${btnPrimary} min-h-10 py-2`}>{labels.cta}</a>
         </div>
         <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-controls="mobile-nav"
-          className="-mr-2 p-2 text-ink md:hidden" aria-label="Menu">
-          {open ? <X size={24} weight="light" /> : <List size={24} weight="light" />}
+          className="-mr-2 min-h-11 px-2 text-[15px] font-medium md:hidden">
+          {open ? "×" : "☰"}<span className="sr-only">Menu</span>
         </button>
       </div>
-      <AnimatePresence>
-        {open && (
-          <motion.div id="mobile-nav" initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }} className="border-t border-rule bg-ground md:hidden">
-            <div className={`${wrap} flex flex-col gap-5 py-6`}>
-              {links(() => setOpen(false))}
-              <div className="flex items-center justify-between pt-2">
-                {langs}
-                <a href={contacts.telegram} className={`${btnPrimary} px-5 py-2 text-[14px]`}>{labels.cta}</a>
-              </div>
+      {open && (
+        <div id="mobile-nav" className="border-t border-rule md:hidden">
+          <div className={`${wrap} flex flex-col gap-2 py-4`}>
+            {links}
+            <div className="mt-2 flex items-center justify-between border-t border-rule pt-4">
+              {langs}
+              <a href={contacts.telegram} className={btnPrimary}>{labels.cta}</a>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

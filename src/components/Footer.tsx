@@ -4,12 +4,11 @@ import { wrap } from "./ui";
 export default function Footer({ tag }: { tag: string }) {
   return (
     <footer className="border-t border-rule">
-      <div className={`${wrap} flex flex-wrap items-center justify-between gap-4 py-10 text-[14px] text-ink-faint`}>
-        <span className="flex items-center gap-2">
-          <EmberMark className="h-5 w-5" />
-          Ember Court
+      <div className={`${wrap} flex flex-wrap items-center justify-between gap-4 py-8 text-[14px] text-ink-muted`}>
+        <span className="flex items-center gap-2 text-ink">
+          <EmberMark className="h-4 w-4" /> Ember Court
         </span>
-        <span className="font-display text-[17px] italic text-ink-soft">{tag}</span>
+        <span>{tag}</span>
       </div>
     </footer>
   );

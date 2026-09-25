@@ -1,72 +1,48 @@
 @import "tailwindcss";
 
-/* Tokens from DESIGN.md. One dark theme on purpose: the fire only reads on a dark ground. */
+/* Tokens mirror DESIGN.md frontmatter. One light theme: paper, ink and a red pen. */
 @theme {
-  --color-ground: #0b0a09;
-  --color-ground-deep: #060504;
-  --color-panel: #12100d;
-  --color-rule: #262019;
-  --color-ink: #ede6da;
-  --color-ink-soft: #a99e8d;
-  --color-ink-faint: #8a7f71;
-  --color-ember: #ff9a3d;
-  --color-ember-core: #ffe3b0;
-  --color-ember-hot: #ff6b35;
-  --color-ember-edge: #7a2e12;
+  --color-paper: #f2f3ef;
+  --color-paper-deep: #e6e9e3;
+  --color-sheet: #ffffff;
+  --color-ink: #17233a;
+  --color-ink-muted: #4b566b;
+  --color-rule: #c9d2df;
+  --color-pen: #b3302a;
 
-  --font-display: var(--font-cormorant), Georgia, serif;
-  --font-sans: var(--font-geist), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-golos), system-ui, sans-serif;
+  --font-letter: var(--font-pt-serif), Georgia, serif;
 
-  --radius-block: 2px;
-
-  --animate-marquee: marquee 48s linear infinite;
-  --animate-flicker: flicker 5s ease-in-out infinite;
-
-  @keyframes marquee {
-    to { transform: translateX(-50%); }
-  }
-  @keyframes flicker {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    45% { opacity: 0.86; transform: scale(0.985); }
-    60% { opacity: 0.95; transform: scale(1.01); }
-  }
+  --radius-control: 6px;
+  --radius-sheet: 4px;
 }
 
 html {
-  color-scheme: dark;
-  background: var(--color-ground-deep);
+  color-scheme: light;
+  background: var(--color-paper);
 }
 
 body {
-  background:
-    radial-gradient(ellipse 90% 60% at 50% 0%, #15100c 0%, var(--color-ground) 45%, var(--color-ground-deep) 100%);
+  background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
-::selection { background: #7a6420; color: var(--color-ground-deep); }
+::selection { background: var(--color-ink); color: var(--color-paper); }
 
-:focus-visible { outline: 2px solid var(--color-ember); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 3px; border-radius: 2px; }
 
-/* Lenis */
-html.lenis, html.lenis body { height: auto; }
-.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
-.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
-
-/* Grain lives on a fixed, non-interactive layer only (never on scrolling containers). */
-.grain::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* Index-card lines behind letter text: one rule per line of 18px × 1.7. */
+.ruled {
+  background-image: linear-gradient(to bottom, transparent calc(1.7em - 1px), color-mix(in srgb, var(--color-rule) 55%, transparent) calc(1.7em - 1px));
+  background-size: 100% 1.7em;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee, .animate-flicker { animation: none; }
+/* The pen crossing out what we refuse to do. */
+.struck {
+  text-decoration: line-through;
+  text-decoration-color: var(--color-pen);
+  text-decoration-thickness: 1.5px;
 }

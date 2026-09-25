@@ -1,11 +1,14 @@
-/** Shared class strings: one radius system (2px blocks, pill buttons), one accent. */
+/** Class strings shared across pages; values come from DESIGN.md. */
+export const wrap = "mx-auto w-full max-w-[1120px] px-4 sm:px-6";
 export const btnPrimary =
-  "inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-ember px-6 py-3 text-[15px] font-medium text-ground-deep " +
-  "shadow-[0_8px_30px_-12px_rgba(255,122,51,0.55)] transition-colors hover:bg-ember-core";
-export const btnGhost =
-  "inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-rule px-6 py-3 text-[15px] text-ink " +
-  "transition-colors hover:border-ember/60 hover:text-ember-core";
-export const eyebrow = "font-mono text-[11px] uppercase tracking-[0.18em] text-ink-faint";
-export const h2 = "font-display text-[clamp(2rem,4.4vw,3.25rem)] font-medium leading-[1.05] tracking-[-0.01em] text-ink";
-export const lede = "max-w-[62ch] text-[17px] leading-relaxed text-ink-soft";
-export const wrap = "mx-auto w-full max-w-6xl px-4 sm:px-6";
+  "inline-flex min-h-11 items-center gap-2 whitespace-nowrap rounded-[6px] bg-ink px-5 py-3 text-[15px] font-medium text-paper " +
+  "underline-offset-4 hover:underline";
+export const btnSecondary =
+  "inline-flex min-h-11 items-center gap-2 whitespace-nowrap rounded-[6px] border border-ink/25 px-5 py-3 text-[15px] font-medium text-ink " +
+  "transition-colors hover:border-ink";
+export const link = "underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink";
+export const h1 = "text-[clamp(2.25rem,3.6vw,3rem)] font-semibold leading-[1.06] tracking-[-0.025em] text-ink";
+export const h2 = "text-[clamp(1.625rem,3vw,2rem)] font-semibold leading-[1.15] tracking-[-0.015em] text-ink";
+export const body = "text-[17px] leading-[1.6] text-ink";
+export const muted = "text-[17px] leading-[1.6] text-ink-muted";
+export const section = "py-16 sm:py-24";
