@@ -58,7 +58,18 @@
     "pen": {
       "$value": "#F0766B",
       "$type": "color",
-      "$description": "annotations only",
+      "$description": "annotations; gradient start",
+      "$extensions": {
+        "anydesign": {
+          "source": "design.md frontmatter",
+          "confidence": "high"
+        }
+      }
+    },
+    "ember": {
+      "$value": "#F5A35C",
+      "$type": "color",
+      "$description": "accent, gradient end",
       "$extensions": {
         "anydesign": {
           "source": "design.md frontmatter",

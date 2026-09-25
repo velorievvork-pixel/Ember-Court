@@ -1,9 +1,11 @@
 import Link from "next/link";
-import Contacts from "@/components/Contacts";
+import { ArrowRight, Bot, Check, ChevronDown, Clapperboard, Clock, Globe, Languages, Megaphone, SearchCheck, Send, ShieldCheck, Sparkles, Target, Zap } from "lucide-react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import HeroChat from "@/components/HeroChat";
+import LeadForm from "@/components/LeadForm";
 import Letter from "@/components/Letter";
-import { btnPrimary, btnSecondary, h2, lead, link, muted, section, wrap } from "@/components/ui";
+import { btnAccent, btnGhost, card, h2l, wide } from "@/components/ui";
 import { auditLink, contacts, descriptions, getT, href, langLabel, SITE, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
 
@@ -11,20 +13,18 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">) {
   return pageMetadata((await params).lang as Locale, "index");
 }
 
-// Outbound first, then what supports it. `isNew` marks the two newest services.
 const SERVICES = [
-  { key: "outbound", anchor: "outbound" },
-  { key: "sites", anchor: "sites" },
-  { key: "video", anchor: "video" },
-  { key: "smm", anchor: "smm" },
-  { key: "audit", anchor: "audit", isNew: true },
-  { key: "auto", anchor: "automation", isNew: true },
+  { key: "outbound", icon: Send, anchor: "outbound" },
+  { key: "sites", icon: Globe, anchor: "sites" },
+  { key: "video", icon: Clapperboard, anchor: "video" },
+  { key: "smm", icon: Megaphone, anchor: "smm" },
+  { key: "audit", icon: SearchCheck, anchor: "audit", isNew: true },
+  { key: "auto", icon: Bot, anchor: "automation", isNew: true },
 ];
 
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const lang = (await params).lang as Locale;
   const t = getT(lang, "index");
-  const tc = getT(lang, "clients");
 
   const jsonLd = {
     "@context": "https://schema.org", "@type": "ProfessionalService", name: "Ember Court",
@@ -32,139 +32,190 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     email: contacts.email, telephone: "+393290890590", description: descriptions[lang].index,
     sameAs: [contacts.telegram], areaServed: "Worldwide", availableLanguage: ["ru", "en", "uk"],
   };
-
-  const facts: [string, React.ReactNode][] = [
-    [t("facts.what.k"), t("facts.what.v")],
-    [t("facts.who.k"), t("facts.who.v")],
-    [t("facts.clients.k"), <Link key="c" href={href(lang, "clients")} className={link}>{t("facts.clients.v")}</Link>],
-    [t("facts.lang.k"), t("facts.lang.v")],
-    [t("facts.reply.k"), t("facts.reply.v")],
-    [t("facts.contact.k"), (
-      <span key="x">
-        <a className={link} href={contacts.telegram}>Telegram {contacts.telegramHandle}</a>
-        <br /><a className={link} href={`mailto:${contacts.email}`}>{contacts.email}</a>
-        <br /><a className={link} href={contacts.whatsapp}>WhatsApp {contacts.whatsappLabel}</a>
-      </span>
-    )],
-  ];
+  const faq = [1, 2, 3, 4, 5].map((n) => ({ q: t(`l.q${n}`), a: t(`l.a${n}`) }));
+  const faqLd = {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: faq.map(({ q, a }) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
+  };
+  const trust = [[ShieldCheck, "l.trust1"], [Clock, "l.trust2"], [Languages, "l.trust3"]] as const;
+  const why = [[Target, 1], [Zap, 2], [Sparkles, 3]] as const;
 
   return (
     <>
       <Header lang={lang} page="index" labels={{ home: t("nav.home"), services: t("nav.services"), clients: t("nav.clients"), cta: t("nav.cta"), lang: langLabel[lang] }} />
       <main>
-        {/* One column of large text, like a letter to the founder; ink for the point, grey for the explanation. */}
-        <section className={`${wrap} pb-14 pt-16 sm:pt-24`}>
-          <h1 className="text-[clamp(1.875rem,4vw,3rem)] font-semibold leading-[1.15] tracking-[-0.025em]">
-            {t("hero.h1a")} {t("hero.h1b")}{" "}
-            <span className="font-medium text-ink-muted">{t("hero.sub")}</span>
-          </h1>
-          <div className="mt-10 flex flex-wrap gap-2">
-            <a href={contacts.telegram} className={btnPrimary}>{t("hero.cta")}</a>
-            <a href={auditLink(lang)} className={btnSecondary}>{t("hero.audit")}</a>
+        {/* Hero */}
+        <section className="hero-glow relative overflow-hidden">
+          <div className="grid-lines pointer-events-none absolute inset-0" />
+          <div className={`${wide} relative grid items-center gap-14 pb-20 pt-14 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:pb-28`}>
+            <div>
+              <a href={auditLink(lang)} className="inline-flex items-center gap-2 rounded-full border border-ember/30 bg-ember/10 px-3.5 py-1.5 text-[13.5px] font-medium text-ember hover:border-ember/60">
+                <Sparkles size={15} /> {t("l.badge")}
+              </a>
+              <h1 className="mt-6 text-[clamp(2.4rem,5.4vw,4.25rem)] font-bold leading-[1.04] tracking-[-0.035em]">
+                {t("l.h1a")}{" "}
+                <span className="bg-gradient-to-r from-pen to-ember bg-clip-text text-transparent">{t("l.h1b")}</span>
+              </h1>
+              <p className="mt-6 max-w-[34rem] text-[18px] leading-[1.6] text-ink-muted">{t("l.sub")}</p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <a href={auditLink(lang)} className={btnAccent}>{t("l.cta")} <ArrowRight size={18} /></a>
+                <a href={contacts.telegram} className={btnGhost}><Send size={17} /> {t("l.cta2")}</a>
+              </div>
+              <ul className="mt-9 grid gap-3 text-[14.5px] text-ink-muted sm:grid-cols-3">
+                {trust.map(([Icon, k]) => (
+                  <li key={k} className="flex items-start gap-2"><Icon size={17} className="mt-0.5 shrink-0 text-ember" />{t(k)}</li>
+                ))}
+              </ul>
+            </div>
+            <HeroChat name={t("l.chat.name")} us={t("l.chat.us")} reply={t("l.chat.reply")} meta={t("l.chat.meta")} />
           </div>
         </section>
 
-        <section className={`${wrap} pb-20 sm:pb-28`}>
-          <Letter
-            greeting={t("letter.greeting")}
-            paragraphs={[1, 2, 3, 4].map((n) => t(`letter.p${n}`))}
-            notes={[1, 2, 3, 4].map((n) => t(`letter.n${n}`))}
-            caption={t("letter.caption")}
-            signature="Ember Court"
-          />
-        </section>
-
-        <section className={`${wrap} pb-20 sm:pb-28`}>
-          <p className={`${lead} text-ink-muted`}>
-            <span className="text-ink">{t("situation.heading")}</span> {t("situation.body1")}
-          </p>
-          <p className={`${lead} mt-8`}>{t("situation.body2")}</p>
-        </section>
-
-        <section className={`${wrap} pb-20 sm:pb-28`}>
-          <p className={`${lead} text-ink-muted`}>{t("svc.lead")}</p>
-          <ul className="mt-6 flex flex-wrap gap-x-[0.45em] gap-y-1">
-            {SERVICES.map(({ key, anchor, isNew }, i) => (
-              <li key={key} className={lead}>
-                <Link href={href(lang, "services", `#${anchor}`)} className="underline decoration-ink/20 decoration-2 underline-offset-[6px] transition-colors hover:decoration-pen">
-                  {t(`svc.${key}.title`)}
-                </Link>
-                {isNew && <sup className="ml-1 text-[13px] font-medium text-pen">{t("svc.new")}</sup>}
-                {i < SERVICES.length - 1 ? "," : "."}
-              </li>
-            ))}
-          </ul>
-          <dl className="mt-12 grid gap-x-10 gap-y-8 sm:grid-cols-2">
-            {SERVICES.map(({ key }) => (
-              <div key={key}>
-                <dt className="text-[16px] font-semibold">{t(`svc.${key}.title`)}</dt>
-                <dd className="mt-1 text-[15px] leading-[1.55] text-ink-muted">{t(`svc.${key}.body`)}</dd>
+        {/* Why us */}
+        <section className="border-y border-rule bg-paper-deep/60">
+          <div className={`${wide} grid gap-8 py-14 md:grid-cols-3`}>
+            {why.map(([Icon, n]) => (
+              <div key={n} className="flex gap-4">
+                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-[12px] bg-gradient-to-br from-pen/25 to-ember/10 text-ember"><Icon size={20} /></span>
+                <div>
+                  <h3 className="text-[17px] font-semibold">{t(`l.why${n}.h`)}</h3>
+                  <p className="mt-1 text-[15px] leading-[1.55] text-ink-muted">{t(`l.why${n}.p`)}</p>
+                </div>
               </div>
             ))}
-          </dl>
+          </div>
         </section>
 
-        <section className={`${wrap} pb-20 sm:pb-28`}>
-          <p className={`${lead} text-ink-muted`}>{t("flow.lead")}</p>
-          <ol className="mt-6 grid gap-6">
-            {[1, 2, 3].map((n) => (
-              <li key={n} className="grid grid-cols-[2rem_1fr] border-t border-rule pt-5">
-                <span className="text-[15px] font-semibold text-ink-muted tabular-nums">{n}</span>
-                <p className="text-[17px] leading-[1.6]">
-                  <span className="font-semibold">{t(`flow.${n}.h`)}.</span> <span className="text-ink-muted">{t(`flow.${n}.p`)}</span>
-                </p>
-              </li>
+        {/* Services */}
+        <section className={`${wide} py-20 sm:py-28`}>
+          <h2 className={h2l}>{t("l.svc.h")}</h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {SERVICES.map(({ key, icon: Icon, anchor, isNew }) => (
+              <Link key={key} href={href(lang, "services", `#${anchor}`)}
+                className={`${card} group relative flex flex-col p-6 transition-colors hover:border-ember/40 hover:bg-sheet`}>
+                <div className="flex items-center justify-between">
+                  <span className="grid h-12 w-12 place-items-center rounded-[12px] border border-rule bg-paper text-ember"><Icon size={22} /></span>
+                  {isNew && <span className="rounded-full bg-pen/15 px-2.5 py-1 text-[12px] font-semibold text-pen">{t("svc.new")}</span>}
+                </div>
+                <h3 className="mt-5 text-[19px] font-semibold">{t(`svc.${key}.title`)}</h3>
+                <p className="mt-2 text-[15px] leading-[1.55] text-ink-muted">{t(`l.svc.${key}`)}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-[14px] font-medium text-ember">
+                  {t("l.svc.more")} <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
             ))}
-          </ol>
+          </div>
         </section>
 
-        {/* Facts, key-value (tinloof.com reference): what a founder checks before writing. */}
-        <section className={`border-t border-rule ${section}`}>
-          <div className={wrap}>
-            <h2 className={h2}>{t("facts.h")}</h2>
-            <dl className="mt-8 text-[15.5px]">
-              {facts.map(([k, v]) => (
-                <div key={k} className="grid gap-1 border-t border-rule py-3.5 sm:grid-cols-[11rem_1fr] sm:gap-6">
-                  <dt className="text-ink-muted">{k}</dt>
-                  <dd className="text-ink">{v}</dd>
+        {/* Steps */}
+        <section className="border-y border-rule bg-paper-deep/60">
+          <div className={`${wide} py-20 sm:py-24`}>
+            <h2 className={h2l}>{t("l.steps.h")}</h2>
+            <ol className="mt-12 grid gap-8 md:grid-cols-4 md:gap-6">
+              {[1, 2, 3, 4].map((n) => (
+                <li key={n} className="relative">
+                  <div className="flex items-center gap-3">
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-gradient-to-br from-pen to-ember text-[15px] font-bold text-paper">{n}</span>
+                    {n < 4 && <span className="hidden h-px flex-1 bg-gradient-to-r from-ember/50 to-rule md:block" />}
+                  </div>
+                  <h3 className="mt-5 text-[18px] font-semibold">{t(`l.s${n}.h`)}</h3>
+                  <p className="mt-1.5 text-[15px] leading-[1.55] text-ink-muted">{t(`l.s${n}.p`)}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* Case + letter */}
+        <section className={`${wide} grid gap-6 py-20 sm:py-28 lg:grid-cols-2`}>
+          <div className={`${card} relative overflow-hidden p-8 sm:p-10`}>
+            <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-pen/15 blur-3xl" />
+            <span className="relative rounded-full bg-ember/10 px-3 py-1 text-[13px] font-medium text-ember">{t("l.case.label")}</span>
+            <h2 className="relative mt-5 text-[clamp(1.6rem,2.6vw,2.1rem)] font-bold leading-[1.15] tracking-[-0.02em]">{t("l.case.h")}</h2>
+            <p className="relative mt-4 text-[16px] leading-[1.6] text-ink-muted">{t("l.case.p")}</p>
+            <dl className="relative mt-8 grid gap-4">
+              {[1, 2, 3].map((n) => (
+                <div key={n} className="flex items-start gap-3 rounded-[12px] border border-rule bg-paper/60 p-4">
+                  <Check size={18} className="mt-0.5 shrink-0 text-ember" />
+                  <div><dt className="text-[13px] text-ink-muted">{t(`l.case.k${n}`)}</dt><dd className="mt-0.5 text-[15.5px] font-medium">{t(`l.case.v${n}`)}</dd></div>
                 </div>
               ))}
             </dl>
+            <Link href={href(lang, "clients")} className="relative mt-7 inline-flex items-center gap-1.5 text-[14.5px] font-medium text-ember">
+              {t("clientsteaser.link")} <ArrowRight size={15} />
+            </Link>
+          </div>
+          <div>
+            <h2 className="mb-5 text-[20px] font-semibold">{t("l.letter.h")}</h2>
+            <Letter greeting={t("letter.greeting")} paragraphs={[1, 2, 3, 4].map((n) => t(`letter.p${n}`))}
+              notes={[1, 2, 3, 4].map((n) => t(`letter.n${n}`))} caption={t("letter.caption")} signature="Ember Court" />
           </div>
         </section>
 
-        <section className={`bg-paper-deep ${section}`}>
-          <div className={wrap}>
-            <h2 className={h2}>{tc("fit.heading")}</h2>
-            <div className="mt-8 grid gap-10 sm:grid-cols-2">
-              {([["yes", 4], ["no", 3]] as const).map(([col, n]) => (
-                <div key={col}>
-                  <h3 className="text-[17px] font-semibold">{tc(`fit.${col}.h`)}</h3>
-                  <ul className="mt-3 grid gap-2.5">
-                    {Array.from({ length: n }, (_, i) => (
-                      <li key={i} className={`border-t border-rule pt-2.5 text-[15.5px] leading-[1.55] ${col === "yes" ? "text-ink" : "text-ink-muted"}`}>
-                        {tc(`fit.${col}.${i + 1}`)}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+        {/* Plans */}
+        <section className="border-y border-rule bg-paper-deep/60">
+          <div className={`${wide} py-20 sm:py-28`}>
+            <h2 className={h2l}>{t("l.plans.h")}</h2>
+            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+              {[1, 2, 3].map((n) => {
+                const hot = n === 2;
+                return (
+                  <div key={n} className={`relative flex flex-col rounded-[18px] p-8 ${hot ? "border border-ember/50 bg-sheet shadow-[0_30px_60px_-30px_rgba(240,118,107,0.45)]" : "border border-rule bg-sheet/60"}`}>
+                    {hot && <span className="absolute -top-3 left-8 rounded-full bg-gradient-to-r from-pen to-ember px-3 py-1 text-[12px] font-semibold text-paper">{t("l.plans.popular")}</span>}
+                    <h3 className="text-[20px] font-semibold">{t(`l.p${n}.h`)}</h3>
+                    <p className={`mt-3 text-[24px] font-bold leading-tight tracking-[-0.02em] ${n === 1 ? "text-ember" : ""}`}>{n === 1 ? t("l.plans.free") : t("l.plans.quote")}</p>
+                    <ul className="mt-6 grid flex-1 content-start gap-3">
+                      {t(`l.p${n}.i`).split("|").map((it) => (
+                        <li key={it} className="flex items-start gap-2.5 text-[15px] text-ink-muted"><Check size={17} className="mt-0.5 shrink-0 text-ember" />{it}</li>
+                      ))}
+                    </ul>
+                    <a href={n === 1 ? auditLink(lang) : "#lead"} className={`${hot ? btnAccent : btnGhost} mt-8 w-full`}>{n === 1 ? t("l.cta") : t("l.plans.cta")}</a>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        <section className={section}>
-          <div className={wrap}>
-            <h2 className={h2}>{t("audit.band.h")}</h2>
-            <p className={`${muted} mt-3 max-w-[56ch]`}>{t("audit.band.p")}</p>
-            <a href={auditLink(lang)} className={`${btnSecondary} mt-6`}>{t("hero.audit")}</a>
+        {/* FAQ */}
+        <section className={`${wide} grid gap-10 py-20 sm:py-28 lg:grid-cols-[0.8fr_1.2fr]`}>
+          <h2 className={h2l}>{t("l.faq.h")}</h2>
+          <div className="grid gap-3">
+            {faq.map(({ q, a }) => (
+              <details key={q} className={`${card} group`}>
+                <summary className="flex cursor-pointer items-center justify-between gap-4 px-6 py-5 text-[16.5px] font-semibold">
+                  {q}<ChevronDown size={20} className="shrink-0 text-ink-muted transition-transform group-open:rotate-180" />
+                </summary>
+                <p className="px-6 pb-5 text-[15.5px] leading-[1.6] text-ink-muted">{a}</p>
+              </details>
+            ))}
           </div>
         </section>
 
-        <Contacts heading={t("close.heading")} line={t("close.line")} alt={t("close.alt")} cta={t("hero.cta")} or={t("contacts.or")} />
+        {/* Lead form */}
+        <section id="lead" className="hero-glow scroll-mt-20 border-t border-rule">
+          <div className={`${wide} grid gap-12 py-20 sm:py-28 lg:grid-cols-2`}>
+            <div>
+              <h2 className={h2l}>{t("l.form.h")}</h2>
+              <p className="mt-5 max-w-[30rem] text-[17px] leading-[1.6] text-ink-muted">{t("l.form.p")}</p>
+              <div className="mt-8 grid gap-2 text-[15px] text-ink-muted">
+                <span>{t("l.form.or")}</span>
+                <a className="text-ink hover:text-ember" href={`mailto:${contacts.email}`}>{contacts.email}</a>
+                <a className="text-ink hover:text-ember" href={contacts.whatsapp}>WhatsApp {contacts.whatsappLabel}</a>
+              </div>
+            </div>
+            <div className={`${card} bg-sheet p-6 sm:p-8`}>
+              <LeadForm telegram={contacts.telegram} labels={{
+                name: t("l.form.name"), site: t("l.form.site"), need: t("l.form.need"),
+                options: t("l.form.opt").split("|"), send: t("l.form.send"), msg: t("l.form.msg"),
+              }} />
+            </div>
+          </div>
+        </section>
       </main>
       <Footer tag={t("footer.tag")} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     </>
   );
 }

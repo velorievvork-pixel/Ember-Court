@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import EmberMark from "./EmberMark";
-import { btnPrimary, wrap } from "./ui";
+import { btnPrimary, wide } from "./ui";
 import { contacts, href, locales, type Locale, type Page } from "@/lib/i18n";
 
 const LANG_LABEL: Record<Locale, string> = { ru: "RU", en: "EN", uk: "UA" };
@@ -39,8 +39,8 @@ export default function Header({ lang, page, labels }: {
   );
 
   return (
-    <header className="border-b border-rule">
-      <div className={`${wrap} flex h-16 items-center justify-between gap-6`}>
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper/80 backdrop-blur-md">
+      <div className={`${wide} flex h-16 items-center justify-between gap-6`}>
         <Link href={href(lang, "index")} className="flex items-center gap-2 text-[17px] font-semibold tracking-[-0.01em]">
           <EmberMark className="h-5 w-5" /> Ember Court
         </Link>
@@ -56,7 +56,7 @@ export default function Header({ lang, page, labels }: {
       </div>
       {open && (
         <div id="mobile-nav" className="border-t border-rule md:hidden">
-          <div className={`${wrap} flex flex-col gap-2 py-4`}>
+          <div className={`${wide} flex flex-col gap-2 py-4`}>
             {links}
             <div className="mt-2 flex items-center justify-between border-t border-rule pt-4">
               {langs}

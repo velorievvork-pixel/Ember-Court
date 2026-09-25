@@ -9,6 +9,7 @@
   --color-ink-muted: #9aa4b5;
   --color-rule: #2a3550;
   --color-pen: #f0766b;
+  --color-ember: #f5a35c;
 
   --font-sans: var(--font-golos), system-ui, sans-serif;
   --font-letter: var(--font-pt-serif), Georgia, serif;
@@ -46,3 +47,19 @@ body {
   text-decoration-color: var(--color-pen);
   text-decoration-thickness: 1.5px;
 }
+
+/* Landing: one warm glow behind the hero, fixed to the section (not the page). */
+.hero-glow {
+  background:
+    radial-gradient(60% 50% at 75% 20%, color-mix(in srgb, var(--color-pen) 22%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 10% 0%, color-mix(in srgb, var(--color-ember) 10%, transparent), transparent 70%);
+}
+.grid-lines {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-rule) 45%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-rule) 45%, transparent) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(70% 60% at 50% 30%, #000, transparent 75%);
+}
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }

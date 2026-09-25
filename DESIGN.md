@@ -14,6 +14,7 @@ colors:
   ink-muted: "#9AA4B5"
   rule: "#2A3550"
   pen: "#F0766B"
+  ember: "#F5A35C"
 typography:
   display: { fontFamily: "Golos Text, sans-serif", fontSize: 48px, fontWeight: 600, lineHeight: 1.06, letterSpacing: -0.025em }
   heading: { fontFamily: "Golos Text, sans-serif", fontSize: 32px, fontWeight: 600, lineHeight: 1.15, letterSpacing: -0.015em }
@@ -47,7 +48,7 @@ References picked from seesaw.website and curated.design and captured with `capt
 
 ## TL;DR
 
-Letters, not landing-page chrome. The hero shows the actual product: a first message with red margin notes. Everything else is quiet paper and ink so that the pen is the only colour on the page.
+A dark selling landing (switched on request from the editorial letter layout): short offer, animated Telegram-style exchange in the hero, service cards, steps, a case, plans, FAQ and a lead form that opens Telegram. One warm gradient `{colors.pen}` to `{colors.ember}` marks everything clickable that matters; the annotated letter stays as proof of craft.
 
 ## 1. Visual identity
 
@@ -81,7 +82,8 @@ The visitor is a founder who receives bad cold messages every day. The site does
 | `ink` | #E6E9EF | text, primary button | headings, body, CTA fill | ✅ |
 | `ink-muted` | #9AA4B5 | secondary text | ledes, descriptions | ✅ |
 | `rule` | #2A3550 | index-card lines | row dividers, letter lines | ✅ |
-| `pen` | #F0766B | annotations only | margin notes, strike-throughs | ✅ |
+| `pen` | #F0766B | annotations; gradient start | margin notes, strike-throughs, CTA gradient | ✅ |
+| `ember` | #F5A35C | accent, gradient end | icons, CTA gradient, badges | ✅ |
 
 Single dark theme (switched from light on request). The background is a night-blue `#121A2B`, not near-black, and the accent stays confined to annotations, which keeps it out of the "black + one bright accent" default. The letter sheet `#1A2439` sits one step above the paper with a 1px rule border.
 
@@ -188,18 +190,18 @@ Stack: Next.js App Router, Tailwind 4 `@theme` tokens, Motion for the single her
 ## 6. Do's and Don'ts
 
 ### Do
-- Keep `{colors.pen}` (#F0766B) for annotations, strike-throughs and the "new" tag only.
-- Set every heading in sentence case in Golos Text 600 with negative tracking.
-- Use PT Serif only inside a letter sheet.
-- Use numbers only for real sequences (process steps, letter notes).
-- Separate rows with 1px `{colors.rule}` lines instead of cards.
+- Use the `{colors.pen}` (#F0766B) to `{colors.ember}` (#F5A35C) gradient only for the primary CTA, step numbers and the hero headline accent.
+- Keep one primary CTA intent per block: free audit or Telegram, never a third.
+- Keep card copy to one sentence; details live on /services.html.
+- Use lucide icons at 20-22px inside a 44-48px rounded tile.
+- Keep the annotated letter as the proof-of-craft block.
 
 ### Don't
-- Don't add uppercase or monospace labels above headings.
-- Don't colour or italicise a single word in a headline.
-- Don't animate sections on scroll; the hero letter is the one moment of motion.
-- Don't append arrows to links or buttons.
-- Don't use pure black, gradients or a second accent hue.
+- Don't add long paragraphs to the home page.
+- Don't use pure black; the page stays night-blue `{colors.paper}` (#121A2B).
+- Don't add a second accent family (no blue or purple glows).
+- Don't invent numbers, logos or testimonials; use real client facts only.
+- Don't animate more than the hero chat and hover states.
 
 ## 7. Open Questions
 
