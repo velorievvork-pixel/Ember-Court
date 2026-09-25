@@ -87,6 +87,11 @@ class Lead:
         return f"<b>{html.escape(title)}</b>\n{body}"
 
 
+def csv_safe(value: str) -> str:
+    """Excel and Google Sheets run cells that start with = + - @ as formulas; site leads come from anyone."""
+    return "'" + value if value[:1] in ("=", "+", "-", "@", "\t", "\r") else value
+
+
 async def deliver(bot: Bot, s: Settings, lead: Lead, session: aiohttp.ClientSession | None = None) -> list[str]:
     """Sends the lead everywhere it is configured to go. Returns the sinks that failed (empty = all good).
 
@@ -109,7 +114,7 @@ async def deliver(bot: Bot, s: Settings, lead: Lead, session: aiohttp.ClientSess
                 w = csv.DictWriter(f, fieldnames=list(asdict(lead)))
                 if new:
                     w.writeheader()
-                w.writerow(asdict(lead))
+                w.writerow({k: csv_safe(v) for k, v in asdict(lead).items()})
         except Exception:
             log.exception("csv sink failed")
             failed.append("csv")

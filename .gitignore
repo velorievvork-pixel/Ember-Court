@@ -44,3 +44,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+automation/leadbot/.env
+automation/leadbot/config.yaml
+automation/leadbot/data/

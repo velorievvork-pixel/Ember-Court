@@ -19,6 +19,7 @@ texts:
   faq_title: "Частые вопросы:"
   too_fast: "Вы уже отправили заявку. Если нужно что-то добавить, просто напишите сюда."
   new_lead: "Новая заявка"
+  addition: "Дополнение к заявке"
 
 services:
   - "Внедрение программы"
@@ -44,4 +45,5 @@ sinks:
 web:
   enabled: true
   port: 8080
-  allowed_origin: "*"
+  allowed_origin: "*"        # адрес сайта, например "https://example.com"
+  trust_proxy: false         # true, только если бот стоит за nginx/Caddy (тогда IP берётся из X-Forwarded-For)
