@@ -1,6 +1,5 @@
 "use client";
 
-import { Send } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { btnAccent } from "./ui";
 
@@ -21,7 +20,7 @@ export default function LeadForm({ telegram, labels }: {
     window.open(`${telegram}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
   }
 
-  const field = "mt-1.5 w-full rounded-[10px] border border-rule bg-paper px-4 py-3 text-[15.5px] text-ink placeholder:text-ink-muted/70 focus:border-ember/60 focus:outline-none";
+  const field = "mt-1.5 w-full rounded-[8px] border border-rule bg-paper px-4 py-3 text-[15.5px] text-ink focus:border-ember/60 focus:outline-none";
   return (
     <form onSubmit={submit} className="grid gap-4">
       <label className="text-[14px] text-ink-muted">{labels.name}
@@ -35,13 +34,13 @@ export default function LeadForm({ telegram, labels }: {
         <div className="mt-2 flex flex-wrap gap-2">
           {labels.options.map((o) => (
             <button type="button" key={o} onClick={() => setNeed(o)} aria-pressed={need === o}
-              className="rounded-full border border-rule px-3.5 py-2 text-[14px] text-ink-muted transition-colors hover:text-ink aria-[pressed=true]:border-ember/60 aria-[pressed=true]:bg-ember/10 aria-[pressed=true]:text-ink">
+              className="rounded-full border border-rule px-3.5 py-2 text-[14px] text-ink-muted transition-colors hover:text-ink aria-[pressed=true]:border-ink aria-[pressed=true]:text-ink">
               {o}
             </button>
           ))}
         </div>
       </fieldset>
-      <button type="submit" className={`${btnAccent} mt-2 w-full`}><Send size={18} /> {labels.send}</button>
+      <button type="submit" className={`${btnAccent} mt-2 w-full`}>{labels.send}</button>
     </form>
   );
 }

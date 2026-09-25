@@ -48,7 +48,7 @@ References picked from seesaw.website and curated.design and captured with `capt
 
 ## TL;DR
 
-A dark selling landing (switched on request from the editorial letter layout): short offer, animated Telegram-style exchange in the hero, service cards, steps, a case, plans, FAQ and a lead form that opens Telegram. One warm gradient `{colors.pen}` to `{colors.ember}` marks everything clickable that matters; the annotated letter stays as proof of craft.
+A plain dark selling landing: text-only hero with one solid ember button, services as a ruled list, numbered steps, the Camirix case beside the annotated letter, plans in one bordered table, FAQ as a ruled list and a lead form that opens Telegram. No gradients, glows, icon tiles or fake UI: the page should read as built by a person.
 
 ## 1. Visual identity
 
@@ -82,8 +82,8 @@ The visitor is a founder who receives bad cold messages every day. The site does
 | `ink` | #E6E9EF | text, primary button | headings, body, CTA fill | ✅ |
 | `ink-muted` | #9AA4B5 | secondary text | ledes, descriptions | ✅ |
 | `rule` | #2A3550 | index-card lines | row dividers, letter lines | ✅ |
-| `pen` | #F0766B | annotations; gradient start | margin notes, strike-throughs, CTA gradient | ✅ |
-| `ember` | #F5A35C | accent, gradient end | icons, CTA gradient, badges | ✅ |
+| `pen` | #F0766B | annotations only | margin notes in the letter | ✅ |
+| `ember` | #F5A35C | the one accent | primary button, the 'new' tag | ✅ |
 
 Single dark theme (switched from light on request). The background is a night-blue `#121A2B`, not near-black, and the accent stays confined to annotations, which keeps it out of the "black + one bright accent" default. The letter sheet `#1A2439` sits one step above the paper with a 1px rule border.
 
@@ -190,18 +190,18 @@ Stack: Next.js App Router, Tailwind 4 `@theme` tokens, Motion for the single her
 ## 6. Do's and Don'ts
 
 ### Do
-- Use the `{colors.pen}` (#F0766B) to `{colors.ember}` (#F5A35C) gradient only for the primary CTA, step numbers and the hero headline accent.
-- Keep one primary CTA intent per block: free audit or Telegram, never a third.
-- Keep card copy to one sentence; details live on /services.html.
-- Use lucide icons at 20-22px inside a 44-48px rounded tile.
+- Use `{colors.ember}` (#F5A35C) as a solid fill on the primary button only.
+- Separate items with 1px `{colors.rule}` (#2A3550) lines instead of cards.
+- Keep one sentence per service on the home page; details live on /services.html.
+- Number only real sequences (the four steps).
 - Keep the annotated letter as the proof-of-craft block.
 
 ### Don't
-- Don't add long paragraphs to the home page.
-- Don't use pure black; the page stays night-blue `{colors.paper}` (#121A2B).
-- Don't add a second accent family (no blue or purple glows).
+- Don't use gradient text, glows, blurred blobs or background grids.
+- Don't add icon tiles, sparkle badges or "most popular" pills.
+- Don't build fake product UI (chats, dashboards) in the hero.
 - Don't invent numbers, logos or testimonials; use real client facts only.
-- Don't animate more than the hero chat and hover states.
+- Don't use pure black; the page stays night-blue `{colors.paper}` (#121A2B).
 
 ## 7. Open Questions
 

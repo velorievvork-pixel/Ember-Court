@@ -39,7 +39,7 @@ export default function Header({ lang, page, labels }: {
   );
 
   return (
-    <header className="sticky top-0 z-40 border-b border-rule bg-paper/80 backdrop-blur-md">
+    <header className="sticky top-0 z-40 border-b border-rule bg-paper">
       <div className={`${wide} flex h-16 items-center justify-between gap-6`}>
         <Link href={href(lang, "index")} className="flex items-center gap-2 text-[17px] font-semibold tracking-[-0.01em]">
           <EmberMark className="h-5 w-5" /> Ember Court
