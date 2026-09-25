@@ -37,6 +37,7 @@ ANALYTICS = {
 }
 
 CRIT, WARN, OK = "🔴", "🟡", "🟢"
+EMAIL_TEXT = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 RANK = {CRIT: 0, WARN: 1, OK: 2}
 
 
@@ -296,7 +297,10 @@ def audit(url: str, check_links: int = 25) -> tuple[list[Finding], dict]:
         "почта": any(a.startswith("mailto:") for a in p.anchors),
         "Telegram": any("t.me/" in a for a in p.anchors),
         "WhatsApp": any("wa.me/" in a or "whatsapp" in a for a in p.anchors),
+        "запись на звонок": any(h in a for a in p.anchors for h in ("calendly.com", "cal.com/", "savvycal.com", "hubspot.com/meetings")),
     }
+    if not any(contact.values()) and EMAIL_TEXT.search(" ".join(p.text_parts)):
+        contact["почта (текстом)"] = True
     have = [k for k, v in contact.items() if v]
     if not have and not p.forms:
         add(CRIT, "Конверсия", "Нет кликабельных контактов и формы заявки",
