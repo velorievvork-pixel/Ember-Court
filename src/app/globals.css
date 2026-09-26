@@ -62,12 +62,6 @@ body::after {
   background-size: 100% 1.7em;
 }
 
-/* The pen crossing out what we refuse to do. */
-.struck {
-  text-decoration: line-through;
-  text-decoration-color: var(--color-pen);
-  text-decoration-thickness: 1.5px;
-}
 
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
