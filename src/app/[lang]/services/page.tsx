@@ -3,7 +3,8 @@ import Header from "@/components/Header";
 import { PenCheck, StruckLine } from "@/components/Pen";
 import { MethodSteps, Reveal } from "@/components/Reveal";
 import { btnAccent, btnGhost, h2l, wide } from "@/components/ui";
-import { clockText, contacts, getT, href, langLabel, type Locale } from "@/lib/i18n";
+import Link from "next/link";
+import { clockText, contacts, getT, href, langLabel, NICHES, nicheHref, type Locale, type Niche } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services">) {
@@ -21,6 +22,7 @@ const MORE = [
 export default async function Services({ params }: PageProps<"/[lang]/services">) {
   const lang = (await params).lang as Locale;
   const t = getT(lang, "services");
+  const tn = getT(lang, "niches");
   const steps = [1, 2, 3, 4].map((n) => ({ h: t(`s2.ob.s${n}.h`), p: t(`s2.ob.s${n}.p`) }));
   const channels = ["wa", "em", "call"] as const;
 
@@ -101,6 +103,12 @@ export default async function Services({ params }: PageProps<"/[lang]/services">
               <p className="max-w-[34rem] text-[19px] font-semibold leading-[1.4] tracking-[-0.01em]">{t("s2.ob.price")}</p>
               <a href={href(lang, "index", "#lead")} className={btnAccent}>{t("s2.ob.cta")}</a>
             </div>
+            <p className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[15.5px] text-ink-muted">
+              {t("s2.niches")}
+              {(Object.keys(NICHES) as Niche[]).map((n) => (
+                <Link key={n} href={nicheHref(lang, n)} className="text-ink underline decoration-ink/30 underline-offset-4 hover:decoration-ink">{tn(`${n}.nav`)}</Link>
+              ))}
+            </p>
           </div>
         </section>
 
