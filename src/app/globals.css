@@ -152,3 +152,10 @@ details > summary::-webkit-details-marker { display: none; }
 @keyframes letter-note { from { opacity: 0; filter: blur(3px); } }
 @keyframes grow-x { from { transform: scaleX(0); } }
 @keyframes grow-y { from { transform: scaleY(0); } }
+
+/* Phone: the pilot offer slides up from the bottom after the first screen. */
+.mobile-cta { transform: translateY(110%); visibility: hidden; }
+.mobile-cta[data-show] { transform: none; visibility: visible; }
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-cta { transition: transform 300ms var(--ease-out), visibility 300ms; }
+}

@@ -268,7 +268,9 @@
   "l.form.ok": "Got it. Yaroslav will reply within a business day.",
   "l.form.more": "Send another one",
   "l.form.call": "Book a 15-minute call",
-  "og.note": "Two-week pilot — $250"
+  "og.note": "Two-week pilot — $250",
+  "l.form.note": "The pilot is $250 for 2 weeks. No interested reply at all — we keep going 2 more weeks for free.",
+  "l.mcta": "Start with a $250 pilot"
  },
  "services": {
   "jump.5": "Website audit",
