@@ -43,17 +43,17 @@ export const auditLink = (lang: Locale) => `${contacts.telegram}?text=${encodeUR
 
 export const descriptions: Record<Locale, Record<Page, string>> = {
   ru: {
-    index: "Outbound-поток клиентов, сайты, видео, соцсети, аудит и автоматизация для B2B-команд на раннем этапе роста. Бесплатный экспресс-аудит сайта.",
+    index: "Приводим B2B-клиентов в Казахстане и СНГ: находим компании, которые сейчас нанимают под вашу задачу, и пишем руководителю в WhatsApp и на почту. Пилот на 2 недели — $250.",
     services: "Outbound-поток, сайты, видео, соцсети, аудит сайта, Telegram-боты и автоматизация заявок для B2B-компаний. Процесс и планка качества.",
     clients: "С кем работает Ember Court: outbound-поток для Camirix и критерии, кому подходит сотрудничество.",
   },
   en: {
-    index: "Outbound, websites, video, social media, audits and automation for early-stage B2B teams. Free express website audit.",
+    index: "We bring B2B clients in Kazakhstan and Central Asia: companies hiring for the job your product does, messaged on WhatsApp and by email. 2-week pilot for $250.",
     services: "Outbound, websites, video, social media, website audits, Telegram bots and lead automation for B2B companies. Process and quality bar.",
     clients: "Who Ember Court works with: outbound for Camirix, and who our work is a fit for.",
   },
   uk: {
-    index: "Outbound-потік клієнтів, сайти, відео, соцмережі, аудит і автоматизація для B2B-команд на ранньому етапі зростання. Безкоштовний експрес-аудит сайту.",
+    index: "Приводимо B2B-клієнтів у Казахстані та Центральній Азії: компанії, які зараз наймають під ваше завдання, пишемо керівнику у WhatsApp і на пошту. Пілот на 2 тижні — $250.",
     services: "Outbound-потік, сайти, відео, соцмережі, аудит сайту, Telegram-боти й автоматизація заявок для B2B-компаній. Процес і планка якості.",
     clients: "З ким працює Ember Court: outbound-потік для Camirix і критерії, кому підходить співпраця.",
   },
