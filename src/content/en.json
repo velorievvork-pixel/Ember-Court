@@ -262,11 +262,7 @@
   "me.h": "Who is at the desk",
   "me.name": "Yaroslav",
   "me.role": "founder of Ember Court",
-  "me.p": "I run every client myself. Since 22 September, every working day I find companies for Camirix that are hiring people for routine work, and I answer for every message sent in our name.",
-  "me.r1": "I check first, then write. Every number on this site comes from the work, not from imagination.",
-  "me.r2": "I never quote prices on a client's behalf or promise results I have not seen.",
-  "me.r3": "If someone asks whether a bot is writing, they get an honest answer.",
-  "me.sign": "Yaroslav"
+  "me.p": "I run every client myself. Since 22 September, every working day I find companies for Camirix that are hiring people for routine work, and I answer for every message sent in our name."
  },
  "services": {
   "jump.5": "Website audit",
