@@ -2,6 +2,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LeadForm from "@/components/LeadForm";
+import MobileCta from "@/components/MobileCta";
 import { Arrow, PenCheck, PenUnderline } from "@/components/Pen";
 import { MethodSteps, Reveal } from "@/components/Reveal";
 import { AstanaClock, LampGlow } from "@/components/Desk";
@@ -34,6 +35,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   };
   const faq = [
     ...[1, 2].map((n) => ({ q: t(`l.q${n}`), a: t(`l.a${n}`) })),
+    { q: t("l.q5"), a: t("l.a5") },
     { q: t("h.q6"), a: t("h.a6") }, { q: t("h.q7"), a: t("h.a7") },
     ...[3, 4].map((n) => ({ q: t(`l.q${n}`), a: t(`l.a${n}`) })),
   ];
@@ -216,6 +218,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <div>
               <h2 className={h2l}>{t("l.form.h")}</h2>
               <p className="mt-5 max-w-[30rem] text-[17px] leading-[1.6] text-ink-muted">{t("l.form.p")}</p>
+              <p className="mt-4 flex max-w-[30rem] gap-3 text-[15.5px] leading-[1.55] text-ink"><PenCheck className="mt-[-1px] h-5 w-5" />{t("l.form.note")}</p>
               <p className="mt-8 text-[15px] leading-[1.8] text-ink-muted">
                 {t("l.form.or")}{" "}
                 <a className="text-ink underline decoration-ink/30 underline-offset-4" href={`mailto:${contacts.email}`}>{contacts.email}</a>
@@ -233,6 +236,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </section>
       </main>
+      <MobileCta label={t("l.mcta")} href="#lead" />
       <Footer tag={t("footer.tag")} clock={clock} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />

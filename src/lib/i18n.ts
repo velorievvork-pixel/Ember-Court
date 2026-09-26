@@ -11,7 +11,7 @@ const dictionaries = { ru, en, uk };
 export const isLocale = (v: string): v is Locale => (locales as readonly string[]).includes(v);
 
 /** Translator for one page: t("hero.sub"). Falls back to Russian so a missing key never renders empty. */
-export function getT(lang: Locale, page: Page) {
+export function getT(lang: Locale, page: Page | "niches") {
   const d = dictionaries[lang][page] as Record<string, string>;
   const fallback = dictionaries.ru[page] as Record<string, string>;
   return (key: string) => d[key] ?? fallback[key] ?? key;
@@ -31,6 +31,11 @@ export function href(lang: Locale, page: Page, hash = ""): string {
 }
 
 export const SITE = "https://ember-court.vercel.app";
+
+/** Niche landing pages: slug in the app route → public file name (kept .html like the other pages). */
+export const NICHES = { it: "outbound-it", pr: "outbound-production" } as const;
+export type Niche = keyof typeof NICHES;
+export const nicheHref = (lang: Locale, n: Niche) => `${lang === "ru" ? "" : `/${lang}`}/${NICHES[n]}.html`;
 
 export const contacts = {
   telegram: "https://t.me/veloriev",

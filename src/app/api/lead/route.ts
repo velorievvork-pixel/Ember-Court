@@ -20,7 +20,14 @@ function tooMany(ip: string) {
 
 const clean = (v: unknown, max: number) => (typeof v === "string" ? v.replace(/\s+/g, " ").trim().slice(0, max) : "");
 
+const ALLOWED_ORIGINS = new Set(["https://ember-court.vercel.app", "http://localhost:3000"]);
+
 export async function POST(request: Request) {
+  // Only our own pages post here; a browser on another site always sends its Origin.
+  const origin = request.headers.get("origin");
+  const preview = origin?.startsWith("https://ember-court") && origin.endsWith(".vercel.app");   // Vercel previews
+  if (origin && !ALLOWED_ORIGINS.has(origin) && !preview) return Response.json({ ok: false }, { status: 403 });
+
   let body: Record<string, unknown>;
   try {
     body = await request.json();

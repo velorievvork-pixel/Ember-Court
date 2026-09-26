@@ -9,8 +9,10 @@ import { contacts, href, locales, type Locale, type Page } from "@/lib/i18n";
 
 const LANG_LABEL: Record<Locale, string> = { ru: "RU", en: "EN", uk: "UA" };
 
-export default function Header({ lang, page, labels }: {
+export default function Header({ lang, page, labels, langHrefs }: {
   lang: Locale; page: Page; labels: { home: string; services: string; clients: string; cta: string; lang: string };
+  /** Where the language switch points, for pages outside the three main ones. */
+  langHrefs?: Record<Locale, string>;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -31,7 +33,7 @@ export default function Header({ lang, page, labels }: {
   const langs = (
     <nav aria-label={labels.lang} className="flex items-center gap-3 text-[14px]">
       {locales.map((l) => (
-        <Link key={l} href={href(l, page)} hrefLang={l} lang={l} aria-current={l === lang ? "true" : undefined}
+        <Link key={l} href={langHrefs?.[l] ?? href(l, page)} hrefLang={l} lang={l} aria-current={l === lang ? "true" : undefined}
           className="py-2 text-ink-muted hover:text-ink aria-[current=true]:font-semibold aria-[current=true]:text-ink">
           {LANG_LABEL[l]}
         </Link>

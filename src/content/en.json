@@ -188,8 +188,8 @@
   "l.a3": "We work with B2B companies where the founder or a small team closes deals. If we're not a fit, we'll say so right away.",
   "l.q4": "What do you need from us?",
   "l.a4": "A couple of messages about the product and clients, and 15 minutes a week for feedback.",
-  "l.q5": "Can we order just a website or video?",
-  "l.a5": "Yes, any line of work can be ordered on its own.",
+  "l.q5": "How is this different from WhatsApp blasts?",
+  "l.a5": "A blast takes a bought list and sends one message to thousands of numbers. We write to one company at a time: first we find a reason that concerns that company, check it in the registry, and only then message its head. At most 15 new chats a day, and we never buy lists.",
   "l.form.h": "Send a request",
   "l.form.p": "Leave a contact and the request goes straight to Yaroslav. We reply within a business day.",
   "l.form.name": "Name",
@@ -268,7 +268,9 @@
   "l.form.ok": "Got it. Yaroslav will reply within a business day.",
   "l.form.more": "Send another one",
   "l.form.call": "Book a 15-minute call",
-  "og.note": "Two-week pilot — $250"
+  "og.note": "Two-week pilot — $250",
+  "l.form.note": "The pilot is $250 for 2 weeks. No interested reply at all — we keep going 2 more weeks for free.",
+  "l.mcta": "Start with a $250 pilot"
  },
  "services": {
   "jump.5": "Website audit",
@@ -513,7 +515,8 @@
   "s2.vd.no": "Effects and transitions for “energy” instead of meaning",
   "s2.close.h": "Where to start",
   "s2.close.p": "Describe the product and current clients in a couple of messages. We will say which format fits, and whether we fit at all.",
-  "og.note": "Outbound, websites, bots, audits, video"
+  "og.note": "Outbound, websites, bots, audits, video",
+  "s2.niches": "By niche:"
  },
  "clients": {
   "nav.home": "Home",
@@ -591,5 +594,42 @@
   "ty.pilot.h": "What the pilot includes",
   "ty.pilot.p": "How we pick companies, how we write and what we never do.",
   "ty.back": "Back to home"
+ },
+ "niches": {
+  "n.sig.h": "What we write about",
+  "n.msg.h": "What a first message looks like",
+  "n.msg.cap": "An example, not a template: every company gets its own text.",
+  "n.how.h": "How the pilot runs",
+  "n.fit.h": "Who it fits",
+  "n.price": "The pilot is $250 for 2 weeks. No interested reply at all — we keep going 2 more weeks for free.",
+  "n.cta": "Start with a pilot",
+  "n.also": "Other niches",
+  "it.nav": "IT and SaaS",
+  "it.title": "Outbound for IT and SaaS in Kazakhstan | Ember Court",
+  "it.desc": "We find companies that need your service now, by the vacancies it replaces or simplifies, and message their head on WhatsApp and by email. 2-week pilot for $250.",
+  "it.h1": "Clients for an IT service: companies hiring right now for the job your product does",
+  "it.lede": "If your service automates HR paperwork, accounting, warehouse or sales, the best moment to write to a company is when it is hiring someone for that job. We find those companies and message their heads while you run demos and rollouts.",
+  "it.sig.1": "The company is hiring an HR clerk, accountant or 1C operator, and your product takes their routine off",
+  "it.sig.2": "It opens a branch or a new city: processes will have to scale",
+  "it.sig.3": "It is hiring an implementation specialist or a system admin: it is moving to a new system",
+  "it.sig.4": "It sells through partners or dealers and hires managers for that",
+  "it.msg": "Hello Aigerim! I see you are hiring an HR clerk for Astana and Almaty at once, with e-HR experience. We make a service that runs HR documents and signing online, so a second city does not need a second clerk. How do branch managers sign orders today?",
+  "it.fit": "B2B services with a clear job for the client: e-HR and e-documents, accounting, CRM, warehouse, HR and finance tools. Sales run by the founder or one or two managers.",
+  "pr.nav": "Manufacturing and distribution",
+  "pr.title": "Outbound for manufacturing and distribution in Kazakhstan | Ember Court",
+  "pr.desc": "We find companies expanding right now: opening warehouses and branches, hiring buyers. We message their head on WhatsApp and by email. 2-week pilot for $250.",
+  "pr.h1": "New wholesale clients: companies expanding right now",
+  "pr.lede": "A company opening a warehouse in a new city or hiring a buyer has already decided to buy more. We find those companies, check them in the registry and message the head while your sales team serves current clients.",
+  "pr.sig.1": "It is hiring warehouse staff or drivers in a new city: a new warehouse or branch",
+  "pr.sig.2": "It is hiring a buyer or procurement manager: purchasing has a budget",
+  "pr.sig.3": "It opens a production line: hiring operators and technologists",
+  "pr.sig.4": "It enters a new region and hires sales reps there",
+  "pr.msg": "Hello Yerlan! I see you are hiring warehouse staff in Karaganda, so you are opening a warehouse there. We supply packaging to warehouses in Kazakhstan and have our own stock in Karaganda, so nothing has to come from Almaty. Who is best to talk to about supplies for the new site?",
+  "pr.fit": "Manufacturers and distributors selling to companies: packaging, building materials, equipment, consumables, metal, wholesale food.",
+  "nav.home": "Home",
+  "nav.services": "Services",
+  "nav.clients": "Clients",
+  "nav.cta": "Get in touch",
+  "footer.tag": "Precision over volume"
  }
 }
