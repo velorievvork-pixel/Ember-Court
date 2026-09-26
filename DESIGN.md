@@ -14,6 +14,7 @@ colors:
   ink-muted: "#9AA4B5"
   rule: "#2A3550"
   pen: "#F0766B"
+  pen-ink: "#F48C83"
   ember: "#F5A35C"
 typography:
   display: { fontFamily: "Golos Text, sans-serif", fontSize: 48px, fontWeight: 600, lineHeight: 1.06, letterSpacing: -0.025em }

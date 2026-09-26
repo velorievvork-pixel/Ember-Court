@@ -21,7 +21,7 @@ export default function Letter({ greeting, paragraphs, notes, caption, signature
 
   return (
     <figure>
-      <div className="rounded-[4px] bg-sheet px-6 py-7 border border-rule shadow-[0_24px_48px_-24px_rgba(0,0,0,0.6)] sm:px-9 sm:py-8">
+      <div className="rounded-[4px] bg-sheet px-6 py-7 border border-rule sm:px-9 sm:py-8">
         <div className="ruled font-letter text-[17px] leading-[1.7] text-ink sm:text-[18px]">
           <p>{greeting}</p>
           <ol className="mt-[1.7em] grid gap-y-[1.7em]">
@@ -29,7 +29,7 @@ export default function Letter({ greeting, paragraphs, notes, caption, signature
               <li key={i} className="relative grid gap-2 pl-5 xl:grid-cols-[1fr_10.5rem] xl:gap-6">
                 <motion.span aria-hidden className="absolute left-0 top-[0.35em] h-[calc(100%-0.7em)] w-[2px] origin-top bg-pen" {...stroke(i)} />
                 <p>{p}</p>
-                <motion.p className="font-sans text-[13.5px] font-medium leading-[1.4] text-pen xl:pt-[0.3em]" {...appear(i)}>
+                <motion.p className="font-sans text-[13.5px] font-medium leading-[1.4] text-pen-ink xl:pt-[0.3em]" {...appear(i)}>
                   <span className="mr-1.5 tabular-nums">{i + 1}.</span>{notes[i]}
                 </motion.p>
               </li>

@@ -9,6 +9,8 @@
   --color-ink-muted: #9aa4b5;
   --color-rule: #2a3550;
   --color-pen: #f0766b;
+  /* Pen for small text on the ruled sheet: #f0766b fell to 4.4:1 there (impeccable detect, 26.09). */
+  --color-pen-ink: #f48c83;
   --color-ember: #f5a35c;
 
   --font-sans: var(--font-golos), system-ui, sans-serif;
