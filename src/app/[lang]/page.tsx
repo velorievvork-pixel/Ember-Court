@@ -224,10 +224,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <br />WhatsApp <a className="text-ink underline decoration-ink/30 underline-offset-4" href={contacts.whatsapp}>{contacts.whatsappLabel}</a>
               </p>
             </div>
-            <LeadForm telegram={contacts.telegram} labels={{
-              name: t("l.form.name"), site: t("l.form.site"), need: t("l.form.need"),
-              options: t("l.form.opt").split("|"), send: t("l.form.send"), msg: t("l.form.msg"),
-              done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
+            <LeadForm lang={lang} telegram={contacts.telegram} labels={{
+              name: t("l.form.name"), site: t("l.form.site"), contact: t("l.form.contact"), need: t("l.form.need"),
+              options: t("l.form.opt").split("|"), send: t("l.form.send"), sending: t("l.form.sending"), msg: t("l.form.msg"),
+              ok: t("l.form.ok"), more: t("l.form.more"), done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
             }} />
           </div>
         </section>
