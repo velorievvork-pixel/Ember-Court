@@ -1,0 +1,13 @@
+# Mondays 09:03 Astana (04:03 UTC): the site sends the owner a short weekly report in Telegram.
+name: Weekly report
+on:
+  schedule:
+    - cron: "3 4 * * 1"
+  workflow_dispatch:
+permissions: {}
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - run: curl -sS -m 90 https://ember-court.vercel.app/api/weekly
