@@ -19,6 +19,6 @@ export function pageMetadata(lang: Locale, page: Page): Metadata {
       canonical: href(lang, page),
       languages: { ...Object.fromEntries(locales.map((l) => [l, href(l, page)])), "x-default": href("ru", page) },
     },
-    openGraph: { title, description, url: href(lang, page), locale: lang },
+    openGraph: { type: "website", siteName: "Ember Court", title, description, url: href(lang, page), locale: lang },
   };
 }

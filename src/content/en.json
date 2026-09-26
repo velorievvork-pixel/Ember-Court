@@ -267,7 +267,8 @@
   "l.form.sending": "Sending…",
   "l.form.ok": "Got it. Yaroslav will reply within a business day.",
   "l.form.more": "Send another one",
-  "l.form.call": "Book a 15-minute call"
+  "l.form.call": "Book a 15-minute call",
+  "og.note": "Two-week pilot — $250"
  },
  "services": {
   "jump.5": "Website audit",
@@ -511,7 +512,8 @@
   "s2.vd.i": "Editing and clips for Reels, Shorts and your site|Colour, clean sound, subtitles|A video from graphics and screencasts when there is nothing to film",
   "s2.vd.no": "Effects and transitions for “energy” instead of meaning",
   "s2.close.h": "Where to start",
-  "s2.close.p": "Describe the product and current clients in a couple of messages. We will say which format fits, and whether we fit at all."
+  "s2.close.p": "Describe the product and current clients in a couple of messages. We will say which format fits, and whether we fit at all.",
+  "og.note": "Outbound, websites, bots, audits, video"
  },
  "clients": {
   "nav.home": "Home",
@@ -570,6 +572,7 @@
   "c2.no.2": "You already have a sales team and just need hands",
   "c2.no.3": "The product has no clients yet",
   "c2.close.h": "Sounds like your situation?",
-  "c2.close.p": "Write a couple of lines about the product and clients. We will say honestly whether we fit and when we can start a pilot."
+  "c2.close.p": "Write a couple of lines about the product and clients. We will say honestly whether we fit and when we can start a pilot.",
+  "og.note": "Camirix: the task, channels, week one"
  }
 }

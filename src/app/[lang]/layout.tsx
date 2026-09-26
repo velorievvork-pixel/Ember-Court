@@ -16,7 +16,7 @@ export function generateStaticParams() {
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   icons: { icon: "/favicon.svg" },
-  openGraph: { type: "website", siteName: "Ember Court", images: [{ url: "/og.png", width: 1200, height: 630 }] },
+  openGraph: { type: "website", siteName: "Ember Court" },
   twitter: { card: "summary_large_image" },
   // Google Search Console ownership tag (HTML-tag method); set GOOGLE_SITE_VERIFICATION in Vercel.
   ...(process.env.GOOGLE_SITE_VERIFICATION ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION.trim() } } : {}),
