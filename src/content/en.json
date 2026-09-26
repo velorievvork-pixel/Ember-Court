@@ -266,7 +266,8 @@
   "l.form.contact": "How to reach you: Telegram, WhatsApp or email",
   "l.form.sending": "Sending…",
   "l.form.ok": "Got it. Yaroslav will reply within a business day.",
-  "l.form.more": "Send another one"
+  "l.form.more": "Send another one",
+  "l.form.call": "Book a 15-minute call"
  },
  "services": {
   "jump.5": "Website audit",
