@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import { Analytics } from "@vercel/analytics/next";
 import { Golos_Text, PT_Serif } from "next/font/google";
 import { isLocale, locales, SITE } from "@/lib/i18n";
 import "../globals.css";
@@ -28,6 +29,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
     <html lang={lang} className={`${golos.variable} ${ptSerif.variable}`}>
       <body className="min-h-[100dvh]">
         {children}
+        {/* Vercel Web Analytics: page views, no cookies. */}
+        <Analytics />
       </body>
     </html>
   );
