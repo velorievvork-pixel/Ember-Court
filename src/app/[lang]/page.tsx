@@ -134,7 +134,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               {[1, 2, 3].map((n) => (
                 <div key={n} className="flex flex-col bg-paper p-7 sm:p-8">
                   <h3 className="text-[19px] font-semibold">{t(`l.p${n}.h`)}</h3>
-                  <p className="mt-1 text-[15px] text-ink-muted">{n === 1 ? t("l.plans.free") : t("l.plans.quote")}</p>
+                  <p className="mt-2 text-[26px] font-semibold leading-none tracking-tight">{n === 1 ? t("l.plans.free") : t("l.plans.from")}</p>
+                  {n !== 1 && <p className="mt-1.5 text-[14px] text-ink-muted">{t("l.plans.quote")}</p>}
                   <ul className="mt-6 grid flex-1 content-start gap-2.5">
                     {t(`l.p${n}.i`).split("|").map((it) => (
                       <li key={it} className="border-t border-rule pt-2.5 text-[15px] text-ink">{it}</li>
