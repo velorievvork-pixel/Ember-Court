@@ -201,11 +201,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <h2 className={h2l}>{t("l.faq.h")}</h2>
             <dl className="mt-10 border-b border-rule">
               {faq.map(({ q, a }, i) => (
-                <Reveal key={q} delay={i * 0.03}>
-                  <div className="grid gap-2 border-t border-rule py-6 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
-                    <dt className="text-[17.5px] font-semibold leading-[1.4]">{q}</dt>
-                    <dd className="max-w-[40rem] text-[16px] leading-[1.6] text-ink-muted">{a}</dd>
-                  </div>
+                <Reveal key={q} delay={i * 0.03} className="grid gap-2 border-t border-rule py-6 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+                  <dt className="text-[17.5px] font-semibold leading-[1.4]">{q}</dt>
+                  <dd className="max-w-[40rem] text-[16px] leading-[1.6] text-ink-muted">{a}</dd>
                 </Reveal>
               ))}
             </dl>

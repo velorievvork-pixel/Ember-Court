@@ -34,11 +34,9 @@ export default async function Clients({ params }: PageProps<"/[lang]/clients">) 
             </div>
             <dl className="border-b border-rule">
               {[1, 2, 3, 4, 5].map((n, i) => (
-                <Reveal key={n} delay={i * 0.05}>
-                  <div className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
-                    <dt className="text-[14.5px] text-ink-muted">{t(`c2.cam.k${n}`)}</dt>
-                    <dd className={`text-[16.5px] leading-[1.55] ${n === 4 ? "font-semibold" : ""}`}>{t(`c2.cam.v${n}`)}</dd>
-                  </div>
+                <Reveal key={n} delay={i * 0.05} className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[10rem_1fr] sm:gap-6">
+                  <dt className="text-[14.5px] text-ink-muted">{t(`c2.cam.k${n}`)}</dt>
+                  <dd className={`text-[16.5px] leading-[1.55] ${n === 4 ? "font-semibold" : ""}`}>{t(`c2.cam.v${n}`)}</dd>
                 </Reveal>
               ))}
             </dl>
