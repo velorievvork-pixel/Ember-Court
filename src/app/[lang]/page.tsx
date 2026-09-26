@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import LeadForm from "@/components/LeadForm";
 import { Arrow, PenCheck, PenUnderline } from "@/components/Pen";
 import { MethodSteps, Reveal } from "@/components/Reveal";
+import { AstanaClock, LampGlow } from "@/components/Desk";
 import Letter from "@/components/Letter";
 import { btnAccent, btnGhost, h2l, wide } from "@/components/ui";
 import { auditLink, contacts, descriptions, getT, href, langLabel, SITE, type Locale } from "@/lib/i18n";
@@ -41,6 +42,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     mainEntity: faq.map(({ q, a }) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })),
   };
 
+  const clock = { open: t("clock.open"), closed: t("clock.closed"), morning: t("clock.morning"), monday: t("clock.monday") };
   const steps = [1, 2, 3, 4].map((n) => ({ h: t(`h.m${n}.h`), p: t(`h.m${n}.p`) }));
   const rows = [1, 2, 3, 4].map((n) => ({ h: t(`h.pr.r${n}.h`), price: t(`h.pr.r${n}.price`), p: t(`h.pr.r${n}.p`) }));
 
@@ -60,8 +62,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <a href={auditLink(lang)} className={btnGhost}>{t("h.cta2")}</a>
             </div>
             <p className="mt-5 text-[14.5px] text-ink-muted">{t("h.note")}</p>
+            <AstanaClock className="mt-2 text-[14.5px] text-ink-muted" text={clock} />
           </div>
-          <div className="lg:-mr-6">
+          <div className="relative isolate lg:-mr-6">
+            <LampGlow />
             <Letter greeting={t("letter.greeting")} paragraphs={[1, 2, 3, 4].map((n) => t(`letter.p${n}`))}
               notes={[1, 2, 3, 4].map((n) => t(`letter.n${n}`))} caption={t("letter.caption")} signature="Ember Court" />
           </div>
@@ -209,11 +213,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <LeadForm telegram={contacts.telegram} labels={{
               name: t("l.form.name"), site: t("l.form.site"), need: t("l.form.need"),
               options: t("l.form.opt").split("|"), send: t("l.form.send"), msg: t("l.form.msg"),
+              done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
             }} />
           </div>
         </section>
       </main>
-      <Footer tag={t("footer.tag")} />
+      <Footer tag={t("footer.tag")} clock={clock} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }} />
     </>

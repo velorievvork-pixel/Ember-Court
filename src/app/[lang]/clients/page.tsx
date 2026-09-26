@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import { PenCheck, StruckLine } from "@/components/Pen";
 import { Reveal } from "@/components/Reveal";
 import { btnAccent, btnGhost, h2l, wide } from "@/components/ui";
-import { contacts, getT, href, langLabel, type Locale } from "@/lib/i18n";
+import { clockText, contacts, getT, href, langLabel, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/clients">) {
@@ -83,7 +83,7 @@ export default async function Clients({ params }: PageProps<"/[lang]/clients">) 
           </div>
         </section>
       </main>
-      <Footer tag={t("footer.tag")} />
+      <Footer tag={t("footer.tag")} clock={clockText(lang)} />
     </>
   );
 }

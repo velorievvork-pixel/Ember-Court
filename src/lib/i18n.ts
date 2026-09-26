@@ -18,6 +18,12 @@ export function getT(lang: Locale, page: Page) {
 }
 
 /** Public URLs stay what they were on the static site: /, /services.html, /clients.html (+ /en, /uk prefixes). */
+/** Texts for the live Astana clock (header note and footer), from the index dictionary. */
+export function clockText(lang: Locale) {
+  const t = getT(lang, "index");
+  return { open: t("clock.open"), closed: t("clock.closed"), morning: t("clock.morning"), monday: t("clock.monday") };
+}
+
 export function href(lang: Locale, page: Page, hash = ""): string {
   const prefix = lang === "ru" ? "" : `/${lang}`;
   const path = page === "index" ? prefix || "/" : `${prefix}/${page}.html`;
