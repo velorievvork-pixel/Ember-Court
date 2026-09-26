@@ -159,3 +159,14 @@ details > summary::-webkit-details-marker { display: none; }
 @media (prefers-reduced-motion: no-preference) {
   .mobile-cta { transition: transform 300ms var(--ease-out), visibility 300ms; }
 }
+
+/* Print (the pilot PDF): keep the page's colours, drop what only works on screen. */
+.print-only { display: none; }
+@media print {
+  header, footer, .mobile-cta, .no-print, .reading-line { display: none !important; }
+  body::after { display: none; }   /* the noise layer would be rasterised on every page: megabytes */
+  .print-only { display: inline; }
+  html, body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .reveal, .pen-draw-view path, .pen-strike { opacity: 1 !important; transform: none !important; stroke-dashoffset: 0 !important; background-size: 100% 1.5px !important; }
+  .method-line { animation: none !important; transform: none !important; }
+}

@@ -18,7 +18,7 @@ export default async function Thanks({ params }: PageProps<"/[lang]/thanks">) {
   const clock = clockText(lang);
   const next = [
     { to: href(lang, "clients"), h: t("ty.case.h"), p: t("ty.case.p") },
-    { to: href(lang, "services", "#outbound"), h: t("ty.pilot.h"), p: t("ty.pilot.p") },
+    { to: href(lang, "pilot"), h: t("ty.pilot.h"), p: t("ty.pilot.p") },
   ];
 
   return (
