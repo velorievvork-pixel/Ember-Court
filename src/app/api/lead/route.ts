@@ -44,10 +44,22 @@ export async function POST(request: Request) {
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (tooMany(ip)) return Response.json({ ok: false }, { status: 429 });
 
+  // Also keep every request in the owner's Google Sheet (LEADS_SHEET_URL: an Apps Script web app, see
+  // docs/leads-sheet.md). Best effort, runs alongside Telegram; a failure here never blocks the request.
+  const sheetUrl = process.env.LEADS_SHEET_URL?.trim();
+  const sheet = sheetUrl
+    ? fetch(sheetUrl, {
+        method: "POST",
+        headers: { "content-type": "text/plain" },
+        body: JSON.stringify({ ...lead, source: "сайт" }),
+        signal: AbortSignal.timeout(8000),
+      }).then((r) => { if (!r.ok) console.error("lead: sheet answered", r.status); }, (e) => console.error("lead: sheet unreachable", e instanceof Error ? e.name : e))
+    : Promise.resolve();
+
   const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
   const chat = OWNER_CHAT_ID;
   // The reason is safe to show (no values) and lets the owner see which setting is missing.
-  if (!token) return Response.json({ ok: false, reason: "no_token" }, { status: 503 });
+  if (!token) { await sheet; return Response.json({ ok: false, reason: "no_token" }, { status: 503 }); }
 
   // Plain text, no parse mode: whatever a visitor types is shown as typed, never as markup.
   const text = [
@@ -66,6 +78,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({ chat_id: chat, text, disable_web_page_preview: true }),
       signal: AbortSignal.timeout(8000),
     });
+    await sheet;
     if (!res.ok) {
       const answer = await res.json().catch(() => ({}));
       const detail = typeof answer.description === "string" ? answer.description.slice(0, 120) : "";
@@ -75,7 +88,8 @@ export async function POST(request: Request) {
     }
   } catch (e) {
     console.error("lead: telegram unreachable", e instanceof Error ? e.name : e);
-    return Response.json({ ok: false }, { status: 503 });
+    await sheet;
+    return Response.json({ ok: false, reason: "telegram_unreachable" }, { status: 503 });
   }
   return Response.json({ ok: true });
 }

@@ -38,6 +38,8 @@ export const contacts = {
   email: "velorievvork@gmail.com",
   whatsapp: "https://wa.me/393290890590",
   whatsappLabel: "+39 329 089 05 90",
+  // Cal.com booking page, e.g. https://cal.com/veloriev/15min. Set in Vercel; the button appears only when it is set.
+  cal: process.env.NEXT_PUBLIC_CAL_URL?.trim() || "",
 };
 
 const auditText: Record<Locale, string> = {

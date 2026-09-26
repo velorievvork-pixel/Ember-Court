@@ -223,6 +223,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <a className="text-ink underline decoration-ink/30 underline-offset-4" href={`mailto:${contacts.email}`}>{contacts.email}</a>
                 <br />WhatsApp <a className="text-ink underline decoration-ink/30 underline-offset-4" href={contacts.whatsapp}>{contacts.whatsappLabel}</a>
               </p>
+              {contacts.cal && (
+                <a href={contacts.cal} target="_blank" rel="noopener" className={`${btnGhost} mt-6`}>{t("l.form.call")}</a>
+              )}
             </div>
             <LeadForm lang={lang} telegram={contacts.telegram} labels={{
               name: t("l.form.name"), site: t("l.form.site"), contact: t("l.form.contact"), need: t("l.form.need"),
