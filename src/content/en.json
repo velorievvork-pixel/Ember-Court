@@ -251,7 +251,14 @@
   "h.q7": "Who writes the messages?",
   "h.a7": "Our assistant drafts each message from verified facts about the company and by rules we set: no template phrases, prices or promises. Real questions, calls and lead handover are handled by a person.",
   "h.h1a": "We bring B2B clients while you close",
-  "h.h1b": "deals"
+  "h.h1b": "deals",
+  "clock.open": "It is {time} in Astana, we are at the desk",
+  "clock.closed": "It is {time} in Astana, we will reply {when}",
+  "clock.morning": "in the morning",
+  "clock.monday": "on Monday",
+  "l.form.done": "Your message is ready. Telegram opened in a new tab; just press Send.",
+  "l.form.again": "Open Telegram again",
+  "l.form.edit": "Edit the request"
  },
  "services": {
   "jump.5": "Website audit",
