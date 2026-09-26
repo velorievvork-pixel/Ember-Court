@@ -44,7 +44,8 @@ export async function POST(request: Request) {
 
   const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
   const chat = process.env.TELEGRAM_CHAT_ID?.trim();
-  if (!token || !chat) return Response.json({ ok: false }, { status: 503 });
+  // The reason is safe to show (no values) and lets the owner see which setting is missing.
+  if (!token || !chat) return Response.json({ ok: false, reason: !token ? "no_token" : "no_chat_id" }, { status: 503 });
 
   // Plain text, no parse mode: whatever a visitor types is shown as typed, never as markup.
   const text = [
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
     });
     if (!res.ok) {
       console.error("lead: telegram answered", res.status, (await res.text()).slice(0, 200));
-      return Response.json({ ok: false }, { status: 503 });
+      return Response.json({ ok: false, reason: `telegram_${res.status}` }, { status: 503 });
     }
   } catch (e) {
     console.error("lead: telegram unreachable", e instanceof Error ? e.name : e);
