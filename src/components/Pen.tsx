@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 /** A hand-drawn underline under one word, drawn once after the headline lands. */
-export function PenUnderline({ children, delay = 0.9 }: { children: ReactNode; delay?: number }) {
+export function PenUnderline({ children, delay = 0.9, onView = false }: { children: ReactNode; delay?: number; onView?: boolean }) {
   const reduce = useReducedMotion();
   return (
     <span className="relative inline-block whitespace-nowrap">
@@ -23,7 +23,9 @@ export function PenUnderline({ children, delay = 0.9 }: { children: ReactNode; d
           d="M2 9 C 40 4, 80 11, 120 7 S 180 5, 198 8"
           fill="none" stroke="var(--color-pen)" strokeWidth="3.2" strokeLinecap="round"
           initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
+          {...(onView
+            ? { whileInView: { pathLength: 1, opacity: 1 }, viewport: { once: true, margin: "0px 0px -15% 0px" } }
+            : { animate: { pathLength: 1, opacity: 1 } })}
           transition={{ delay, duration: 0.7, ease }}
         />
       </svg>

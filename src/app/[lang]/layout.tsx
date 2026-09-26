@@ -5,7 +5,7 @@ import { isLocale, locales, SITE } from "@/lib/i18n";
 import "../globals.css";
 
 const golos = Golos_Text({ subsets: ["latin", "cyrillic"], variable: "--font-golos" });
-const ptSerif = PT_Serif({ subsets: ["latin", "cyrillic"], weight: ["400"], variable: "--font-pt-serif" });
+const ptSerif = PT_Serif({ subsets: ["latin", "cyrillic"], weight: ["400"], style: ["normal", "italic"], variable: "--font-pt-serif" });
 
 export const dynamicParams = false;
 export function generateStaticParams() {

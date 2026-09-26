@@ -116,6 +116,29 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </section>
 
+        {/* The person at the desk: a letter-face signature and three rules the work is held to. */}
+        <section className="border-t border-rule bg-paper-deep/60">
+          <div className={`${wide} grid gap-10 py-20 sm:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16`}>
+            <div>
+              <h2 className={h2l}>{t("me.h")}</h2>
+              <p className="mt-6 font-letter text-[30px] leading-none text-ink">{t("me.name")}</p>
+              <p className="mt-2 text-[15px] text-ink-muted">{t("me.role")}</p>
+            </div>
+            <div>
+              <p className="max-w-[40rem] text-pretty font-letter text-[19px] leading-[1.65] text-ink">{t("me.p")}</p>
+              <ul className="mt-8 grid gap-4">
+                {[1, 2, 3].map((n, i) => (
+                  <li key={n} className="flex gap-3 text-[16px] leading-[1.55] text-ink-muted"><PenCheck delay={i * 0.12} className="mt-[-1px]" />{t(`me.r${n}`)}</li>
+                ))}
+              </ul>
+              <p className="mt-8 flex items-center gap-4">
+                <span className="font-letter text-[22px] italic text-ink"><PenUnderline delay={0.5} onView>{t("me.sign")}</PenUnderline></span>
+                <a href={contacts.telegram} className="text-[15px] text-ink-muted underline decoration-ink/30 underline-offset-4 transition-colors hover:text-ink hover:decoration-ink">Telegram {contacts.telegramHandle}</a>
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Pricing: one recommended entry point, the rest as a ruled list. */}
         <section id="pricing" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} py-20 sm:py-28`}>
