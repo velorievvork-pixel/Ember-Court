@@ -1,62 +1,43 @@
-"use client";
-
-import { motion, useReducedMotion, useScroll, useSpring } from "motion/react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /**
  * The red editor's pen is the site's one motion language (DESIGN.md: a desk at night, a red pen
  * explaining each line). Everything here is drawn by that pen: an underline, a tick, a reading line.
- * Default state is fully drawn, so a failed script never hides content.
+ * Plain CSS (globals.css, "Pen motion"): no animation library on the page. The default state is fully
+ * drawn, so a failed script or reduced motion never hides content. [data-inview] marks are switched on
+ * by InViewObserver when they scroll into view.
  */
 
-const ease = [0.16, 1, 0.3, 1] as const;
+const delay = (d: number) => ({ "--d": `${d}s` }) as CSSProperties;
 
-/** A hand-drawn underline under one word, drawn once after the headline lands. */
-export function PenUnderline({ children, delay = 0.9, onView = false }: { children: ReactNode; delay?: number; onView?: boolean }) {
-  const reduce = useReducedMotion();
+/** A hand-drawn underline under one word: drawn after the headline lands, or when scrolled into view. */
+export function PenUnderline({ children, delay: d = 0.9, onView = false }: { children: ReactNode; delay?: number; onView?: boolean }) {
   return (
     <span className="relative inline-block whitespace-nowrap">
       {children}
-      <svg aria-hidden viewBox="0 0 200 14" preserveAspectRatio="none"
-        className="pointer-events-none absolute -bottom-[0.12em] left-[-2%] h-[0.28em] w-[104%] overflow-visible">
-        <motion.path
-          d="M2 9 C 40 4, 80 11, 120 7 S 180 5, 198 8"
-          fill="none" stroke="var(--color-pen)" strokeWidth="3.2" strokeLinecap="round"
-          initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-          {...(onView
-            ? { whileInView: { pathLength: 1, opacity: 1 }, viewport: { once: true, margin: "0px 0px -15% 0px" } }
-            : { animate: { pathLength: 1, opacity: 1 } })}
-          transition={{ delay, duration: 0.7, ease }}
-        />
+      <svg aria-hidden viewBox="0 0 200 14" preserveAspectRatio="none" {...(onView ? { "data-inview": "" } : {})}
+        className={`pointer-events-none absolute -bottom-[0.12em] left-[-2%] h-[0.28em] w-[104%] overflow-visible ${onView ? "pen-draw-view" : "pen-draw-now"}`}
+        style={{ ...delay(d), "--dur": "0.7s" } as CSSProperties}>
+        <path d="M2 9 C 40 4, 80 11, 120 7 S 180 5, 198 8" pathLength={1}
+          fill="none" stroke="var(--color-pen)" strokeWidth="3.2" strokeLinecap="round" />
       </svg>
     </span>
   );
 }
 
 /** A pen tick, drawn when the line it confirms scrolls into view. */
-export function PenCheck({ delay = 0, className = "" }: { delay?: number; className?: string }) {
-  const reduce = useReducedMotion();
+export function PenCheck({ delay: d = 0, className = "" }: { delay?: number; className?: string }) {
   return (
-    <svg aria-hidden viewBox="0 0 24 24" className={`h-6 w-6 shrink-0 overflow-visible ${className}`}>
-      <motion.path
-        d="M4 13.5 C 6.5 15.5, 8 17.5, 9.5 19.5 C 12.5 13, 16 8, 20.5 4.5"
-        fill="none" stroke="var(--color-pen)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"
-        initial={reduce ? false : { pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-        transition={{ delay, duration: 0.45, ease }}
-      />
+    <svg aria-hidden viewBox="0 0 24 24" data-inview="" style={delay(d)} className={`pen-draw-view h-6 w-6 shrink-0 overflow-visible ${className}`}>
+      <path d="M4 13.5 C 6.5 15.5, 8 17.5, 9.5 19.5 C 12.5 13, 16 8, 20.5 4.5" pathLength={1}
+        fill="none" stroke="var(--color-pen)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
-/** Reading position: a thin pen line under the header. Hidden for reduced motion (it only moves). */
+/** Reading position: a thin pen line under the header, driven by the page scroll (hidden where unsupported). */
 export function ReadingLine() {
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 });
-  if (reduce) return null;
-  return <motion.span aria-hidden style={{ scaleX }} className="absolute inset-x-0 -bottom-px h-px origin-left bg-pen" />;
+  return <span aria-hidden className="reading-line absolute inset-x-0 -bottom-px h-px origin-left bg-pen" />;
 }
 
 /** An arrow drawn in the same stroke as the pen, for "go there" links. */
@@ -70,19 +51,11 @@ export function Arrow({ className = "" }: { className?: string }) {
 }
 
 /** A refusal crossed out by the pen as it scrolls into view; every wrapped line gets its own stroke. */
-export function StruckLine({ text, delay = 0 }: { text: string; delay?: number }) {
-  const reduce = useReducedMotion();
-  const drawn = { backgroundSize: "100% 1.5px" };
+export function StruckLine({ text, delay: d = 0 }: { text: string; delay?: number }) {
   return (
-    <motion.span
-      className="bg-no-repeat text-ink-muted [box-decoration-break:clone] [-webkit-box-decoration-break:clone]"
-      style={{ backgroundImage: "linear-gradient(var(--color-pen), var(--color-pen))", backgroundPosition: "0 58%", ...(reduce ? drawn : {}) }}
-      initial={reduce ? false : { backgroundSize: "0% 1.5px" }}
-      whileInView={drawn}
-      viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ delay, duration: 0.5, ease }}
-    >
+    <span data-inview="" style={delay(d)}
+      className="pen-strike bg-no-repeat text-ink-muted [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
       {text}
-    </motion.span>
+    </span>
   );
 }
