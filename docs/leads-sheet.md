@@ -40,6 +40,16 @@ function doPost(e) {
     lock.releaseLock();
   }
 }
+
+// The Monday report asks how many requests came in: rows from the last 7 days and in total.
+function doGet() {
+  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  const rows = Math.max(sh.getLastRow() - 1, 0);
+  const since = Date.now() - 7 * 864e5;
+  const dates = rows ? sh.getRange(2, 1, rows, 1).getValues().flat() : [];
+  const week = dates.filter((d) => d instanceof Date && d.getTime() >= since).length;
+  return ContentService.createTextOutput(JSON.stringify({ week, total: rows })).setMimeType(ContentService.MimeType.JSON);
+}
 ```
 
 Колонки «Статус», «Следующий шаг», «Заметки» — для тебя: новая → написали → созвон → клиент / отказ.

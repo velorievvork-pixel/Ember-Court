@@ -55,11 +55,9 @@ export default async function Services({ params }: PageProps<"/[lang]/services">
               <h3 className="text-[24px] font-semibold tracking-[-0.02em]">{t("s2.ob.ch.h")}</h3>
               <dl className="border-b border-rule">
                 {channels.map((c, i) => (
-                  <Reveal key={c} delay={i * 0.05}>
-                    <div className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
-                      <dt className="text-[17px] font-semibold">{t(`s2.ob.ch.${c}.h`)}</dt>
-                      <dd className="text-[16px] leading-[1.6] text-ink-muted">{t(`s2.ob.ch.${c}.p`)}</dd>
-                    </div>
+                  <Reveal key={c} delay={i * 0.05} className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[9rem_1fr] sm:gap-6">
+                    <dt className="text-[17px] font-semibold">{t(`s2.ob.ch.${c}.h`)}</dt>
+                    <dd className="text-[16px] leading-[1.6] text-ink-muted">{t(`s2.ob.ch.${c}.p`)}</dd>
                   </Reveal>
                 ))}
               </dl>

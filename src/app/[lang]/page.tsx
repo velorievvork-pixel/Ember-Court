@@ -201,11 +201,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <h2 className={h2l}>{t("l.faq.h")}</h2>
             <dl className="mt-10 border-b border-rule">
               {faq.map(({ q, a }, i) => (
-                <Reveal key={q} delay={i * 0.03}>
-                  <div className="grid gap-2 border-t border-rule py-6 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
-                    <dt className="text-[17.5px] font-semibold leading-[1.4]">{q}</dt>
-                    <dd className="max-w-[40rem] text-[16px] leading-[1.6] text-ink-muted">{a}</dd>
-                  </div>
+                <Reveal key={q} delay={i * 0.03} className="grid gap-2 border-t border-rule py-6 md:grid-cols-[0.8fr_1.2fr] md:gap-16">
+                  <dt className="text-[17.5px] font-semibold leading-[1.4]">{q}</dt>
+                  <dd className="max-w-[40rem] text-[16px] leading-[1.6] text-ink-muted">{a}</dd>
                 </Reveal>
               ))}
             </dl>
@@ -227,7 +225,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <a href={contacts.cal} target="_blank" rel="noopener" className={`${btnGhost} mt-6`}>{t("l.form.call")}</a>
               )}
             </div>
-            <LeadForm lang={lang} telegram={contacts.telegram} labels={{
+            <LeadForm lang={lang} telegram={contacts.telegram} thanks={href(lang, "thanks")} labels={{
               name: t("l.form.name"), site: t("l.form.site"), contact: t("l.form.contact"), need: t("l.form.need"),
               options: t("l.form.opt").split("|"), send: t("l.form.send"), sending: t("l.form.sending"), msg: t("l.form.msg"),
               ok: t("l.form.ok"), more: t("l.form.more"), done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
