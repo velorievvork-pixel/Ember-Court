@@ -1,0 +1,14 @@
+# /etc/systemd/system/clipbot.service — запуск бота на VPS без Docker
+[Unit]
+Description=Clipper Telegram bot
+After=network-online.target
+
+[Service]
+WorkingDirectory=/opt/ember-court/bot
+ExecStart=/opt/ember-court/.venv/bin/python -m clipbot
+Restart=always
+RestartSec=5
+User=clipbot
+
+[Install]
+WantedBy=multi-user.target

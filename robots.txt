@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://ember-court.vercel.app/sitemap.xml
