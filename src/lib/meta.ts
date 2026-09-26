@@ -5,6 +5,7 @@ const titles: Record<Page, (t: (k: string) => string) => string> = {
   index: (t) => t("meta.title"),
   services: (t) => `${t("nav.services")} | Ember Court`,
   clients: (t) => `${t("nav.clients")} | Ember Court`,
+  thanks: (t) => t("ty.title"),
 };
 
 /** Title, description, canonical and hreflang alternates for one page in one language. */
@@ -19,6 +20,7 @@ export function pageMetadata(lang: Locale, page: Page): Metadata {
       canonical: href(lang, page),
       languages: { ...Object.fromEntries(locales.map((l) => [l, href(l, page)])), "x-default": href("ru", page) },
     },
+    ...(page === "thanks" ? { robots: { index: false, follow: true } } : {}),
     openGraph: { type: "website", siteName: "Ember Court", title, description, url: href(lang, page), locale: lang },
   };
 }

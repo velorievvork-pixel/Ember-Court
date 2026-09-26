@@ -574,5 +574,22 @@
   "c2.close.h": "Sounds like your situation?",
   "c2.close.p": "Write a couple of lines about the product and clients. We will say honestly whether we fit and when we can start a pilot.",
   "og.note": "Camirix: the task, channels, week one"
+ },
+ "thanks": {
+  "nav.home": "Home",
+  "nav.services": "Services",
+  "nav.clients": "Clients",
+  "nav.cta": "Get in touch",
+  "footer.tag": "Precision over volume",
+  "ty.title": "Request sent | Ember Court",
+  "ty.h1": "We have your request",
+  "ty.p": "Yaroslav reads it himself and replies where you asked: Telegram, WhatsApp or email. Usually within a business day.",
+  "ty.urgent": "If it is urgent, message us on Telegram",
+  "ty.wait": "While you wait",
+  "ty.case.h": "How it went for Camirix",
+  "ty.case.p": "The task, the channels and the first week in numbers.",
+  "ty.pilot.h": "What the pilot includes",
+  "ty.pilot.p": "How we pick companies, how we write and what we never do.",
+  "ty.back": "Back to home"
  }
 }

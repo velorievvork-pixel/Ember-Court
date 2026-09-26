@@ -4,7 +4,7 @@ import uk from "@/content/uk.json";
 
 export const locales = ["ru", "en", "uk"] as const;
 export type Locale = (typeof locales)[number];
-export type Page = "index" | "services" | "clients";
+export type Page = "index" | "services" | "clients" | "thanks";
 
 const dictionaries = { ru, en, uk };
 
@@ -54,16 +54,19 @@ export const descriptions: Record<Locale, Record<Page, string>> = {
     index: "Приводим B2B-клиентов в Казахстане и СНГ: находим компании, которые сейчас нанимают под вашу задачу, и пишем руководителю в WhatsApp и на почту. Пилот на 2 недели — $250.",
     services: "Outbound для B2B в Казахстане и СНГ: как находим, проверяем и пишем, каналы и цены. Плюс сайты, боты для заявок, аудит и видео.",
     clients: "Клиент Ember Court — Camirix: задача, каналы и результат первой недели. И кому мы подходим.",
+    thanks: "Заявка отправлена. Ярослав ответит в течение рабочего дня.",
   },
   en: {
     index: "We bring B2B clients in Kazakhstan and Central Asia: companies hiring for the job your product does, messaged on WhatsApp and by email. 2-week pilot for $250.",
     services: "B2B outbound in Kazakhstan and Central Asia: how we find, vet and write, channels and prices. Plus websites, lead bots, audits and video.",
     clients: "Ember Court's client Camirix: the task, channels and first-week result. And who we fit.",
+    thanks: "Request sent. Yaroslav replies within a business day.",
   },
   uk: {
     index: "Приводимо B2B-клієнтів у Казахстані та Центральній Азії: компанії, які зараз наймають під ваше завдання, пишемо керівнику у WhatsApp і на пошту. Пілот на 2 тижні — $250.",
     services: "Outbound для B2B у Казахстані та Центральній Азії: як знаходимо, перевіряємо й пишемо, канали й ціни. Плюс сайти, боти для заявок, аудит і відео.",
     clients: "Клієнт Ember Court — Camirix: завдання, канали й результат першого тижня. І кому ми підходимо.",
+    thanks: "Заявку надіслано. Ярослав відповість протягом робочого дня.",
   },
 };
 

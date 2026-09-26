@@ -225,7 +225,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <a href={contacts.cal} target="_blank" rel="noopener" className={`${btnGhost} mt-6`}>{t("l.form.call")}</a>
               )}
             </div>
-            <LeadForm lang={lang} telegram={contacts.telegram} labels={{
+            <LeadForm lang={lang} telegram={contacts.telegram} thanks={href(lang, "thanks")} labels={{
               name: t("l.form.name"), site: t("l.form.site"), contact: t("l.form.contact"), need: t("l.form.need"),
               options: t("l.form.opt").split("|"), send: t("l.form.send"), sending: t("l.form.sending"), msg: t("l.form.msg"),
               ok: t("l.form.ok"), more: t("l.form.more"), done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),

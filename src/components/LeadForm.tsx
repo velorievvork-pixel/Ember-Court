@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { PenCheck } from "./Pen";
 import { btnAccent, btnGhost } from "./ui";
@@ -14,7 +15,8 @@ type Labels = {
  * The request goes to the owner's Telegram through the site's bot (/api/lead).
  * If that fails for any reason, the form falls back to the old path: Telegram opens with the message prefilled.
  */
-export default function LeadForm({ lang, telegram, labels }: { lang: string; telegram: string; labels: Labels }) {
+export default function LeadForm({ lang, telegram, thanks, labels }: { lang: string; telegram: string; thanks: string; labels: Labels }) {
+  const router = useRouter();
   const [need, setNeed] = useState(labels.options[0]);
   const [state, setState] = useState<"form" | "sending" | "ok" | "fallback">("form");
   const [fallback, setFallback] = useState("");
@@ -35,7 +37,10 @@ export default function LeadForm({ lang, telegram, labels }: { lang: string; tel
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ ...v, need, lang, website: f.get("website"), elapsed: Date.now() - opened.current }),
       });
-      if (res.ok) return setState("ok");
+      if (res.ok) {
+        setState("ok");
+        return router.push(thanks);   // the thank-you page view is the conversion in analytics
+      }
     } catch { /* fall through to Telegram */ }
 
     const text = labels.msg.replace("{name}", v.name).replace("{site}", v.site).replace("{contact}", v.contact).replace("{need}", need);
