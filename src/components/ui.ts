@@ -17,10 +17,10 @@ export const lead = "text-[clamp(1.5rem,2.8vw,2.125rem)] font-medium leading-[1.
 /** Landing CTA: solid ember, the page's one accent. */
 export const btnAccent =
   "inline-flex min-h-12 items-center justify-center whitespace-nowrap rounded-[8px] bg-ember px-6 py-3 text-[15.5px] font-semibold text-paper " +
-  "transition-colors hover:bg-[#f7b57a]";
+  "transition-[background-color,transform] duration-200 hover:bg-[#f7b57a] active:scale-[0.98]";
 export const btnGhost =
   "inline-flex min-h-12 items-center justify-center gap-2 whitespace-nowrap rounded-[8px] border border-ink/20 px-6 py-3 text-[15.5px] font-medium text-ink " +
-  "transition-colors hover:border-ink/35";
+  "transition-[border-color,transform] duration-200 hover:border-ink/35 active:scale-[0.98]";
 export const card = "rounded-[16px] border border-rule bg-sheet/70";
 export const wide = "mx-auto w-full max-w-[1160px] px-4 sm:px-6";
 export const h2l = "text-[clamp(1.875rem,3.6vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.025em]";

@@ -9,6 +9,8 @@
   --color-ink-muted: #9aa4b5;
   --color-rule: #2a3550;
   --color-pen: #f0766b;
+  /* Pen for small text on the ruled sheet: #f0766b fell to 4.4:1 there (impeccable detect, 26.09). */
+  --color-pen-ink: #f48c83;
   --color-ember: #f5a35c;
 
   --font-sans: var(--font-golos), system-ui, sans-serif;
@@ -29,6 +31,21 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+/* Paper grain: a fixed, faint noise layer so the night-blue page is not a flat vector fill. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 ::selection { background: var(--color-ink); color: var(--color-paper); }
