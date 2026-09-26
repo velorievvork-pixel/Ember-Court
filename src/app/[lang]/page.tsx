@@ -35,6 +35,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   };
   const faq = [
     ...[1, 2].map((n) => ({ q: t(`l.q${n}`), a: t(`l.a${n}`) })),
+    { q: t("l.q5"), a: t("l.a5") },
     { q: t("h.q6"), a: t("h.a6") }, { q: t("h.q7"), a: t("h.a7") },
     ...[3, 4].map((n) => ({ q: t(`l.q${n}`), a: t(`l.a${n}`) })),
   ];
