@@ -65,8 +65,11 @@ export async function POST(request: Request) {
       signal: AbortSignal.timeout(8000),
     });
     if (!res.ok) {
-      console.error("lead: telegram answered", res.status, (await res.text()).slice(0, 200));
-      return Response.json({ ok: false, reason: `telegram_${res.status}` }, { status: 503 });
+      const answer = await res.json().catch(() => ({}));
+      const detail = typeof answer.description === "string" ? answer.description.slice(0, 120) : "";
+      console.error("lead: telegram answered", res.status, detail);
+      // Telegram's own wording ("chat not found", "bot can't initiate conversation…") names the fix; it holds no secrets.
+      return Response.json({ ok: false, reason: `telegram_${res.status}`, detail }, { status: 503 });
     }
   } catch (e) {
     console.error("lead: telegram unreachable", e instanceof Error ? e.name : e);
