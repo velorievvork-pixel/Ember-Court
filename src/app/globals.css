@@ -23,6 +23,10 @@
 html {
   color-scheme: dark;
   background: var(--color-paper);
+  /* Browser surfaces carry the palette too: scrollbar, caret, native controls. */
+  scrollbar-color: var(--color-rule) var(--color-paper);
+  accent-color: var(--color-ember);
+  caret-color: var(--color-pen);
 }
 
 body {

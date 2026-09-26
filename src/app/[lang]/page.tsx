@@ -2,6 +2,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LeadForm from "@/components/LeadForm";
+import { Arrow, PenCheck, PenUnderline } from "@/components/Pen";
 import { MethodSteps, Reveal } from "@/components/Reveal";
 import Letter from "@/components/Letter";
 import { btnAccent, btnGhost, h2l, wide } from "@/components/ui";
@@ -50,9 +51,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {/* Hero: the offer on the left, the product itself (an annotated first message) on the right. */}
         <section className={`${wide} grid gap-14 pb-16 pt-14 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:pb-24`}>
           <div>
-            <p className="text-[15px] font-medium text-ember">{t("h.kicker")}</p>
-            <h1 className="mt-4 max-w-[16ch] text-balance text-[clamp(2.5rem,5.4vw,4.25rem)] font-semibold leading-[1.02] tracking-[-0.035em]">
-              {t("h.h1")}
+            <h1 className="max-w-[16ch] text-balance text-[clamp(2.5rem,5.4vw,4.25rem)] font-semibold leading-[1.04] tracking-[-0.035em]">
+              {t("h.h1a")} <PenUnderline>{t("h.h1b")}</PenUnderline>
             </h1>
             <p className="mt-6 max-w-[34rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("h.sub")}</p>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -67,39 +67,39 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </section>
 
-        {/* Facts we actually enforce, not promises. */}
+        {/* Rules we actually enforce, each ticked by the pen as it comes into view. */}
         <section className="border-y border-rule bg-paper-deep/60">
-          <dl className={`${wide} grid grid-cols-2 gap-x-6 gap-y-8 py-10 lg:grid-cols-4`}>
+          <ul className={`${wide} grid gap-x-10 gap-y-5 py-10 sm:grid-cols-2`}>
             {[1, 2, 3, 4].map((n, i) => (
-              <Reveal key={n} delay={i * 0.06}>
-                <dt className="text-[clamp(1.6rem,2.6vw,2.1rem)] font-semibold leading-none tracking-[-0.025em] tabular-nums">{t(`h.f${n}.n`)}</dt>
-                <dd className="mt-2 max-w-[16rem] text-[14.5px] leading-[1.45] text-ink-muted">{t(`h.f${n}.l`)}</dd>
-              </Reveal>
+              <li key={n} className="flex items-start gap-3.5">
+                <PenCheck delay={i * 0.12} className="mt-[1px]" />
+                <p className="text-[16.5px] leading-[1.5] text-ink-muted">
+                  <span className="font-semibold text-ink">{t(`h.f${n}.n`)}</span> {t(`h.f${n}.l`)}
+                </p>
+              </li>
             ))}
-          </dl>
+          </ul>
         </section>
 
         {/* Method: the differentiator, told as a sequence. */}
         <section className={`${wide} py-20 sm:py-28`}>
-          <Reveal>
-            <h2 className={`${h2l} text-balance`}>{t("h.m.h")}</h2>
-            <p className="mt-4 max-w-[38rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("h.m.lead")}</p>
-          </Reveal>
+          <h2 className={`${h2l} text-balance`}>{t("h.m.h")}</h2>
+          <p className="mt-4 max-w-[38rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("h.m.lead")}</p>
           <MethodSteps steps={steps} />
         </section>
 
         {/* Case. */}
         <section className="border-t border-rule">
           <div className={`${wide} grid gap-10 py-20 sm:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
-            <Reveal>
+            <div>
               <p className="text-[14.5px] text-ink-muted">{t("l.case.label")}</p>
               <h2 className="mt-2 text-balance text-[clamp(1.7rem,2.8vw,2.3rem)] font-semibold leading-[1.12] tracking-[-0.025em]">{t("l.case.h")}</h2>
               <p className="mt-4 max-w-[34rem] text-pretty text-[16.5px] leading-[1.6] text-ink-muted">{t("l.case.p")}</p>
               <Link href={href(lang, "clients")} className="mt-6 inline-block text-[15px] underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
                 {t("clientsteaser.link")}
               </Link>
-            </Reveal>
-            <Reveal delay={0.08}>
+            </div>
+            <Reveal>
               <dl className="border-b border-rule">
                 {[1, 2, 3].map((n) => (
                   <div key={n} className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[11rem_1fr] sm:gap-6">
@@ -115,15 +115,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {/* Pricing: one recommended entry point, the rest as a ruled list. */}
         <section id="pricing" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} py-20 sm:py-28`}>
-            <Reveal>
-              <h2 className={`${h2l} text-balance`}>{t("h.pr.h")}</h2>
-              <p className="mt-4 max-w-[38rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("h.pr.lead")}</p>
-            </Reveal>
+            <h2 className={`${h2l} text-balance`}>{t("h.pr.h")}</h2>
+            <p className="mt-4 max-w-[38rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("h.pr.lead")}</p>
             <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-14">
               <Reveal>
                 <div className="relative overflow-hidden rounded-[14px] border border-ember/60 bg-sheet p-7 sm:p-9">
-                  <p className="text-[14px] font-medium text-ember">{t("h.pr.pilot.tag")}</p>
-                  <h3 className="mt-2 text-[22px] font-semibold tracking-[-0.015em]">{t("h.pr.pilot.h")}</h3>
+                  <h3 className="text-[22px] font-semibold tracking-[-0.015em]">{t("h.pr.pilot.h")}</h3>
                   <p className="mt-5 flex items-baseline gap-3">
                     <span className="text-[clamp(3rem,6vw,4rem)] font-semibold leading-none tracking-[-0.04em] tabular-nums">{t("h.pr.pilot.price")}</span>
                     <span className="text-[14.5px] text-ink-muted">{t("h.pr.pilot.local")}</span>
@@ -135,7 +132,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-7 border-l-2 border-pen pl-4 text-[15px] leading-[1.5] text-ink">{t("h.pr.pilot.g")}</p>
+                  <p className="mt-7 flex gap-3 text-[15px] leading-[1.5] text-ink"><PenCheck className="mt-[-1px]" />{t("h.pr.pilot.g")}</p>
                   <a href="#lead" className={`${btnAccent} mt-8 w-full`}>{t("h.pr.pilot.cta")}</a>
                 </div>
               </Reveal>
@@ -160,10 +157,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {/* Secondary services. */}
         <section className="border-t border-rule">
           <div className={`${wide} grid gap-10 py-20 sm:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16`}>
-            <Reveal>
+            <div>
               <h2 className={`${h2l} text-balance`}>{t("h.more.h")}</h2>
               <p className="mt-4 max-w-[26rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("h.more.lead")}</p>
-            </Reveal>
+            </div>
             <ul className="border-b border-rule">
               {SERVICES.map(({ key, anchor }, i) => (
                 <li key={key} className="border-t border-rule">
@@ -171,7 +168,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                     <Link href={href(lang, "services", `#${anchor}`)} className="group grid gap-1 py-5 sm:grid-cols-[12rem_1fr_auto] sm:items-baseline sm:gap-6">
                       <span className="text-[18px] font-semibold">{t(`svc.${key}.title`)}</span>
                       <span className="text-[15.5px] leading-[1.5] text-ink-muted">{t(`l.svc.${key}`)}</span>
-                      <span aria-hidden className="hidden text-ink-muted transition-transform duration-200 group-hover:translate-x-1 group-hover:text-ink sm:block">→</span>
+                      <Arrow className="hidden text-ink-muted transition-[transform,color] duration-200 ease-out group-hover:translate-x-1 group-hover:text-pen sm:block" />
                     </Link>
                   </Reveal>
                 </li>
@@ -183,7 +180,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {/* FAQ: questions and answers side by side, nothing hidden behind a click. */}
         <section className="border-t border-rule">
           <div className={`${wide} py-20 sm:py-24`}>
-            <Reveal><h2 className={h2l}>{t("l.faq.h")}</h2></Reveal>
+            <h2 className={h2l}>{t("l.faq.h")}</h2>
             <dl className="mt-10 border-b border-rule">
               {faq.map(({ q, a }, i) => (
                 <Reveal key={q} delay={i * 0.03}>
@@ -200,7 +197,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         {/* Lead form */}
         <section id="lead" className="scroll-mt-20 border-t border-rule bg-paper-deep">
           <div className={`${wide} grid gap-12 py-20 sm:py-24 lg:grid-cols-2`}>
-            <Reveal>
+            <div>
               <h2 className={h2l}>{t("l.form.h")}</h2>
               <p className="mt-5 max-w-[30rem] text-[17px] leading-[1.6] text-ink-muted">{t("l.form.p")}</p>
               <p className="mt-8 text-[15px] leading-[1.8] text-ink-muted">
@@ -208,7 +205,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <a className="text-ink underline decoration-ink/30 underline-offset-4" href={`mailto:${contacts.email}`}>{contacts.email}</a>
                 <br />WhatsApp <a className="text-ink underline decoration-ink/30 underline-offset-4" href={contacts.whatsapp}>{contacts.whatsappLabel}</a>
               </p>
-            </Reveal>
+            </div>
             <LeadForm telegram={contacts.telegram} labels={{
               name: t("l.form.name"), site: t("l.form.site"), need: t("l.form.need"),
               options: t("l.form.opt").split("|"), send: t("l.form.send"), msg: t("l.form.msg"),

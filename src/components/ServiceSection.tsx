@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { StruckLine } from "./Pen";
 import { h2, muted, section, wrap } from "./ui";
 
 type T = (k: string) => string;
@@ -23,8 +24,8 @@ export function Rows({ items }: { items: { h: string; body: string }[] }) {
 export function Struck({ items }: { items: string[] }) {
   return (
     <ul className="grid gap-2.5">
-      {items.map((s) => (
-        <li key={s} className="struck text-[16px] leading-[1.6] text-ink-muted">{s}</li>
+      {items.map((s, i) => (
+        <li key={s} className="text-[16px] leading-[1.6]"><StruckLine text={s} delay={i * 0.12} /></li>
       ))}
     </ul>
   );
