@@ -1,11 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Analytics } from "@vercel/analytics/next";
+import InViewObserver from "@/components/InViewObserver";
 import { Golos_Text, PT_Serif } from "next/font/google";
 import { isLocale, locales, SITE } from "@/lib/i18n";
 import "../globals.css";
 
 const golos = Golos_Text({ subsets: ["latin", "cyrillic"], variable: "--font-golos" });
+// Serif is only the letter and the founder's note, which ink in after load: not preloaded, so the
+// four serif files never compete with the headline font on a slow connection.
 const ptSerif = PT_Serif({ subsets: ["latin", "cyrillic"], weight: ["400"], style: ["normal", "italic"], variable: "--font-pt-serif" });
 
 export const dynamicParams = false;
@@ -28,9 +31,14 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   return (
-    <html lang={lang} className={`${golos.variable} ${ptSerif.variable}`}>
+    <html lang={lang} className={`${golos.variable} ${ptSerif.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Entrance animations hide content only when JS will reveal it again (see globals.css). */}
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body className="min-h-[100dvh]">
         {children}
+        <InViewObserver />
         {/* Vercel Web Analytics: page views, no cookies. */}
         <Analytics />
       </body>

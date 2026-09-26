@@ -87,3 +87,68 @@ details > summary::-webkit-details-marker { display: none; }
   0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-ember) 55%, transparent); }
   100% { box-shadow: 0 0 0 7px transparent; }
 }
+
+/* ---------------------------------------------------------------------------------------------
+   Motion, CSS only (no animation library ships to the browser).
+   Every rule sits behind prefers-reduced-motion: no-preference, and anything that starts hidden
+   also needs html.js, so without JS or with reduced motion the page is simply fully drawn.
+   [data-inview] elements get [data-in] from InViewObserver when they scroll into view.
+   --------------------------------------------------------------------------------------------- */
+:root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); }
+
+/* The header's menu icon folds into a cross; the mobile menu slides open. */
+.menu-bar { transform-box: fill-box; transform-origin: center; }
+[data-open] > svg .menu-bar-top { transform: translateY(4px) rotate(45deg); }
+[data-open] > svg .menu-bar-bottom { transform: translateY(-4px) rotate(-45deg); }
+.mobile-nav { grid-template-rows: 0fr; visibility: hidden; }
+.mobile-nav[data-open] { grid-template-rows: 1fr; visibility: visible; }
+
+/* Reading position under the header, where scroll-driven animations exist. */
+.reading-line { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .menu-bar { transition: transform 220ms var(--ease-out); }
+  .mobile-nav { transition: grid-template-rows 260ms var(--ease-out), visibility 260ms; }
+
+  /* Reveal: rises into place once. */
+  .js .reveal { transition: opacity 700ms var(--ease-out) var(--d, 0s), transform 700ms var(--ease-out) var(--d, 0s); }
+  .js .reveal:not([data-in]) { opacity: 0; transform: translateY(18px); }
+
+  /* The pen draws its strokes: paths use pathLength=1, so a dash of 1 is the whole stroke. */
+  .pen-draw-now path, .js .pen-draw-view path { stroke-dasharray: 1; }
+  .pen-draw-now path { animation: pen-draw var(--dur, 0.45s) var(--ease-out) var(--d, 0s) both; }
+  .js .pen-draw-view path { transition: stroke-dashoffset var(--dur, 0.45s) var(--ease-out) var(--d, 0s); }
+  .js .pen-draw-view:not([data-in]) path { stroke-dashoffset: 1; }
+
+  /* A refusal struck through, line by line. */
+  .js .pen-strike { transition: background-size 500ms var(--ease-out) var(--d, 0s); }
+  .js .pen-strike:not([data-in]) { background-size: 0% 1.5px; }
+
+  /* A confirmation appears. */
+  .fade-up { animation: fade-up 400ms var(--ease-out) both; }
+
+  /* Letter: each line inked in, the margin stroke, then the pen's note. */
+  .letter-ink { animation: letter-ink 600ms var(--ease-out) var(--d, 0s) both; }
+  .letter-stroke { animation: letter-stroke 300ms var(--ease-out) var(--d, 0s) both; }
+  .letter-note { animation: letter-note 400ms var(--ease-out) var(--d, 0s) both; }
+
+  @supports (animation-timeline: scroll()) {
+    .reading-line { display: block; animation: grow-x linear both; animation-timeline: scroll(root); }
+    /* Method steps: the line runs from the list's top at 80% of the screen to its bottom at 55%. */
+    .method-line { animation: grow-y linear both; animation-timeline: view(block 55% 20%); animation-range: cover; }
+  }
+}
+
+.pen-strike {
+  background-image: linear-gradient(var(--color-pen), var(--color-pen));
+  background-position: 0 58%;
+  background-size: 100% 1.5px;
+}
+
+@keyframes pen-draw { from { stroke-dashoffset: 1; opacity: 0; } to { stroke-dashoffset: 0; opacity: 1; } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(8px); } }
+@keyframes letter-ink { from { clip-path: inset(0 100% 0 0); opacity: 0.4; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+@keyframes letter-stroke { from { transform: scaleY(0); } }
+@keyframes letter-note { from { opacity: 0; filter: blur(3px); } }
+@keyframes grow-x { from { transform: scaleX(0); } }
+@keyframes grow-y { from { transform: scaleY(0); } }

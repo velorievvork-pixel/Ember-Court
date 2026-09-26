@@ -1,42 +1,20 @@
-"use client";
+import type { CSSProperties, ReactNode } from "react";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef, type ReactNode } from "react";
-
-const spring = { type: "spring" as const, stiffness: 120, damping: 20, mass: 0.6 };
-
-/** Content rises into place once when it scrolls into view. Nothing moves for reduced-motion users. */
+/** Content rises into place once when it scrolls into view (CSS, see globals.css). Still for reduced motion. */
 export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
-  const reduce = useReducedMotion();
-  if (reduce) return <div className={className}>{children}</div>;
   return (
-    <motion.div
-      className={className}
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{ ...spring, delay }}
-    >
+    <div data-inview="" style={{ "--d": `${delay}s` } as CSSProperties} className={`reveal ${className ?? ""}`}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-/** The four method steps; the pen line draws itself as the list scrolls past. */
+/** The four method steps; the pen line draws itself as the list scrolls past (scroll-driven CSS). */
 export function MethodSteps({ steps }: { steps: { h: string; p: string }[] }) {
-  const ref = useRef<HTMLOListElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 80%", "end 55%"] });
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
   return (
-    <ol ref={ref} className="relative mt-12 grid gap-10 pl-8 sm:pl-12">
+    <ol className="relative mt-12 grid gap-10 pl-8 sm:pl-12">
       <span aria-hidden className="absolute left-[7px] top-2 bottom-2 w-px bg-rule sm:left-[11px]" />
-      <motion.span
-        aria-hidden
-        className="absolute left-[7px] top-2 bottom-2 w-px origin-top bg-pen sm:left-[11px]"
-        style={reduce ? undefined : { scaleY }}
-      />
+      <span aria-hidden className="method-line absolute left-[7px] top-2 bottom-2 w-px origin-top bg-pen sm:left-[11px]" />
       {steps.map((s, i) => (
         <li key={s.h} className="relative grid gap-2 md:grid-cols-[14rem_1fr] md:gap-10">
           <span aria-hidden className="absolute -left-8 top-[0.45em] grid h-[15px] w-[15px] place-items-center rounded-full border border-pen bg-paper sm:-left-12 sm:h-[23px] sm:w-[23px] sm:top-[0.2em]">

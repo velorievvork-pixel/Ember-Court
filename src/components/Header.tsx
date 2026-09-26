@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ReadingLine } from "./Pen";
@@ -14,7 +13,6 @@ export default function Header({ lang, page, labels }: {
   lang: Locale; page: Page; labels: { home: string; services: string; clients: string; cta: string; lang: string };
 }) {
   const [open, setOpen] = useState(false);
-  const reduce = useReducedMotion();
 
   useEffect(() => {
     if (!open) return;
@@ -52,33 +50,30 @@ export default function Header({ lang, page, labels }: {
           {langs}
           <a href={contacts.telegram} className={`${btnPrimary} min-h-10 py-2`}>{labels.cta}</a>
         </div>
-        <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} aria-controls="mobile-nav"
+        <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} data-open={open || undefined} aria-controls="mobile-nav"
           className="-mr-2 grid min-h-11 min-w-11 place-items-center md:hidden">
           <svg aria-hidden viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-            <motion.path animate={open ? { d: "M6 6 18 18" } : { d: "M4 8h16" }} transition={{ duration: reduce ? 0 : 0.22 }} />
-            <motion.path animate={open ? { d: "M6 18 18 6" } : { d: "M4 16h16" }} transition={{ duration: reduce ? 0 : 0.22 }} />
+            {/* Two bars fold into a cross (CSS transform, globals.css "Menu"). */}
+            <path d="M4 8h16" className="menu-bar menu-bar-top" />
+            <path d="M4 16h16" className="menu-bar menu-bar-bottom" />
           </svg>
           <span className="sr-only">Menu</span>
         </button>
       </div>
       <ReadingLine />
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div id="mobile-nav" className="overflow-hidden border-t border-rule md:hidden"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, height: 0 }}
-            animate={reduce ? { opacity: 1 } : { opacity: 1, height: "auto" }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, height: 0 }}
-            transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}>
-            <div className={`${wide} flex flex-col gap-2 py-4`}>
-              {links}
-              <div className="mt-2 flex items-center justify-between border-t border-rule pt-4">
-                {langs}
-                <a href={contacts.telegram} className={btnPrimary}>{labels.cta}</a>
-              </div>
+      {/* Always in the DOM so it can slide open and shut (grid rows 0fr ↔ 1fr); inert while closed. */}
+      <div id="mobile-nav" data-open={open || undefined} inert={!open}
+        className="mobile-nav grid border-rule md:hidden">
+        <div className="overflow-hidden">
+          <div className={`${wide} flex flex-col gap-2 border-t border-rule py-4`}>
+            {links}
+            <div className="mt-2 flex items-center justify-between border-t border-rule pt-4">
+              {langs}
+              <a href={contacts.telegram} className={btnPrimary}>{labels.cta}</a>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </div>
+        </div>
+      </div>
     </header>
   );
 }

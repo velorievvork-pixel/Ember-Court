@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { PenCheck } from "./Pen";
@@ -23,7 +22,6 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
   const [draft, setDraft] = useState({ name: "", site: "", contact: "" });   // kept for "edit the request"
   const opened = useRef(0);   // when the form was shown; a form filled in under 2.5 s is a bot
   useEffect(() => { opened.current = Date.now(); }, []);
-  const reduce = useReducedMotion();
 
   async function submit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -53,10 +51,7 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
 
   if (state === "ok" || state === "fallback") {
     return (
-      <AnimatePresence>
-        <motion.div role="status" initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-[4px] border border-rule bg-sheet px-6 py-7 sm:px-8">
+      <div role="status" className="fade-up rounded-[4px] border border-rule bg-sheet px-6 py-7 sm:px-8">
           <p className="flex gap-3 font-letter text-[18px] leading-[1.6] text-ink"><PenCheck className="mt-[2px]" />{state === "ok" ? labels.ok : labels.done}</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             {state === "fallback" && <a href={fallback} target="_blank" rel="noopener" className={btnAccent}>{labels.again}</a>}
@@ -64,8 +59,7 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
               {state === "ok" ? labels.more : labels.edit}
             </button>
           </div>
-        </motion.div>
-      </AnimatePresence>
+      </div>
     );
   }
 
