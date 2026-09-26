@@ -116,6 +116,20 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </section>
 
+        {/* The person at the desk. */}
+        <section className="border-t border-rule bg-paper-deep/60">
+          <div className={`${wide} grid gap-10 py-20 sm:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16`}>
+            <div>
+              <h2 className={h2l}>{t("me.h")}</h2>
+              <p className="mt-6 font-letter text-[30px] leading-none text-ink">{t("me.name")}</p>
+              <p className="mt-2 text-[15px] text-ink-muted">{t("me.role")}</p>
+            </div>
+            <div>
+              <p className="max-w-[40rem] text-pretty font-letter text-[19px] leading-[1.65] text-ink">{t("me.p")}</p>
+            </div>
+          </div>
+        </section>
+
         {/* Pricing: one recommended entry point, the rest as a ruled list. */}
         <section id="pricing" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} py-20 sm:py-28`}>
@@ -210,10 +224,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <br />WhatsApp <a className="text-ink underline decoration-ink/30 underline-offset-4" href={contacts.whatsapp}>{contacts.whatsappLabel}</a>
               </p>
             </div>
-            <LeadForm telegram={contacts.telegram} labels={{
-              name: t("l.form.name"), site: t("l.form.site"), need: t("l.form.need"),
-              options: t("l.form.opt").split("|"), send: t("l.form.send"), msg: t("l.form.msg"),
-              done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
+            <LeadForm lang={lang} telegram={contacts.telegram} labels={{
+              name: t("l.form.name"), site: t("l.form.site"), contact: t("l.form.contact"), need: t("l.form.need"),
+              options: t("l.form.opt").split("|"), send: t("l.form.send"), sending: t("l.form.sending"), msg: t("l.form.msg"),
+              ok: t("l.form.ok"), more: t("l.form.more"), done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
             }} />
           </div>
         </section>
