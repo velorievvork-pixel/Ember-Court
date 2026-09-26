@@ -1,8 +1,10 @@
 /**
  * The lead form posts here; the request is forwarded to the owner's Telegram by the site's bot.
- * The token lives only in the server environment (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID) and never
- * reaches the browser. Any failure answers 503 so the form can fall back to opening Telegram itself.
+ * The token lives only in the server environment (TELEGRAM_BOT_TOKEN) and never reaches the browser.
+ * The owner's chat id is not a secret, so it is kept here (the owner asked for it this way). Any failure answers 503 so the form can fall back to opening Telegram itself.
  */
+
+const OWNER_CHAT_ID = "8569333234";
 
 const LIMIT = { name: 80, site: 160, contact: 120, need: 80 };
 const seen = new Map<string, number[]>();   // best effort per instance: a few requests per IP per 10 min
@@ -43,9 +45,9 @@ export async function POST(request: Request) {
   if (tooMany(ip)) return Response.json({ ok: false }, { status: 429 });
 
   const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
-  const chat = process.env.TELEGRAM_CHAT_ID?.trim();
+  const chat = OWNER_CHAT_ID;
   // The reason is safe to show (no values) and lets the owner see which setting is missing.
-  if (!token || !chat) return Response.json({ ok: false, reason: !token ? "no_token" : "no_chat_id" }, { status: 503 });
+  if (!token) return Response.json({ ok: false, reason: "no_token" }, { status: 503 });
 
   // Plain text, no parse mode: whatever a visitor types is shown as typed, never as markup.
   const text = [
