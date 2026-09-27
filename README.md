@@ -3,7 +3,7 @@
 Сайт агентства: [ember-court.vercel.app](https://ember-court.vercel.app). Три страницы (главная, услуги, клиенты) на русском, английском и украинском.
 
 ## Стек
-Next.js 16 (App Router, статическая генерация), TypeScript, Tailwind CSS 4, Motion, Vercel.
+Next.js 16 (App Router, статическая генерация), TypeScript, Tailwind CSS 4, анимации на CSS, Vercel.
 Шрифты: Golos Text и PT Serif (Paratype).
 
 Дизайн-система описана в [`DESIGN.md`](DESIGN.md) в формате скилла anydesign. Рядом лежат `design-tokens.json` (токены в формате DTCG) и `design-a11y.md` (проверка контраста).
