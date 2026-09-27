@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { currentRecipient } from "@/lib/visit";
 import { PenCheck } from "./Pen";
 import { btnAccent, btnGhost } from "./ui";
 
@@ -33,7 +34,7 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
       const res = await fetch("/api/lead", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ ...v, need, lang, website: f.get("website"), elapsed: Date.now() - opened.current }),
+        body: JSON.stringify({ ...v, need, lang, r: currentRecipient(), website: f.get("website"), elapsed: Date.now() - opened.current }),
       });
       if (res.ok) {
         setState("ok");

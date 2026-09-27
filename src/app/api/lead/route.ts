@@ -4,6 +4,8 @@
  * The owner's chat id is not a secret, so it is kept here (the owner asked for it this way). Any failure answers 503 so the form can fall back to opening Telegram itself.
  */
 
+import { recipientName } from "@/lib/visit";
+
 const OWNER_CHAT_ID = "8569333234";
 
 const LIMIT = { name: 80, site: 160, contact: 120, need: 80 };
@@ -45,6 +47,7 @@ export async function POST(request: Request) {
     contact: clean(body.contact, LIMIT.contact),
     need: clean(body.need, LIMIT.need),
     lang: clean(body.lang, 2),
+    from: recipientName(clean(body.r, 30)),   // came by the link in our email to this company
   };
   if (!lead.name || !lead.site || !lead.contact) return Response.json({ ok: false }, { status: 400 });
 
@@ -76,6 +79,7 @@ export async function POST(request: Request) {
     `Связь: ${lead.contact}`,
     `Нужно: ${lead.need || "—"}`,
     `Язык сайта: ${lead.lang || "—"}`,
+    ...(lead.from ? [`Пришёл по ссылке из нашего письма: ${lead.from}`] : []),
   ].join("\n");
 
   try {
