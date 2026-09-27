@@ -203,7 +203,7 @@ LLMs default to clichés. Override these defaults proactively. Each rule has a c
     - **Terracotta + Slate:** warm rust against cool grey, no brass
     - **Olive + Brick + Paper:** muted olive plus brick-red accent
     - **Pure monochrome + single saturated pop:** off-white + off-black + one bright accent (electric blue, emerald, hot pink, etc.)
-  * **Palette-rotation rule:** if the previous premium-consumer project you generated used the beige+brass family, this one MUST use a different family. Do not ship the same warm-craft palette twice in a row.
+  * **Choose the family from the brief, not from habit:** beige+brass is the palette this section exists to stop you reaching for by default.
   * **Override:** the beige+brass+espresso palette is acceptable ONLY when the brand brief explicitly names those colors, or when the brand identity is genuinely vintage / artisan / warm-craft AND you can articulate why this specific palette fits this specific brand. Default-reaching for it because "this is a cookware brief" is banned.
 
 ### 4.3 Layout Diversification
@@ -264,7 +264,7 @@ LLMs default to "static successful state only." Always implement full cycles:
 Landing pages and portfolios are **visual products**. Text-only pages with fake-screenshot divs are slop.
 
 **Priority order for visual assets:**
-1. **Image-generation tool first.** If ANY image-gen tool is available in the environment (`generate_image`, MCP image tool, IDE-integrated gen, OpenAI image tools, etc.) you MUST use it to create section-specific assets: hero photography, product shots, texture backgrounds, mood images. Generate at the right aspect ratio for the section. Do not skip this step because hand-rolled CSS feels faster.
+1. **Image-generation tool first.** When an image-generation tool is available (`generate_image`, an MCP image tool, IDE-integrated generation, and so on), use it for section-specific assets: hero photography, product shots, texture backgrounds, mood images, at the section's aspect ratio.
 2. **Real web images second.** When no gen tool is available, use real photography sources. Acceptable defaults:
    * `https://picsum.photos/seed/{descriptive-seed}/{w}/{h}` for placeholder photography (seed should describe the section, e.g. `marrow-cookware-kitchen`)
    * Actual stock or brand URLs when the brief provides them

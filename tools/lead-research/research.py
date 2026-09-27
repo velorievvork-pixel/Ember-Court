@@ -283,12 +283,13 @@ def draft_claude(leads: list[Lead]) -> None:
     client = anthropic.Anthropic()
     rules = (
         "You write the first outreach message from Ember Court, a small studio that finds B2B clients by hand "
-        "(also builds websites and runs website audits). Rules, all mandatory:\n"
-        "- Open with one concrete observation about this company taken from the research below. Never invent facts.\n"
+        "(also builds websites and runs website audits). The reader is busy and has never heard of us.\n"
+        "- Open with one concrete observation about this company taken from the research below. Use only facts "
+        "from the research: a false claim in a first message loses the lead.\n"
         "- Frame the problem as a normal stage of growth, never as a mistake.\n"
         "- One sentence about us. No list of services, no call to book a meeting.\n"
         "- End with one concrete, non-rhetorical question.\n"
-        "- 60-90 words, plain language, no clichés like 'I hope this finds you well', no emojis.\n"
+        "- A few short sentences the reader takes in at a glance, written plainly, as one person writing to another.\n"
         "- Write in the language of the company's site (ru, uk or en); if unknown, write in Russian.\n"
         "Return the observation you opened with and the full message."
     )
@@ -299,7 +300,7 @@ def draft_claude(leads: list[Lead]) -> None:
         try:
             resp = client.messages.parse(
                 model=os.environ.get("LEAD_MODEL", "claude-opus-5"),
-                max_tokens=4000,
+                max_tokens=16000,
                 thinking={"type": "adaptive"},
                 output_config={"effort": "medium"},
                 system=rules,
