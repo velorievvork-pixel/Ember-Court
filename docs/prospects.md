@@ -27,15 +27,15 @@
 | COMPLEX DC (ТОО «БРИИГ», БИН 030140000424) | 215 млн ₸; долга, банкротства, бездействия нет (ba.prg.kz, КГД на 27.09) | проходит (проверено 28.09) |
 | EN Electronics, WellSun | не найдены цифры | проверяет сессия перед отправкой; не проходит — не отправляет |
 
-## Пачка 1 (письма уходят 28.09)
+## Пачка 1 (28.09)
 
-| Компания | Кому | Повод |
-|---|---|---|
-| Doodocs | team@doodocs.kz | hh.kz/vacancy/137527230 — BDM |
-| Rise Pay | hello@riseagency.kz | almaty.hh.kz/vacancy/135193545 |
-| ITP KZ | ns@itplanet.group | almaty.hh.kz/vacancy/137533748 |
-| BOYARD | info@boyard.asia | almaty.hh.kz/vacancy/137311812 |
-| COMPLEX DC | contact.kz@complex.com.kz | hh.kz/vacancy/137741585 |
+| Компания | Кому | Повод | Итог |
+|---|---|---|---|
+| Doodocs | team@doodocs.kz | hh.kz/vacancy/137527230 — BDM | снят по платёжеспособности, не отправлено |
+| Rise Pay | hello@riseagency.kz | almaty.hh.kz/vacancy/135193545 | снят по платёжеспособности, не отправлено |
+| ITP KZ | ns@itplanet.group | almaty.hh.kz/vacancy/137533748 | отправлено 28.09 ~05:49 UTC, threadId 1a0e68f20b7f3119 |
+| BOYARD | info@boyard.asia | almaty.hh.kz/vacancy/137311812 | отправлено 28.09 ~05:51 UTC, threadId 1a0e6912de83f74f |
+| COMPLEX DC | contact.kz@complex.com.kz | hh.kz/vacancy/137741585 | отправлено 28.09 ~05:57 UTC, threadId 1a0e6968aeaec75d |
 
 ## Пачка 2 (черновики 27.09)
 
