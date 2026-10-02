@@ -4,15 +4,8 @@ import { useEffect, useState } from "react";
 
 /**
  * Small pieces of the "desk at night" world that carry the brand's character.
- * Each one is either true information (the clock) or light the scene already implies (the lamp).
+ * Each one is either true information (the clock).
  */
-
-/** Warm light from a desk lamp falling on the letter. Breathes very slowly; still for reduced motion. */
-export function LampGlow() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute -inset-x-4 -top-16 -bottom-10 -z-10 lamp-glow lg:-inset-x-16 lg:-top-24" />
-  );
-}
 
 type ClockText = { open: string; closed: string; morning: string; monday: string };
 
