@@ -1,5 +1,6 @@
 "use client";
 
+import { track } from "@vercel/analytics";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { currentRecipient } from "@/lib/visit";
@@ -38,6 +39,7 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
         body: JSON.stringify({ ...v, need, lang, r: currentRecipient(), website: f.get("website"), elapsed: Date.now() - opened.current }),
       });
       if (res.ok) {
+        track("lead", { need });
         setState("ok");
         return router.push(thanks);   // the thank-you page view is the conversion in analytics
       }

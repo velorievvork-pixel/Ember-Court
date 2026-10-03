@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import LeadForm from "@/components/LeadForm";
 import MobileCta from "@/components/MobileCta";
+import TrackedLink from "@/components/TrackedLink";
 import { h2l, wide } from "@/components/ui";
 import { contacts, descriptions, getT, href, langLabel, SITE, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
@@ -42,6 +43,15 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
             }} />
             <p className="mt-4 text-[14.5px] text-ink-muted">{t("s.note")}</p>
+            <TrackedLink href={`${contacts.whatsapp}?text=${encodeURIComponent(t("s.wa.text"))}`} event="whatsapp"
+              className="mt-3 inline-block text-[15px] underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
+              {t("s.wa")} {contacts.whatsappLabel}
+            </TrackedLink>
+            {/* A one-person agency: the person who answers is the trust signal. */}
+            <p className="mt-6 flex items-center gap-3 border-t border-rule pt-5 text-[14.5px] leading-[1.45] text-ink-muted">
+              <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ember/15 font-semibold text-ember">{t("s.me").charAt(0)}</span>
+              {t("s.me")}
+            </p>
           </div>
         </section>
 
@@ -68,8 +78,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             </div>
             <dl className="border-b border-rule">
               {[
+                { h: t("s.hy.h"), price: t("s.hy.price"), p: t("s.hy.p") },
                 { h: t("h.pr.pilot.h"), price: t("h.pr.pilot.price"), p: t("h.pr.pilot.local") },
-                { h: t("h.pr.r1.h"), price: t("h.pr.r1.price"), p: t("h.pr.r1.p") },
               ].map((r) => (
                 <div key={r.h} className="grid grid-cols-[1fr_auto] gap-x-6 gap-y-1 border-t border-rule py-5">
                   <dt className="text-[18px] font-semibold">{r.h}</dt>
@@ -98,7 +108,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               </Link>
             </div>
             <dl className="border-b border-rule">
-              {[1, 2, 3].map((n) => (
+              {[1, 2, 3, 4].map((n) => (
                 <div key={n} className="grid gap-1 border-t border-rule py-5 sm:grid-cols-[11rem_1fr] sm:gap-6">
                   <dt className="text-[14.5px] text-ink-muted">{t(`l.case.k${n}`)}</dt>
                   <dd className="text-[16.5px]">{t(`l.case.v${n}`)}</dd>

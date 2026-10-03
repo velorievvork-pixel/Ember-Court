@@ -269,7 +269,15 @@
   "s.what.h": "What's in the list",
   "s.what": "The company and its website|An open job post that shows the need|The head of the company, from the registry|A contact from the company's own website, no bought databases",
   "s.next.h": "If you like the list",
-  "s.next.p": "We can write to these companies ourselves and pass you the ones who reply with interest."
+  "s.next.p": "We can write to these companies ourselves and pass you the ones who reply with interest.",
+  "l.case.k4": "Deals",
+  "l.case.v4": "2 closed deals in the first 2 weeks of work.",
+  "s.hy.h": "Pay for results",
+  "s.hy.price": "$250/mo + 10%",
+  "s.hy.p": "10% only of payments from clients we brought. No payments, no percentage.",
+  "s.wa": "Or message us on WhatsApp",
+  "s.wa.text": "Hi! I'd like 10 companies for my website: ",
+  "s.me": "Yaroslav, founder. I build and send the list myself."
  },
  "services": {
   "jump.5": "Website audit",
