@@ -12,6 +12,7 @@ type Labels = {
 };
 
 /**
+ * An empty name label drops the name field, and a single option drops the choice: the home page asks only for a site and a contact.
  * The request goes to the owner's Telegram through the site's bot (/api/lead).
  * If that fails for any reason, the form falls back to the old path: Telegram opens with the message prefilled.
  */
@@ -67,9 +68,11 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
   const field = "mt-1.5 w-full rounded-[8px] border border-rule bg-paper px-4 py-3 text-[15.5px] text-ink focus:border-ember/60 focus:outline-none";
   return (
     <form onSubmit={submit} className="grid gap-4">
-      <label className="text-[14px] text-ink-muted">{labels.name}
-        <input name="name" required maxLength={80} autoComplete="name" defaultValue={draft.name} className={field} />
-      </label>
+      {labels.name && (
+        <label className="text-[14px] text-ink-muted">{labels.name}
+          <input name="name" required maxLength={80} autoComplete="name" defaultValue={draft.name} className={field} />
+        </label>
+      )}
       <label className="text-[14px] text-ink-muted">{labels.site}
         <input name="site" required maxLength={160} autoComplete="organization" defaultValue={draft.site} className={field} />
       </label>
@@ -78,7 +81,7 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
       </label>
       {/* Hidden from people; bots that fill every field are dropped on the server. */}
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden className="absolute -left-[9999px] h-px w-px opacity-0" />
-      <fieldset>
+      {labels.options.length > 1 && <fieldset>
         <legend className="text-[14px] text-ink-muted">{labels.need}</legend>
         <div className="mt-2 flex flex-wrap gap-2">
           {labels.options.map((o) => (
@@ -88,7 +91,7 @@ export default function LeadForm({ lang, telegram, thanks, labels }: { lang: str
             </button>
           ))}
         </div>
-      </fieldset>
+      </fieldset>}
       <button type="submit" disabled={state === "sending"} className={`${btnAccent} mt-2 w-full disabled:opacity-70`}>
         {state === "sending" ? labels.sending : labels.send}
       </button>

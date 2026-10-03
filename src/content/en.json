@@ -258,7 +258,18 @@
   "l.form.call": "Book a 15-minute call",
   "og.note": "Two-week pilot — $250",
   "l.form.note": "The pilot is $250 for 2 weeks. No interested reply at all — we keep going 2 more weeks for free.",
-  "l.mcta": "Start with a $250 pilot"
+  "l.mcta": "Start with a $250 pilot",
+  "s.h1": "10 companies that need you right now",
+  "s.sub": "Send us your website. Within 1 business day, for free, we'll send 10 companies that are hiring right now for work your product covers.",
+  "s.site": "Your website",
+  "s.contact": "Where to send the list: Telegram, WhatsApp or email",
+  "s.send": "Get 10 companies",
+  "s.note": "No call, no payment.",
+  "s.ok": "Got it. The list arrives within a business day.",
+  "s.what.h": "What's in the list",
+  "s.what": "The company and its website|An open job post that shows the need|The head of the company, from the registry|A contact from the company's own website, no bought databases",
+  "s.next.h": "If you like the list",
+  "s.next.p": "We can write to these companies ourselves and pass you the ones who reply with interest."
  },
  "services": {
   "jump.5": "Website audit",

@@ -49,7 +49,7 @@ export async function POST(request: Request) {
     lang: clean(body.lang, 2),
     from: recipientName(clean(body.r, 30)),   // came by the link in our email to this company
   };
-  if (!lead.name || !lead.site || !lead.contact) return Response.json({ ok: false }, { status: 400 });
+  if (!lead.site || !lead.contact) return Response.json({ ok: false }, { status: 400 });
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
   if (tooMany(ip)) return Response.json({ ok: false }, { status: 429 });
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
   // Plain text, no parse mode: whatever a visitor types is shown as typed, never as markup.
   const text = [
     "Новая заявка с сайта",
-    `Имя: ${lead.name}`,
+    `Имя: ${lead.name || "—"}`,
     `Компания: ${lead.site}`,
     `Связь: ${lead.contact}`,
     `Нужно: ${lead.need || "—"}`,
