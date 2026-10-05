@@ -20,14 +20,10 @@ export function MethodSteps({ steps }: { steps: { h: string; p: string }[] }) {
           <span aria-hidden className="absolute -left-8 top-[0.45em] grid h-[15px] w-[15px] place-items-center rounded-full border border-pen bg-paper sm:-left-12 sm:h-[23px] sm:w-[23px] sm:top-[0.2em]">
             <span className="h-[5px] w-[5px] rounded-full bg-pen sm:h-[7px] sm:w-[7px]" />
           </span>
-          <Reveal delay={i * 0.04}>
-            <h3 className="text-[22px] font-semibold tracking-[-0.015em]">
-              <span className="mr-3 text-[15px] font-medium text-ink-muted tabular-nums">0{i + 1}</span>{s.h}
-            </h3>
-          </Reveal>
-          <Reveal delay={i * 0.04 + 0.05}>
-            <p className="max-w-[40rem] text-[17px] leading-[1.6] text-ink-muted">{s.p}</p>
-          </Reveal>
+          <h3 className="text-[22px] font-semibold tracking-[-0.015em]">
+            <span className="mr-3 text-[15px] font-medium text-ink-muted tabular-nums">0{i + 1}</span>{s.h}
+          </h3>
+          <p className="max-w-[40rem] text-[17px] leading-[1.6] text-ink-muted">{s.p}</p>
         </li>
       ))}
     </ol>
