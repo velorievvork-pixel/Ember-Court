@@ -64,7 +64,8 @@ minute. Commit messages and PR text never name the AI model.
 - Contacts only from the company's own site or registry filings; no leak databases, no bought lists.
 - A company is written to only if it is solvent: last year's taxes from 10 M ₸ or revenue from 300 M ₸
   (Russia: revenue from 100 M ₽), no tax debt, bankruptcy or high tax-risk status. Record the check in
-  `docs/prospects.md`.
+  `docs/prospects.md`. Exception (owner, 07.10): Ember Court's own clients are small firms with
+  last year's taxes from 1 to 4 M ₸, still without tax debt, bankruptcy or high tax-risk status.
 - No prices in a first message. In replies the published site prices may be named. Camirix prices are
   never named by us — only Artem, on a call.
 - No invented cases or numbers: there is one client (Camirix); only figures already on the site.
