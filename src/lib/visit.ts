@@ -12,6 +12,7 @@ export const RECIPIENTS: Record<string, string> = {
   lamper: "Lamper",
   ecolos: "Ecolos Engineering",
   wellsun: "WellSun",
+  unitedexpo: "United Expo",
 };
 
 let recipient: string | null = null;
