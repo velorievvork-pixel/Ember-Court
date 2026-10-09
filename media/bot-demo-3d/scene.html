@@ -6,7 +6,7 @@
   .ov{position:absolute;left:0;width:720px;text-align:center;color:#fff;opacity:0;white-space:normal;
       text-shadow:0 4px 24px rgba(0,0,0,.55)}
   .pill{position:absolute;left:50%;transform:translateX(-50%);padding:18px 34px;border-radius:40px;
-        color:#fff;font-weight:700;font-size:26px;opacity:0;white-space:nowrap;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+        color:#f3d9d4;font-size:23px;opacity:0;white-space:nowrap;border:1px solid rgba(255,255,255,.14);box-shadow:0 10px 40px rgba(0,0,0,.35)}
   #dip{position:absolute;inset:0;background:#000;opacity:0}
 </style>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
@@ -184,7 +184,7 @@ const moonL = new THREE.DirectionalLight(0x9fc4ff, 0.8); moonL.position.set(-10,
 const moon = new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 16), new THREE.MeshBasicMaterial({ color: 0xf3f0dc }));
 moon.position.set(-9, 17, -48); A.add(moon);
 const moonGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xbfd8ff, transparent: true, opacity: .55, depthWrite: false, blending: THREE.AdditiveBlending }));
-moonGlow.scale.set(16, 16, 1); moonGlow.position.copy(moon.position); A.add(moonGlow);
+moonGlow.scale.set(10, 10, 1); moonGlow.position.copy(moon.position); A.add(moonGlow);
 const ground = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshStandardMaterial({ color: 0x08161c, roughness: .6, metalness: .3, envMap: envTex, envMapIntensity: .15 }));
 ground.rotation.x = -Math.PI / 2; A.add(ground);
 const grid = new THREE.GridHelper(300, 120, 0x1b6b5e, 0x0f3b36); grid.position.y = .01; grid.material.transparent = true; grid.material.opacity = .25; A.add(grid);
@@ -240,7 +240,7 @@ const rings = new THREE.Group(); B.add(rings); rings.position.z = -3;
 for (const [r, c, o] of [[4.2, 0x2ee6c1, .55], [5.3, 0x3aa0ff, .3], [6.6, 0x2ee6c1, .18]]) {
   const m = new THREE.Mesh(new THREE.TorusGeometry(r, .025, 8, 200), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: o }));
   m.userData.o = o; rings.add(m); }
-const dustB = particles(450, 21, [16, 22, 12, -2], .09, 0x9ff5e2); B.add(dustB);
+const dustB = particles(160, 21, [16, 22, 12, -4], .05, 0x9ff5e2); dustB.material.opacity = .25; B.add(dustB); rings.visible = false;
 // bot orb
 const orb = new THREE.Group(); B.add(orb);
 const core = new THREE.Mesh(new THREE.SphereGeometry(.3, 48, 24), new THREE.MeshStandardMaterial({ color: 0x0d5a4f, emissive: 0x41f2cf, emissiveIntensity: 2.4, roughness: .3 }));
@@ -279,8 +279,8 @@ C.add(new THREE.HemisphereLight(0xfff1e0, 0x0f2a30, 0.9));
 const sunL = new THREE.DirectionalLight(0xffe2c0, 1.8); sunL.position.set(3, 6, 8); C.add(sunL);
 const sun = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xffd7a0, transparent: true, opacity: .9, depthWrite: false, blending: THREE.AdditiveBlending }));
 sun.scale.set(14, 14, 1); sun.position.set(-1.5, 5.5, -20); C.add(sun);
-const dustC = particles(300, 31, [16, 22, 10, -4], .08, 0xfff0d0); C.add(dustC);
-const ringsC = rings.clone(); ringsC.position.set(0, 0, -5); C.add(ringsC);
+const dustC = particles(120, 31, [16, 22, 10, -6], .05, 0xfff0d0); dustC.material.opacity = .25; C.add(dustC);
+const ringsC = rings.clone(); ringsC.visible = false;
 function infoTex(icon, iconCol, head, sub) { return cardTexture(1020, 300, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
   g.fillStyle = iconCol; g.beginPath(); g.arc(90, h / 2, 50, 0, 6.28); g.fill();
   g.fillStyle = '#fff'; g.font = `bold 50px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(icon, 90, h / 2 + 2); g.textAlign = 'left';
@@ -305,21 +305,25 @@ const orbC = orb.clone(); C.add(orbC); orbC.scale.setScalar(.8);
 const ovRoot = document.getElementById('overlays'); const OV = [];
 function ov(html, top, t0, t1, style = '') { const d = document.createElement('div'); d.className = 'ov'; d.style.top = top + 'px'; d.style.cssText += style; d.innerHTML = html; ovRoot.appendChild(d); OV.push({ d, t0, t1 }); }
 function pill(text, bottom, bg, t0, t1) { const d = document.createElement('div'); d.className = 'pill'; d.style.bottom = bottom + 'px'; d.style.background = bg; d.textContent = text; ovRoot.appendChild(d); OV.push({ d, t0, t1, pill: true }); }
-ov('<div style="font-size:120px;font-weight:700;letter-spacing:2px">21:47</div>', 150, .4, 4.1);
+ov('<div style="font-size:96px;font-weight:700;letter-spacing:4px;color:#f2f5f4">21:47</div>', 160, .4, 4.1);
 ov('<div style="font-size:38px">Клиника уже закрыта.</div>', 330, 1.1, 4.1);
 ov('<div style="font-size:30px;color:#bfeee2;padding:0 70px">А пациентка решилась записаться именно сейчас.</div>', 1060, 1.9, 4.1);
-pill('Пациент ушёл в другую клинику', 70, 'linear-gradient(90deg,#c43434,#e0574a)', 11.4, 14.4);
-ov('<div style="font-size:50px;font-weight:700">Тот же вечер.</div>', 120, 14.8, 17.9);
-ov('<div style="font-size:34px;color:#bff7ea">Но на сообщения отвечает бот.</div>', 196, 15.4, 17.9);
+pill('Пациентка записалась в другую клинику', 34, 'rgba(18,22,26,.88)', 11.4, 14.4);
+ov('<div style="font-size:44px;font-weight:700">Тот же вечер.</div>', 470, 14.9, 17.9);
+ov('<div style="font-size:30px;color:#cfe9e2">Но на сообщения отвечает ассистент клиники.</div>', 540, 15.5, 17.9);
+ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">01 — ВЕЧЕР, 21:47. БЕЗ АССИСТЕНТА</div>', 26, 4.6, 14.4);
+ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">02 — ТОТ ЖЕ ВЕЧЕР, С АССИСТЕНТОМ</div>', 26, 18.2, 32.4);
+ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">03 — УТРО</div>', 26, 32.8, 47.6);
+ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">04 — ЧТО ЭТО ДАЁТ КЛИНИКЕ</div>', 26, 48.4, 52.8);
 ov('<div style="font-size:40px;font-weight:700;padding:0 60px">Утром администратор видит готовое</div>', 150, 40.0, 47.6);
 ov('<div style="font-size:42px;font-weight:700">Что это даёт Flebo One</div>', 120, 48.4, 60.5);
-ov('<div style="font-size:36px;font-weight:700">Покажем на вашей записи</div><div style="font-size:28px;color:#d8fff5;margin-top:10px">бесплатно, за 15 минут</div>', 1062, 53.4, 60.5);
-ov('<div style="font-size:21px;color:#c9efe6">Ember Court · ember-court.vercel.app</div>', 1210, 54.2, 60.5);
+ov('<div style="font-size:34px;font-weight:700">Покажем на вашей записи</div><div style="font-size:26px;color:#d8efe9;margin-top:10px">бесплатно, за 15 минут</div>', 1000, 53.4, 60.5);
+ov('<div style="width:60px;height:2px;background:#7fd1bf;margin:0 auto 18px"></div><div style="font-size:24px;color:#ffffff">Ярослав · Ember Court</div><div style="font-size:19px;color:#a9cfc6;margin-top:6px">ember-court.vercel.app</div>', 1150, 54.4, 60.5);
 
 // ---------------- composer ----------------
 const composer = new EffectComposer(renderer);
 const rp = new RenderPass(A, camA); composer.addPass(rp);
-const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), .7, .45, 1.0); composer.addPass(bloom);
+const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), .25, .4, 1.1); composer.addPass(bloom);
 composer.addPass(new OutputPass());
 const lc = (a, b, p) => new THREE.Color(a).lerp(new THREE.Color(b), p);
 
@@ -335,37 +339,37 @@ window.renderAt = (t) => {
   document.getElementById('dip').style.opacity = dip;
 
   if (t < 4.0) {
-    rp.scene = A; rp.camera = camA; bloom.strength = .9;
+    rp.scene = A; rp.camera = camA; bloom.strength = .35; bloom.threshold = 1.0;
     const p = easeIO(t / 4.0);
     camA.position.set(Math.sin(t * .25) * 1.5, lerp(14, 4.2, p), lerp(22, 2, p)); camA.lookAt(0, lerp(2, 4.6, p), -11);
     starsA.userData.update(t * .2);
   } else if (t < 39.6) {
-    rp.scene = B; rp.camera = camB; bloom.strength = .75; bloom.threshold = 1.0;
+    rp.scene = B; rp.camera = camB; bloom.strength = .2; bloom.threshold = 1.2;
     // background mood
-    const lost = ease((t - 11.0) / 1.2) * (1 - ease((t - 14.4) / .8));
+    const lost = .6 * ease((t - 11.0) / 1.5) * (1 - ease((t - 14.4) / .8));
     const dawn = ease((t - 32.6) / 1.4);
-    skyB.userData.mat.uniforms.top.value = lc(0x10384a, 0x4a1020, lost).lerp(new THREE.Color(0xd98f6a), dawn * .85);
+    skyB.userData.mat.uniforms.top.value = lc(0x10384a, 0x2c2a33, lost).lerp(new THREE.Color(0xd98f6a), dawn * .85);
     skyB.userData.mat.uniforms.bottom.value = lc(0x02070b, 0x12040a, lost).lerp(new THREE.Color(0x0e2c33), dawn);
-    redL.intensity = 60 * lost; rim.color = lc(0x2ee6c1, 0xff5a5a, lost);
+    redL.intensity = 0; rim.color = lc(0x2ee6c1, 0x8a8f99, lost); rim.intensity = 18;
     rings.children.forEach((m, i) => { m.rotation.x = Math.sin(t * .2 + i) * .22; m.rotation.y = Math.cos(t * .17 + i) * .22; m.rotation.z = t * (.1 + i * .05);
       m.material.color = lc(i === 1 ? 0x3aa0ff : 0x2ee6c1, 0xff4a4a, lost); });
     dustB.userData.update(t);
     // phone pose
-    let px = 0, py = -.05, pz = 0, ry = Math.sin(t * .6) * .07, rx = Math.sin(t * .45) * .04 - .02, rz = Math.sin(t * .35) * .015;
-    const inP = ease((t - 4.0) / 1.3); py += (1 - inP) * -7; ry += (1 - inP) * -1.4; rx += (1 - inP) * .5;
-    rx += lost * .12; py += Math.sin(t * 1.1) * .05;
+    let px = 0, py = -.05, pz = 0, ry = Math.sin(t * .4) * .045, rx = Math.sin(t * .3) * .025 - .02, rz = 0;
+    const inP = ease((t - 4.0) / 1.6); py += (1 - inP) * -2.5; pz -= (1 - inP) * 3; ry += (1 - inP) * -.35;
+    py += Math.sin(t * .8) * .03;
     const spin = easeIO((t - 14.6) / 3.0); const away = Math.sin(Math.min(1, Math.max(0, (t - 14.5) / 3.4)) * Math.PI);
-    ry += spin * Math.PI * 2; pz -= away * 4.5; py -= away * 1.2;
+    ry += away * .35; px -= away * .4; pz -= away * 2.2; py -= away * .5;
     const end = ease((t - 38.2) / 1.4); pz -= end * 1.5;
     phone.position.set(px, py, pz); phone.rotation.set(rx, ry, rz);
     const sc = t < 16.1 ? WITHOUT : WITH; const st = t < 16.1 ? Math.min(t, 14.4) : Math.max(t, 18.0);
     const keyS = (sc === WITHOUT ? 'a' : 'b') + Math.round(st * 30);
     if (keyS !== lastScreenKey) { drawChat(scrCtx, sc, st); scrTex.needsUpdate = true; lastScreenKey = keyS; }
-    screenMat.color.setScalar(.91 - lost * .15);
+    screenMat.color.setScalar((.91 - lost * .18) * (1 - .8 * Math.sin(Math.min(1, Math.max(0, (t - 14.9) / 2.4)) * Math.PI)));
     // orb
     const orbIn = ease((t - 15.0) / 1.0);
     const toCorner = easeIO((t - 17.2) / 1.4);
-    orb.visible = t > 15.0; orb.scale.setScalar(orbIn * lerp(1.7, .85, toCorner));
+    orb.visible = false; orb.scale.setScalar(orbIn * lerp(1.7, .85, toCorner));
     orb.position.set(lerp(0, 1.45, toCorner), lerp(.1, 2.75, toCorner) + Math.sin(t * 1.4) * .06, lerp(2.5, 1.5, toCorner));
     const typingNow = WITH.typing.some(([a, b]) => a <= t && t < b);
     const pulse = typingNow ? .5 + .5 * Math.sin(t * 12) : 0;
@@ -374,27 +378,27 @@ window.renderAt = (t) => {
     // booking card
     const cin = easeIO((t - 28.1) / .8), cout = easeIO((t - 31.6) / .7);
     bookCard.visible = t > 28.0 && t < 32.4;
-    bookCard.position.set(lerp(-4.5, -.35, cin) - cout * 5, -1.75 + Math.sin(t * 1.3) * .04, lerp(1.0, 2.4, cin));
-    bookCard.rotation.set(-.08, lerp(1.4, -.18, cin) - cout * 1.2, lerp(.3, -.04, cin));
-    const bt = t - 28.5; burst.visible = bt > 0 && bt < 2.2; burst.position.copy(bookCard.position);
+    bookCard.position.set(-.3, lerp(-5, -1.85, cin) - cout * 4, 2.2 + Math.sin(t * .8) * .02);
+    bookCard.rotation.set(lerp(-.5, -.06, cin), lerp(.25, -.1, cin), 0);
+    const bt = t - 28.5; burst.visible = false; burst.position.copy(bookCard.position);
     burst.children.forEach(m => { const v = m.userData.v; m.position.set(v.x * bt * .6, v.y * bt * .6 - 2.2 * bt * bt * .6, v.z * bt * .4);
       m.rotation.set(bt * 4 + m.userData.s, bt * 3, 0); m.scale.setScalar(Math.max(0, 1 - bt / 2.2)); });
-    camB.position.set(Math.sin(t * .23) * .3, Math.sin(t * .17) * .15, 10.4); camB.lookAt(0, -.05, 0);
+    camB.position.set(Math.sin(t * .18) * .2, Math.sin(t * .13) * .1, 11.3); camB.lookAt(0, -.05, 0);
   } else {
-    rp.scene = C; rp.camera = camC; bloom.strength = .55; bloom.threshold = 1.2;
+    rp.scene = C; rp.camera = camC; bloom.strength = .15; bloom.threshold = 1.3;
     const warm = 1 - ease((t - 48.0) / 2.5);
     skyC.userData.mat.uniforms.top.value = lc(0x1c6f73, 0xf3b27e, warm); skyC.userData.mat.uniforms.bottom.value = lc(0x061d24, 0x0f3e46, warm);
     sun.material.opacity = .9 * warm + .2; sun.position.y = 5.5 + (t - 40) * .08;
     dustC.userData.update(t); ringsC.children.forEach((m, i) => { m.rotation.x = Math.sin(t * .2 + i) * .22; m.rotation.y = Math.cos(t * .17 + i) * .22; m.rotation.z = t * (.1 + i * .05); });
     morning.forEach((c, i) => { const a = easeIO((t - 40.3 - i * .6) / 1.0), o = easeIO((t - 47.0 - i * .12) / .9);
       c.visible = a > 0 && o < 1; const y = [1.25, 0, -1.25][i] - .15;
-      c.position.set((i % 2 ? 1 : -1) * o * 6, y + (1 - a) * -1.5, lerp(-9, 0, a));
-      c.rotation.set((1 - a) * 1.2, Math.sin(t * .5 + i) * .07 + (i % 2 ? 1 : -1) * o * .9, (1 - a) * (i % 2 ? .4 : -.4)); });
+      c.position.set(0, y + (1 - a) * -.8 + o * 1.2, lerp(-3, 0, a) - o * 2);
+      c.rotation.set((1 - a) * .35, Math.sin(t * .4 + i) * .035, 0); c.children.forEach(m => { m.material.transparent = true; m.material.opacity = a * (1 - o); }); });
     benefits.forEach((c, i) => { const a = easeIO((t - 48.6 - i * .55) / 1.0);
       c.visible = a > 0; const y = [2.1, 1.05, 0, -1.05][i];
-      c.position.set(lerp(i % 2 ? 5 : -5, 0, a), y, lerp(-4, 0, a));
-      c.rotation.set(Math.sin(t * .6 + i) * .04, lerp(i % 2 ? -1.1 : 1.1, 0, a) + Math.sin(t * .5 + i) * .06, 0); });
-    orbC.visible = t > 52.6; orbC.scale.setScalar(.55 * ease((t - 52.6) / .8));
+      c.position.set(0, y + (1 - a) * -.6, lerp(-2.5, 0, a));
+      c.rotation.set((1 - a) * .3, Math.sin(t * .4 + i) * .03, 0); c.children.forEach(m => { m.material.transparent = true; m.material.opacity = a; }); });
+    orbC.visible = false; orbC.scale.setScalar(.55 * ease((t - 52.6) / .8));
     orbC.position.set(0, -1.86 + Math.sin(t * 1.4) * .05, 1.2);
     orbC.children[1].rotation.set(t * .5, t * .7, 0); orbC.children[2].rotation.z = t * 1.3;
     camC.position.set(Math.sin(t * .2) * .4, Math.sin(t * .15) * .2, 11.4); camC.lookAt(0, .1, 0);
