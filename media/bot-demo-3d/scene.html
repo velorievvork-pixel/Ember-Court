@@ -1,0 +1,405 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  html,body{margin:0;width:720px;height:1280px;overflow:hidden;background:#000;font-family:'DejaVu Sans',sans-serif}
+  canvas#gl{position:absolute;inset:0}
+  .ov{position:absolute;left:0;width:720px;text-align:center;color:#fff;opacity:0;white-space:normal;
+      text-shadow:0 4px 24px rgba(0,0,0,.55)}
+  .pill{position:absolute;left:50%;transform:translateX(-50%);padding:18px 34px;border-radius:40px;
+        color:#fff;font-weight:700;font-size:26px;opacity:0;white-space:nowrap;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+  #dip{position:absolute;inset:0;background:#000;opacity:0}
+</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>
+</head><body>
+<canvas id="gl" width="720" height="1280"></canvas>
+<div id="overlays"></div>
+<div id="vig" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 32%,rgba(0,0,0,0) 70%,rgba(0,0,0,.5) 100%)"></div><div id="dip"></div>
+<script type="module">
+import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const W = 720, H = 1280;
+const FONT = "'DejaVu Sans', sans-serif";
+const ease = x => { x = Math.min(1, Math.max(0, x)); return 1 - Math.pow(1 - x, 3); };
+const easeIO = x => { x = Math.min(1, Math.max(0, x)); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+const lerp = (a, b, p) => a + (b - a) * p;
+const win = (t, a, b, fi = .5, fo = .4) => Math.min(ease((t - a) / fi), 1 - ease((t - (b - fo)) / fo));
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+// ---------------- renderer ----------------
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(W, H, false);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+const pmrem = new THREE.PMREMGenerator(renderer);
+const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+
+function skyDome(top, bottom) {
+  const m = new THREE.ShaderMaterial({ side: THREE.BackSide, depthWrite: false,
+    uniforms: { top: { value: new THREE.Color(top) }, bottom: { value: new THREE.Color(bottom) } },
+    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }',
+    fragmentShader: 'uniform vec3 top; uniform vec3 bottom; varying vec3 vP; void main(){ float h = smoothstep(-.35,.6,vP.y); gl_FragColor = vec4(mix(bottom, top, h),1.); }' });
+  const s = new THREE.Mesh(new THREE.SphereGeometry(200, 32, 16), m); s.userData.mat = m; return s;
+}
+function dotTexture() {
+  const c = document.createElement('canvas'); c.width = c.height = 64; const g = c.getContext('2d');
+  const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, 'rgba(255,255,255,1)');
+  gr.addColorStop(.35, 'rgba(255,255,255,.5)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = gr; g.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c);
+}
+const DOT = dotTexture();
+function particles(n, seed, box, size, color) {
+  const r = rng(seed), pos = new Float32Array(n * 3), base = [];
+  for (let i = 0; i < n; i++) { base.push([(r() - .5) * box[0], (r() - .5) * box[1], (r() - .5) * box[2] + box[3], r() * 6.28, .2 + r() * .5]); }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const m = new THREE.PointsMaterial({ size, map: DOT, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color, sizeAttenuation: true, opacity: .8 });
+  const p = new THREE.Points(g, m);
+  p.userData.update = t => { for (let i = 0; i < n; i++) { const b = base[i];
+      pos[i * 3] = b[0] + Math.sin(t * .3 + b[3]) * .4; pos[i * 3 + 1] = ((b[1] + t * b[4] + box[1] / 2) % box[1]) - box[1] / 2; pos[i * 3 + 2] = b[2]; }
+    g.attributes.position.needsUpdate = true; };
+  return p;
+}
+function rr(g, x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, r); }
+
+// ---------------- chat (screen texture) ----------------
+const CW = 600, CHH = 1240, SC = 1.7;
+const meas = document.createElement('canvas').getContext('2d');
+function wrap(text, font, width) { meas.font = font; const out = []; let cur = '';
+  for (const w of text.split(' ')) { const t = (cur + ' ' + w).trim(); if (meas.measureText(t).width <= width) cur = t; else { out.push(cur); cur = w; } }
+  out.push(cur); return out; }
+const F_MSG = `24px ${FONT}`, F_TIME = `15px ${FONT}`, LH = 32, PAD = 18;
+function chatScene(script, typing, status, tap, ticks) {
+  const items = script.map(([start, side, text, time, btns]) => {
+    if (side === 'D') return { start, side, text, h: 42, bh: 0 };
+    const lines = wrap(text, F_MSG, 400); meas.font = F_MSG;
+    const tw = Math.max(...lines.map(l => meas.measureText(l).width)); meas.font = F_TIME;
+    const w = Math.max(tw, meas.measureText(time).width + 34) + 2 * PAD;
+    return { start, side, lines, time, btns, w, h: lines.length * LH + 2 * PAD + 12, bh: btns ? 60 : 0 };
+  });
+  return { items, typing, status, tap, ticks };
+}
+function drawChat(g, sc, t) {
+  g.save(); g.setTransform(SC, 0, 0, SC, 0, 0);
+  g.fillStyle = '#050505'; g.fillRect(0, 0, CW, CHH);
+  rr(g, 0, 0, CW, CHH, 64); g.save(); g.clip();
+  const bg = g.createLinearGradient(0, 0, 0, CHH); bg.addColorStop(0, '#efe7dc'); bg.addColorStop(1, '#e3dacd');
+  g.fillStyle = bg; g.fillRect(0, 0, CW, CHH);
+  // faint pattern
+  g.globalAlpha = .06; g.fillStyle = '#115e54';
+  for (let y = 180; y < CHH; y += 70) for (let x = (y / 70 % 2) * 35; x < CW; x += 70) { g.beginPath(); g.arc(x, y, 6, 0, 6.28); g.fill(); }
+  g.globalAlpha = 1;
+  const TOP = 160, BOT = CHH - 96;
+  const ys = []; let total = 0;
+  for (const it of sc.items) { ys.push(total); total += (it.h + it.bh + 12) * ease((t - it.start) / .35); }
+  const ty = sc.typing.find(([a, b]) => a <= t && t < b);
+  if (ty) total += (52 + 12) * ease((t - ty[0]) / .25);
+  const off = Math.max(0, total - (BOT - TOP - 10));
+  g.save(); g.beginPath(); g.rect(0, 140, CW, BOT - 140); g.clip();
+  let clock = null;
+  sc.items.forEach((it, i) => {
+    const p = ease((t - it.start) / .35); if (p <= 0) return;
+    if (it.time) clock = it.time; if (it.side === 'D') clock = it.text.split(', ')[1] || clock;
+    const y = TOP + ys[i] - off + (1 - p) * 26; g.globalAlpha = p;
+    if (it.side === 'D') { g.font = `bold 15px ${FONT}`; const tw = g.measureText(it.text).width + 36;
+      g.fillStyle = '#d4e4ec'; rr(g, (CW - tw) / 2, y, tw, 32, 16); g.fill();
+      g.fillStyle = '#46505a'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(it.text, CW / 2, y + 16); g.textAlign = 'left'; return; }
+    const x = it.side === 'P' ? CW - 16 - it.w : 16;
+    g.shadowColor = 'rgba(0,0,0,.12)'; g.shadowBlur = 6; g.shadowOffsetY = 2;
+    g.fillStyle = it.side === 'P' ? '#d9f7c4' : '#ffffff'; rr(g, x, y, it.w, it.h, 20); g.fill();
+    g.shadowColor = 'transparent';
+    g.fillStyle = '#1c1e21'; g.font = F_MSG; g.textBaseline = 'top';
+    it.lines.forEach((l, k) => g.fillText(l, x + PAD, y + PAD + k * LH));
+    g.font = F_TIME; g.fillStyle = '#788082'; g.textAlign = 'right'; g.textBaseline = 'bottom';
+    g.fillText(it.time + (it.side === 'P' ? ' ' + sc.ticks : ''), x + it.w - 14, y + it.h - 8);
+    if (it.side === 'P') { g.fillStyle = sc.ticks === '✓✓' ? '#34b7f1' : '#788082'; }
+    g.textAlign = 'left';
+    if (it.btns) { let bx = x; const by = y + it.h + 8; g.font = `22px ${FONT}`;
+      for (const lb of it.btns) { const bw = g.measureText(lb).width + 40; const on = sc.tap && lb === sc.tap[1] && t >= sc.tap[0];
+        g.fillStyle = on ? '#115e54' : '#ffffff'; rr(g, bx, by, bw, 46, 23); g.fill(); g.lineWidth = 2; g.strokeStyle = '#115e54'; g.stroke();
+        g.fillStyle = on ? '#fff' : '#115e54'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(lb, bx + bw / 2, by + 23); g.textAlign = 'left';
+        bx += bw + 10; } }
+  });
+  g.globalAlpha = 1;
+  if (ty) { const p = ease((t - ty[0]) / .25); const y = TOP + total - 64 * p - off + (1 - p) * 18;
+    g.fillStyle = '#fff'; rr(g, 16, y, 96, 52, 20); g.fill();
+    for (let i = 0; i < 3; i++) { const ph = (t * 3 - i * .25) % 1; const r = ph < .5 ? 8 : 6;
+      g.fillStyle = ph < .5 ? '#8a9396' : '#c3c9cb'; g.beginPath(); g.arc(40 + i * 22, y + 26, r, 0, 6.28); g.fill(); } }
+  g.restore();
+  // input bar
+  g.fillStyle = '#f4efe8'; g.fillRect(0, BOT, CW, CHH - BOT);
+  g.fillStyle = '#fff'; rr(g, 16, BOT + 16, CW - 100, 54, 27); g.fill();
+  g.fillStyle = '#9aa1a3'; g.font = `21px ${FONT}`; g.textBaseline = 'middle'; g.fillText('Сообщение', 40, BOT + 43);
+  g.fillStyle = '#115e54'; g.beginPath(); g.arc(CW - 46, BOT + 43, 27, 0, 6.28); g.fill();
+  g.fillStyle = '#fff'; rr(g, CW - 52, BOT + 28, 12, 22, 6); g.fill(); g.fillRect(CW - 47, BOT + 50, 2, 8);
+  // header + status bar
+  const hg = g.createLinearGradient(0, 0, 0, 140); hg.addColorStop(0, '#0d4f47'); hg.addColorStop(1, '#126357');
+  g.fillStyle = hg; g.fillRect(0, 0, CW, 140);
+  g.fillStyle = '#fff'; g.font = `bold 19px ${FONT}`; g.textBaseline = 'middle'; g.fillText(clock || sc.items[0].time, 46, 26);
+  for (let i = 0; i < 4; i++) g.fillRect(CW - 118 + i * 9, 32 - i * 5, 6, 6 + i * 5);
+  g.strokeStyle = '#fff'; g.lineWidth = 2; rr(g, CW - 74, 16, 40, 20, 5); g.stroke(); g.fillRect(CW - 70, 20, 28, 12);
+  g.fillStyle = '#000'; rr(g, CW / 2 - 62, 10, 124, 32, 16); g.fill();
+  g.fillStyle = '#fff'; g.beginPath(); g.arc(62, 94, 28, 0, 6.28); g.fill();
+  g.fillStyle = '#115e54'; g.font = `bold 21px ${FONT}`; g.textAlign = 'center'; g.fillText('F1', 62, 95); g.textAlign = 'left';
+  g.fillStyle = '#fff'; g.font = `bold 26px ${FONT}`; g.fillText('Flebo One', 106, 82);
+  g.fillStyle = '#c8e6de'; g.font = `17px ${FONT}`; g.fillText(ty ? 'печатает…' : sc.status, 106, 112);
+  g.fillStyle = '#fff'; rr(g, CW - 112, 76, 90, 34, 17); g.fill();
+  g.fillStyle = '#115e54'; g.font = `17px ${FONT}`; g.textAlign = 'center'; g.fillText('демо', CW - 67, 94); g.textAlign = 'left';
+  g.restore(); g.restore();
+}
+
+const WITHOUT = chatScene([
+  [4.9, 'P', 'Здравствуйте! Хочу записаться к флебологу, ноги отекают к вечеру', '21:47'],
+  [7.4, 'D', 'Утром, 09:40'],
+  [8.4, 'B', 'Доброе утро! Да, конечно. Когда вам удобно подойти?', '09:40'],
+  [10.4, 'P', 'Спасибо, уже записалась в другую клинику', '09:52']], [], 'был(а) в сети в 18:00', null, '✓');
+const WITH = chatScene([
+  [18.4, 'P', 'Здравствуйте! Хочу записаться к флебологу, ноги отекают к вечеру', '21:47'],
+  [20.2, 'B', 'Здравствуйте! Я ассистент клиники Flebo One. Запишу вас на приём флеболога с УЗДГ вен. Удобнее завтра или в субботу?', '21:47'],
+  [21.6, 'P', 'Завтра после 15', '21:48'],
+  [23.0, 'B', 'Завтра свободно 15:30 и 17:00. Какое время записать?', '21:48'],
+  [24.2, 'P', '17:00', '21:48'],
+  [25.6, 'B', 'Записал: завтра в 17:00, приём флеболога + УЗДГ вен, ул. Муканова, 102. Как к вам обращаться?', '21:48'],
+  [26.8, 'P', 'Марина', '21:49'],
+  [28.0, 'B', 'Спасибо, Марина! Утром пришлю напоминание.', '21:49'],
+  [29.4, 'P', 'А процедура болезненная?', '21:50'],
+  [31.0, 'B', 'Это лучше объяснит врач. Передал ваш вопрос администратору, утром вам ответят. Запись на 17:00 в силе.', '21:50'],
+  [32.6, 'D', 'Завтра, 09:00'],
+  [34.0, 'B', 'Доброе утро, Марина! Сегодня в 17:00 у вас приём флеболога. Подтверждаете?', '09:00', ['Да, приду', 'Перенести']],
+  [36.2, 'P', 'Да, приду', '09:02'],
+  [37.4, 'B', 'Отлично, ждём вас! Если что-то изменится, просто напишите сюда.', '09:02']],
+  [[19.2, 20.2], [22.2, 23.0], [24.8, 25.6], [27.3, 28.0], [30.0, 31.0], [33.0, 34.0], [36.7, 37.4]],
+  'ассистент клиники · онлайн', [35.7, 'Да, приду'], '✓✓');
+
+// ---------------- scene A: night city ----------------
+const A = new THREE.Scene(); A.fog = new THREE.FogExp2(0x061821, 0.035);
+const camA = new THREE.PerspectiveCamera(40, W / H, 0.1, 400);
+const skyA = skyDome(0x0b2a3c, 0x03090d); A.add(skyA);
+A.add(new THREE.HemisphereLight(0x3a6f8a, 0x05080a, 0.6));
+const moonL = new THREE.DirectionalLight(0x9fc4ff, 0.8); moonL.position.set(-10, 20, -10); A.add(moonL);
+const moon = new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 16), new THREE.MeshBasicMaterial({ color: 0xf3f0dc }));
+moon.position.set(-9, 17, -48); A.add(moon);
+const moonGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xbfd8ff, transparent: true, opacity: .55, depthWrite: false, blending: THREE.AdditiveBlending }));
+moonGlow.scale.set(16, 16, 1); moonGlow.position.copy(moon.position); A.add(moonGlow);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(300, 300), new THREE.MeshStandardMaterial({ color: 0x08161c, roughness: .6, metalness: .3, envMap: envTex, envMapIntensity: .15 }));
+ground.rotation.x = -Math.PI / 2; A.add(ground);
+const grid = new THREE.GridHelper(300, 120, 0x1b6b5e, 0x0f3b36); grid.position.y = .01; grid.material.transparent = true; grid.material.opacity = .25; A.add(grid);
+function windowsTex(seed, litP) { const r = rng(seed); const c = document.createElement('canvas'); c.width = 128; c.height = 256; const g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, 128, 256);
+  for (let y = 8; y < 256; y += 24) for (let x = 8; x < 128; x += 24) { const on = r() < litP; g.fillStyle = on ? (r() < .5 ? '#ffd28a' : '#ffe9c2') : '#0b1418'; g.fillRect(x, y, 14, 14); }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; }
+{ const r = rng(7);
+  for (let i = 0; i < 70; i++) { const x = (r() - .5) * 60, z = -8 - r() * 60; if (Math.abs(x) < 4 && z > -16) continue;
+    const w = 1.6 + r() * 2.6, h = 2 + r() * 12, d = 1.6 + r() * 2.6; const tex = windowsTex(100 + i, .25 + r() * .3); tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(w / 2.4, h / 4.8);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), new THREE.MeshStandardMaterial({ color: 0x0e1f27, roughness: .8, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: 1.1 }));
+    m.position.set(x, h / 2, z); A.add(m); } }
+// clinic: dark windows, dim sign
+const clinic = new THREE.Group(); clinic.position.set(0, 0, -11); A.add(clinic);
+{ const tex = windowsTex(3, 0.0); tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(2, 1.4);
+  const b = new THREE.Mesh(new THREE.BoxGeometry(6, 6, 4), new THREE.MeshStandardMaterial({ color: 0x173038, roughness: .7, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: .4 }));
+  b.position.y = 3; clinic.add(b);
+  const c = document.createElement('canvas'); c.width = 512; c.height = 128; const g = c.getContext('2d');
+  g.fillStyle = '#0a1c1c'; g.fillRect(0, 0, 512, 128); g.fillStyle = '#2f6f64'; g.font = `bold 64px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillText('+  КЛИНИКА', 256, 66); const st = new THREE.CanvasTexture(c); st.colorSpace = THREE.SRGBColorSpace;
+  const sign = new THREE.Mesh(new THREE.PlaneGeometry(4, 1), new THREE.MeshBasicMaterial({ map: st })); sign.position.set(0, 5.2, 2.02); clinic.add(sign);
+  const door = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 2), new THREE.MeshBasicMaterial({ color: 0x050a0c })); door.position.set(0, 1, 2.02); clinic.add(door); }
+const starsA = particles(500, 11, [200, 80, 40, -90], .35, 0xcfe6ff); starsA.position.y = 45; A.add(starsA);
+
+// ---------------- scene B: phone ----------------
+const B = new THREE.Scene(); B.environment = envTex;
+const camB = new THREE.PerspectiveCamera(35, W / H, 0.1, 400);
+const skyB = skyDome(0x10384a, 0x02070b); B.add(skyB);
+B.add(new THREE.HemisphereLight(0x8fd3c7, 0x0a0f14, 0.5));
+const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(4, 6, 8); B.add(key);
+const rim = new THREE.PointLight(0x2ee6c1, 30, 30); rim.position.set(-4, 3, -2); B.add(rim);
+const redL = new THREE.PointLight(0xff3b3b, 0, 30); redL.position.set(3, -2, 4); B.add(redL);
+const phone = new THREE.Group(); B.add(phone);
+const body = new THREE.Mesh(new RoundedBoxGeometry(3.0, 6.2, 0.34, 8, 0.4),
+  new THREE.MeshPhysicalMaterial({ color: 0x1a1d22, metalness: .85, roughness: .28, clearcoat: 1, clearcoatRoughness: .15, envMapIntensity: 1.3 }));
+phone.add(body);
+const frameRing = new THREE.Mesh(new RoundedBoxGeometry(3.06, 6.26, 0.26, 8, 0.42), new THREE.MeshPhysicalMaterial({ color: 0x9aa7b0, metalness: 1, roughness: .22 }));
+phone.add(frameRing);
+const scrCanvas = document.createElement('canvas'); scrCanvas.width = CW * SC; scrCanvas.height = CHH * SC;
+const scrCtx = scrCanvas.getContext('2d'); const scrTex = new THREE.CanvasTexture(scrCanvas);
+scrTex.colorSpace = THREE.SRGBColorSpace; scrTex.anisotropy = 8;
+const screenMat = new THREE.MeshBasicMaterial({ map: scrTex, toneMapped: false, color: 0xe8e8e8 });
+const screen = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2.8 * CHH / CW), screenMat); screen.position.z = .176; phone.add(screen);
+const glass = new THREE.Mesh(new THREE.PlaneGeometry(2.8, 2.8 * CHH / CW), new THREE.MeshPhysicalMaterial({ transparent: true, opacity: .08, roughness: .05, metalness: 0, clearcoat: 1, envMapIntensity: 2 }));
+glass.position.z = .18; phone.add(glass);
+// camera bump on back
+const bump = new THREE.Mesh(new RoundedBoxGeometry(1.1, 1.1, .12, 4, .25), new THREE.MeshPhysicalMaterial({ color: 0x23272d, metalness: .9, roughness: .3 }));
+bump.position.set(-.75, 2.35, -.2); phone.add(bump);
+for (const [x, y] of [[-1.0, 2.6], [-.5, 2.1], [-1.0, 2.1]]) { const l = new THREE.Mesh(new THREE.CylinderGeometry(.17, .17, .1, 32), new THREE.MeshPhysicalMaterial({ color: 0x050608, metalness: .5, roughness: .1, clearcoat: 1 }));
+  l.rotation.x = Math.PI / 2; l.position.set(x + .25, y, -.29); phone.add(l); }
+// halo rings
+const rings = new THREE.Group(); B.add(rings); rings.position.z = -3;
+for (const [r, c, o] of [[4.2, 0x2ee6c1, .55], [5.3, 0x3aa0ff, .3], [6.6, 0x2ee6c1, .18]]) {
+  const m = new THREE.Mesh(new THREE.TorusGeometry(r, .025, 8, 200), new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: o }));
+  m.userData.o = o; rings.add(m); }
+const dustB = particles(450, 21, [16, 22, 12, -2], .09, 0x9ff5e2); B.add(dustB);
+// bot orb
+const orb = new THREE.Group(); B.add(orb);
+const core = new THREE.Mesh(new THREE.SphereGeometry(.3, 48, 24), new THREE.MeshStandardMaterial({ color: 0x0d5a4f, emissive: 0x41f2cf, emissiveIntensity: 2.4, roughness: .3 }));
+orb.add(core);
+const shell = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(.55, 1)), new THREE.LineBasicMaterial({ color: 0x9ffff0, transparent: true, opacity: .75 }));
+orb.add(shell);
+const orbRing = new THREE.Mesh(new THREE.TorusGeometry(.75, .018, 8, 100), new THREE.MeshBasicMaterial({ color: 0x7ef9e2 })); orbRing.rotation.x = 1.2; orb.add(orbRing);
+const orbGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0x40f0d0, transparent: true, opacity: .6, depthWrite: false, blending: THREE.AdditiveBlending }));
+orbGlow.scale.set(2.4, 2.4, 1); orb.add(orbGlow);
+const orbLight = new THREE.PointLight(0x40f0d0, 6, 8); orb.add(orbLight);
+// booking card + burst
+function cardTexture(w, h, draw) { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h);
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; }
+function makeCard(wu, hu, tex, color = 0xffffff) { const g = new THREE.Group();
+  g.add(new THREE.Mesh(new RoundedBoxGeometry(wu, hu, .12, 6, .14), new THREE.MeshPhysicalMaterial({ color: 0xd9dee0, roughness: .5, clearcoat: .4, clearcoatRoughness: .3 })));
+  const f = new THREE.Mesh(new THREE.PlaneGeometry(wu - .16, hu - .16), new THREE.MeshBasicMaterial({ map: tex, toneMapped: false, color: 0xdddddd })); f.position.z = .062; g.add(f); return g; }
+const bookTex = cardTexture(900, 480, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+  g.fillStyle = '#115e54'; g.beginPath(); g.arc(90, 110, 52, 0, 6.28); g.fill();
+  g.strokeStyle = '#fff'; g.lineWidth = 12; g.lineCap = 'round'; g.beginPath(); g.moveTo(66, 112); g.lineTo(84, 132); g.lineTo(118, 92); g.stroke();
+  g.fillStyle = '#1c1e21'; g.font = `bold 46px ${FONT}`; g.textBaseline = 'middle'; g.fillText('Записана', 170, 92);
+  g.fillStyle = '#115e54'; g.font = `bold 34px ${FONT}`; g.fillText('за 2 минуты, в 21:49', 170, 140);
+  g.fillStyle = '#e9f5f2'; rr(g, 40, 210, w - 80, 220, 28); g.fill();
+  g.fillStyle = '#1c1e21'; g.font = `bold 64px ${FONT}`; g.fillText('Завтра · 17:00', 80, 290);
+  g.fillStyle = '#5b6b6a'; g.font = `32px ${FONT}`; g.fillText('флеболог + УЗДГ вен', 80, 370); });
+const bookCard = makeCard(2.5, 1.33, bookTex); B.add(bookCard);
+const burst = new THREE.Group(); B.add(burst);
+{ const r = rng(5); const cols = [0x41f2cf, 0xffffff, 0xffb36b, 0x6fb7ff];
+  for (let i = 0; i < 60; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(.07, .07, .02), new THREE.MeshBasicMaterial({ color: cols[i % 4] }));
+    m.userData.v = new THREE.Vector3((r() - .5) * 5, 1.5 + r() * 3.5, (r() - .2) * 3); m.userData.s = r() * 6; burst.add(m); } }
+
+// ---------------- scene C: morning cards ----------------
+const C = new THREE.Scene(); C.environment = envTex;
+const camC = new THREE.PerspectiveCamera(35, W / H, 0.1, 400); camC.position.set(0, 0, 11.4);
+const skyC = skyDome(0xf3b27e, 0x0f3e46); C.add(skyC);
+C.add(new THREE.HemisphereLight(0xfff1e0, 0x0f2a30, 0.9));
+const sunL = new THREE.DirectionalLight(0xffe2c0, 1.8); sunL.position.set(3, 6, 8); C.add(sunL);
+const sun = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xffd7a0, transparent: true, opacity: .9, depthWrite: false, blending: THREE.AdditiveBlending }));
+sun.scale.set(14, 14, 1); sun.position.set(-1.5, 5.5, -20); C.add(sun);
+const dustC = particles(300, 31, [16, 22, 10, -4], .08, 0xfff0d0); C.add(dustC);
+const ringsC = rings.clone(); ringsC.position.set(0, 0, -5); C.add(ringsC);
+function infoTex(icon, iconCol, head, sub) { return cardTexture(1020, 300, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+  g.fillStyle = iconCol; g.beginPath(); g.arc(90, h / 2, 50, 0, 6.28); g.fill();
+  g.fillStyle = '#fff'; g.font = `bold 50px ${FONT}`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(icon, 90, h / 2 + 2); g.textAlign = 'left';
+  const hl = wrap(head, `bold 46px ${FONT}`, 810), sl = sub ? wrap(sub, `35px ${FONT}`, 810) : [];
+  let y = h / 2 - (hl.length * 56 + sl.length * 44) / 2 + 28;
+  g.fillStyle = '#1c1e21'; g.font = `bold 46px ${FONT}`; for (const l of hl) { g.fillText(l, 170, y); y += 56; }
+  g.fillStyle = '#56605f'; g.font = `35px ${FONT}`; for (const l of sl) { g.fillText(l, 170, y - 6); y += 44; } }); }
+const morning = [
+  infoTex('✓', '#115e54', 'Новая запись: Марина', 'завтра 17:00 · флеболог + УЗДГ вен · подтвердила'),
+  infoTex('?', '#e08a2e', 'Вопрос врачу', '«Процедура болезненная?» — пациентка ждёт ответа'),
+  infoTex('✓', '#115e54', 'Ничего не потерялось за ночь', 'все вечерние заявки получили ответ'),
+].map(tx => { const c = makeCard(3.5, 1.03, tx); C.add(c); return c; });
+const benefits = [
+  ['1', 'Вечерние заявки не ждут до утра'],
+  ['2', 'Пациент записан, пока ещё выбирает клинику'],
+  ['3', 'Напоминание и подтверждение: меньше пустых окон'],
+  ['4', 'Операторы заняты пациентами, а не перепиской'],
+].map(([n, s]) => { const c = makeCard(3.5, .9, infoTex(n, '#115e54', s, '')); C.add(c); return c; });
+const orbC = orb.clone(); C.add(orbC); orbC.scale.setScalar(.8);
+
+// ---------------- overlays ----------------
+const ovRoot = document.getElementById('overlays'); const OV = [];
+function ov(html, top, t0, t1, style = '') { const d = document.createElement('div'); d.className = 'ov'; d.style.top = top + 'px'; d.style.cssText += style; d.innerHTML = html; ovRoot.appendChild(d); OV.push({ d, t0, t1 }); }
+function pill(text, bottom, bg, t0, t1) { const d = document.createElement('div'); d.className = 'pill'; d.style.bottom = bottom + 'px'; d.style.background = bg; d.textContent = text; ovRoot.appendChild(d); OV.push({ d, t0, t1, pill: true }); }
+ov('<div style="font-size:120px;font-weight:700;letter-spacing:2px">21:47</div>', 150, .4, 4.1);
+ov('<div style="font-size:38px">Клиника уже закрыта.</div>', 330, 1.1, 4.1);
+ov('<div style="font-size:30px;color:#bfeee2;padding:0 70px">А пациентка решилась записаться именно сейчас.</div>', 1060, 1.9, 4.1);
+pill('Пациент ушёл в другую клинику', 70, 'linear-gradient(90deg,#c43434,#e0574a)', 11.4, 14.4);
+ov('<div style="font-size:50px;font-weight:700">Тот же вечер.</div>', 120, 14.8, 17.9);
+ov('<div style="font-size:34px;color:#bff7ea">Но на сообщения отвечает бот.</div>', 196, 15.4, 17.9);
+ov('<div style="font-size:40px;font-weight:700;padding:0 60px">Утром администратор видит готовое</div>', 150, 40.0, 47.6);
+ov('<div style="font-size:42px;font-weight:700">Что это даёт Flebo One</div>', 120, 48.4, 60.5);
+ov('<div style="font-size:36px;font-weight:700">Покажем на вашей записи</div><div style="font-size:28px;color:#d8fff5;margin-top:10px">бесплатно, за 15 минут</div>', 1062, 53.4, 60.5);
+ov('<div style="font-size:21px;color:#c9efe6">Ember Court · ember-court.vercel.app</div>', 1210, 54.2, 60.5);
+
+// ---------------- composer ----------------
+const composer = new EffectComposer(renderer);
+const rp = new RenderPass(A, camA); composer.addPass(rp);
+const bloom = new UnrealBloomPass(new THREE.Vector2(W / 2, H / 2), .7, .45, 1.0); composer.addPass(bloom);
+composer.addPass(new OutputPass());
+const lc = (a, b, p) => new THREE.Color(a).lerp(new THREE.Color(b), p);
+
+// ---------------- timeline ----------------
+let lastScreenKey = '';
+window.renderAt = (t) => {
+  // overlays
+  for (const o of OV) { const p = win(t, o.t0, o.t1); o.d.style.opacity = p;
+    o.d.style.transform = (o.pill ? 'translateX(-50%) ' : '') + `translateY(${(1 - ease((t - o.t0) / .5)) * 24}px)`; }
+  const dips = [[4.0, .45], [39.6, .5]]; let dip = 0;
+  for (const [c, d] of dips) dip = Math.max(dip, 1 - Math.min(1, Math.abs(t - c) / d));
+  dip = Math.max(dip, ease((t - 59.3) / .7), 1 - ease(t / .5));
+  document.getElementById('dip').style.opacity = dip;
+
+  if (t < 4.0) {
+    rp.scene = A; rp.camera = camA; bloom.strength = .9;
+    const p = easeIO(t / 4.0);
+    camA.position.set(Math.sin(t * .25) * 1.5, lerp(14, 4.2, p), lerp(22, 2, p)); camA.lookAt(0, lerp(2, 4.6, p), -11);
+    starsA.userData.update(t * .2);
+  } else if (t < 39.6) {
+    rp.scene = B; rp.camera = camB; bloom.strength = .75; bloom.threshold = 1.0;
+    // background mood
+    const lost = ease((t - 11.0) / 1.2) * (1 - ease((t - 14.4) / .8));
+    const dawn = ease((t - 32.6) / 1.4);
+    skyB.userData.mat.uniforms.top.value = lc(0x10384a, 0x4a1020, lost).lerp(new THREE.Color(0xd98f6a), dawn * .85);
+    skyB.userData.mat.uniforms.bottom.value = lc(0x02070b, 0x12040a, lost).lerp(new THREE.Color(0x0e2c33), dawn);
+    redL.intensity = 60 * lost; rim.color = lc(0x2ee6c1, 0xff5a5a, lost);
+    rings.children.forEach((m, i) => { m.rotation.x = Math.sin(t * .2 + i) * .22; m.rotation.y = Math.cos(t * .17 + i) * .22; m.rotation.z = t * (.1 + i * .05);
+      m.material.color = lc(i === 1 ? 0x3aa0ff : 0x2ee6c1, 0xff4a4a, lost); });
+    dustB.userData.update(t);
+    // phone pose
+    let px = 0, py = -.05, pz = 0, ry = Math.sin(t * .6) * .07, rx = Math.sin(t * .45) * .04 - .02, rz = Math.sin(t * .35) * .015;
+    const inP = ease((t - 4.0) / 1.3); py += (1 - inP) * -7; ry += (1 - inP) * -1.4; rx += (1 - inP) * .5;
+    rx += lost * .12; py += Math.sin(t * 1.1) * .05;
+    const spin = easeIO((t - 14.6) / 3.0); const away = Math.sin(Math.min(1, Math.max(0, (t - 14.5) / 3.4)) * Math.PI);
+    ry += spin * Math.PI * 2; pz -= away * 4.5; py -= away * 1.2;
+    const end = ease((t - 38.2) / 1.4); pz -= end * 1.5;
+    phone.position.set(px, py, pz); phone.rotation.set(rx, ry, rz);
+    const sc = t < 16.1 ? WITHOUT : WITH; const st = t < 16.1 ? Math.min(t, 14.4) : Math.max(t, 18.0);
+    const keyS = (sc === WITHOUT ? 'a' : 'b') + Math.round(st * 30);
+    if (keyS !== lastScreenKey) { drawChat(scrCtx, sc, st); scrTex.needsUpdate = true; lastScreenKey = keyS; }
+    screenMat.color.setScalar(.91 - lost * .15);
+    // orb
+    const orbIn = ease((t - 15.0) / 1.0);
+    const toCorner = easeIO((t - 17.2) / 1.4);
+    orb.visible = t > 15.0; orb.scale.setScalar(orbIn * lerp(1.7, .85, toCorner));
+    orb.position.set(lerp(0, 1.45, toCorner), lerp(.1, 2.75, toCorner) + Math.sin(t * 1.4) * .06, lerp(2.5, 1.5, toCorner));
+    const typingNow = WITH.typing.some(([a, b]) => a <= t && t < b);
+    const pulse = typingNow ? .5 + .5 * Math.sin(t * 12) : 0;
+    core.material.emissiveIntensity = 2.2 + pulse * 2; orbGlow.material.opacity = .45 + pulse * .35;
+    shell.rotation.set(t * .5, t * .7, 0); orbRing.rotation.z = t * 1.3;
+    // booking card
+    const cin = easeIO((t - 28.1) / .8), cout = easeIO((t - 31.6) / .7);
+    bookCard.visible = t > 28.0 && t < 32.4;
+    bookCard.position.set(lerp(-4.5, -.35, cin) - cout * 5, -1.75 + Math.sin(t * 1.3) * .04, lerp(1.0, 2.4, cin));
+    bookCard.rotation.set(-.08, lerp(1.4, -.18, cin) - cout * 1.2, lerp(.3, -.04, cin));
+    const bt = t - 28.5; burst.visible = bt > 0 && bt < 2.2; burst.position.copy(bookCard.position);
+    burst.children.forEach(m => { const v = m.userData.v; m.position.set(v.x * bt * .6, v.y * bt * .6 - 2.2 * bt * bt * .6, v.z * bt * .4);
+      m.rotation.set(bt * 4 + m.userData.s, bt * 3, 0); m.scale.setScalar(Math.max(0, 1 - bt / 2.2)); });
+    camB.position.set(Math.sin(t * .23) * .3, Math.sin(t * .17) * .15, 10.4); camB.lookAt(0, -.05, 0);
+  } else {
+    rp.scene = C; rp.camera = camC; bloom.strength = .55; bloom.threshold = 1.2;
+    const warm = 1 - ease((t - 48.0) / 2.5);
+    skyC.userData.mat.uniforms.top.value = lc(0x1c6f73, 0xf3b27e, warm); skyC.userData.mat.uniforms.bottom.value = lc(0x061d24, 0x0f3e46, warm);
+    sun.material.opacity = .9 * warm + .2; sun.position.y = 5.5 + (t - 40) * .08;
+    dustC.userData.update(t); ringsC.children.forEach((m, i) => { m.rotation.x = Math.sin(t * .2 + i) * .22; m.rotation.y = Math.cos(t * .17 + i) * .22; m.rotation.z = t * (.1 + i * .05); });
+    morning.forEach((c, i) => { const a = easeIO((t - 40.3 - i * .6) / 1.0), o = easeIO((t - 47.0 - i * .12) / .9);
+      c.visible = a > 0 && o < 1; const y = [1.25, 0, -1.25][i] - .15;
+      c.position.set((i % 2 ? 1 : -1) * o * 6, y + (1 - a) * -1.5, lerp(-9, 0, a));
+      c.rotation.set((1 - a) * 1.2, Math.sin(t * .5 + i) * .07 + (i % 2 ? 1 : -1) * o * .9, (1 - a) * (i % 2 ? .4 : -.4)); });
+    benefits.forEach((c, i) => { const a = easeIO((t - 48.6 - i * .55) / 1.0);
+      c.visible = a > 0; const y = [2.1, 1.05, 0, -1.05][i];
+      c.position.set(lerp(i % 2 ? 5 : -5, 0, a), y, lerp(-4, 0, a));
+      c.rotation.set(Math.sin(t * .6 + i) * .04, lerp(i % 2 ? -1.1 : 1.1, 0, a) + Math.sin(t * .5 + i) * .06, 0); });
+    orbC.visible = t > 52.6; orbC.scale.setScalar(.55 * ease((t - 52.6) / .8));
+    orbC.position.set(0, -1.86 + Math.sin(t * 1.4) * .05, 1.2);
+    orbC.children[1].rotation.set(t * .5, t * .7, 0); orbC.children[2].rotation.z = t * 1.3;
+    camC.position.set(Math.sin(t * .2) * .4, Math.sin(t * .15) * .2, 11.4); camC.lookAt(0, .1, 0);
+  }
+  composer.render();
+};
+window.ready = true;
+</script></body></html>
