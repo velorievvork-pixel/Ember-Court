@@ -287,37 +287,37 @@ function infoTex(icon, iconCol, head, sub) { return cardTexture(1020, 300, (g, w
   const hl = wrap(head, `bold 46px ${FONT}`, 810), sl = sub ? wrap(sub, `35px ${FONT}`, 810) : [];
   let y = h / 2 - (hl.length * 56 + sl.length * 44) / 2 + 28;
   g.fillStyle = '#1c1e21'; g.font = `bold 46px ${FONT}`; for (const l of hl) { g.fillText(l, 170, y); y += 56; }
-  g.fillStyle = '#56605f'; g.font = `35px ${FONT}`; for (const l of sl) { g.fillText(l, 170, y - 6); y += 44; } }); }
+  g.fillStyle = '#2b6d62'; g.font = `35px ${FONT}`; for (const l of sl) { g.fillText(l, 170, y - 6); y += 44; } }); }
 const morning = [
   infoTex('✓', '#115e54', 'Новая запись: Марина', 'завтра 17:00 · флеболог + УЗДГ вен · подтвердила'),
   infoTex('?', '#e08a2e', 'Вопрос врачу', '«Процедура болезненная?» — пациентка ждёт ответа'),
   infoTex('✓', '#115e54', 'Ничего не потерялось за ночь', 'все вечерние заявки получили ответ'),
 ].map(tx => { const c = makeCard(3.5, 1.03, tx); C.add(c); return c; });
 const benefits = [
-  ['1', 'Вечерние заявки не ждут до утра'],
-  ['2', 'Пациент записан, пока ещё выбирает клинику'],
-  ['3', 'Напоминание и подтверждение: меньше пустых окон'],
-  ['4', 'Операторы заняты пациентами, а не перепиской'],
-].map(([n, s]) => { const c = makeCard(3.5, .9, infoTex(n, '#115e54', s, '')); C.add(c); return c; });
+  ['1', 'Через сколько вы отвечаете тем, кто пишет вечером?', 'С ассистентом: сразу, в любое время суток'],
+  ['2', 'Сколько записей не доходит до приёма?', 'Ассистент напоминает и просит подтвердить визит'],
+  ['3', 'Сколько часов операторы тратят на одни и те же вопросы?', 'Типовое берёт ассистент, сложное он передаёт оператору'],
+].map(([n, q, a]) => { const c = makeCard(3.5, 1.08, infoTex(n, '#115e54', q, a)); C.add(c); return c; });
 const orbC = orb.clone(); C.add(orbC); orbC.scale.setScalar(.8);
 
 // ---------------- overlays ----------------
 const ovRoot = document.getElementById('overlays'); const OV = [];
 function ov(html, top, t0, t1, style = '') { const d = document.createElement('div'); d.className = 'ov'; d.style.top = top + 'px'; d.style.cssText += style; d.innerHTML = html; ovRoot.appendChild(d); OV.push({ d, t0, t1 }); }
 function pill(text, bottom, bg, t0, t1) { const d = document.createElement('div'); d.className = 'pill'; d.style.bottom = bottom + 'px'; d.style.background = bg; d.textContent = text; ovRoot.appendChild(d); OV.push({ d, t0, t1, pill: true }); }
-ov('<div style="font-size:96px;font-weight:700;letter-spacing:4px;color:#f2f5f4">21:47</div>', 160, .4, 4.1);
-ov('<div style="font-size:38px">Клиника уже закрыта.</div>', 330, 1.1, 4.1);
-ov('<div style="font-size:30px;color:#bfeee2;padding:0 70px">А пациентка решилась записаться именно сейчас.</div>', 1060, 1.9, 4.1);
+ov('<div style="font-size:18px;letter-spacing:4px;color:#a9d6cc">ВОПРОС К ВАМ</div>', 470, .3, 4.1);
+ov('<div style="font-size:40px;font-weight:700;padding:0 60px;line-height:1.3">Вчера после 18:00 вам писали пациенты.</div>', 520, .6, 4.1);
+ov('<div style="font-size:34px;color:#bff0e4;padding:0 60px">Сколько из них дождались ответа?</div>', 680, 1.7, 4.1);
 pill('Пациентка записалась в другую клинику', 34, 'rgba(18,22,26,.88)', 11.4, 14.4);
+ov('<div style="display:inline-block;background:rgba(10,14,18,.82);border-radius:16px;padding:14px 26px;font-size:24px;color:#ffffff">Сколько таких вечеров было у вас в прошлом месяце?</div>', 66, 12.3, 14.4);
 ov('<div style="font-size:44px;font-weight:700">Тот же вечер.</div>', 470, 14.9, 17.9);
 ov('<div style="font-size:30px;color:#cfe9e2">Но на сообщения отвечает ассистент клиники.</div>', 540, 15.5, 17.9);
 ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">01 — ВЕЧЕР, 21:47. БЕЗ АССИСТЕНТА</div>', 26, 4.6, 14.4);
 ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">02 — ТОТ ЖЕ ВЕЧЕР, С АССИСТЕНТОМ</div>', 26, 18.2, 32.4);
 ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">03 — УТРО</div>', 26, 32.8, 47.6);
-ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">04 — ЧТО ЭТО ДАЁТ КЛИНИКЕ</div>', 26, 48.4, 52.8);
+ov('<div style="font-size:18px;letter-spacing:4px;color:#d4ece6">04 — ВОПРОСЫ К СЕБЕ</div>', 26, 48.4, 52.8);
 ov('<div style="font-size:40px;font-weight:700;padding:0 60px">Утром администратор видит готовое</div>', 150, 40.0, 47.6);
-ov('<div style="font-size:42px;font-weight:700">Что это даёт Flebo One</div>', 120, 48.4, 60.5);
-ov('<div style="font-size:34px;font-weight:700">Покажем на вашей записи</div><div style="font-size:26px;color:#d8efe9;margin-top:10px">бесплатно, за 15 минут</div>', 1000, 53.4, 60.5);
+ov('<div style="font-size:42px;font-weight:700">Проверьте у себя</div>', 150, 48.4, 60.5);
+ov('<div style="font-size:28px;font-weight:700;padding:0 70px;line-height:1.35">Если хоть на один вопрос нет быстрого ответа, давайте посмотрим вашу запись вместе.</div><div style="font-size:24px;color:#d8efe9;margin-top:12px">15 минут, бесплатно</div>', 985, 52.6, 60.5);
 ov('<div style="width:60px;height:2px;background:#7fd1bf;margin:0 auto 18px"></div><div style="font-size:24px;color:#ffffff">Ярослав · Ember Court</div><div style="font-size:19px;color:#a9cfc6;margin-top:6px">ember-court.vercel.app</div>', 1150, 54.4, 60.5);
 
 // ---------------- composer ----------------
@@ -339,12 +339,11 @@ window.renderAt = (t) => {
   document.getElementById('dip').style.opacity = dip;
 
   if (t < 4.0) {
-    rp.scene = A; rp.camera = camA; bloom.strength = .35; bloom.threshold = 1.0;
-    const p = easeIO(t / 4.0);
-    camA.position.set(Math.sin(t * .25) * 1.5, lerp(14, 4.2, p), lerp(22, 2, p)); camA.lookAt(0, lerp(2, 4.6, p), -11);
-    starsA.userData.update(t * .2);
+    rp.scene = B; rp.camera = camB; bloom.strength = .2; bloom.threshold = 1.2; phone.visible = false; orb.visible = false; bookCard.visible = false; burst.visible = false;
+    skyB.userData.mat.uniforms.top.value = new THREE.Color(0x10384a); skyB.userData.mat.uniforms.bottom.value = new THREE.Color(0x02070b);
+    dustB.userData.update(t); camB.position.set(Math.sin(t * .18) * .2, Math.sin(t * .13) * .1, 11.3); camB.lookAt(0, -.05, 0);
   } else if (t < 39.6) {
-    rp.scene = B; rp.camera = camB; bloom.strength = .2; bloom.threshold = 1.2;
+    rp.scene = B; rp.camera = camB; bloom.strength = .2; bloom.threshold = 1.2; phone.visible = true;
     // background mood
     const lost = .6 * ease((t - 11.0) / 1.5) * (1 - ease((t - 14.4) / .8));
     const dawn = ease((t - 32.6) / 1.4);
@@ -394,8 +393,8 @@ window.renderAt = (t) => {
       c.visible = a > 0 && o < 1; const y = [1.25, 0, -1.25][i] - .15;
       c.position.set(0, y + (1 - a) * -.8 + o * 1.2, lerp(-3, 0, a) - o * 2);
       c.rotation.set((1 - a) * .35, Math.sin(t * .4 + i) * .035, 0); c.children.forEach(m => { m.material.transparent = true; m.material.opacity = a * (1 - o); }); });
-    benefits.forEach((c, i) => { const a = easeIO((t - 48.6 - i * .55) / 1.0);
-      c.visible = a > 0; const y = [2.1, 1.05, 0, -1.05][i];
+    benefits.forEach((c, i) => { const a = easeIO((t - 48.8 - i * 1.1) / 1.0);
+      c.visible = a > 0; const y = [1.75, .5, -.75][i];
       c.position.set(0, y + (1 - a) * -.6, lerp(-2.5, 0, a));
       c.rotation.set((1 - a) * .3, Math.sin(t * .4 + i) * .03, 0); c.children.forEach(m => { m.material.transparent = true; m.material.opacity = a; }); });
     orbC.visible = false; orbC.scale.setScalar(.55 * ease((t - 52.6) / .8));
