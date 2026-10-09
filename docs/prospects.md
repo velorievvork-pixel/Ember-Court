@@ -76,3 +76,18 @@ Solva Group (крупная группа).
 | M Demokrat (ТОО, БИН 240840029075, Тараз) | 3,74 млн ₸ | 6–10 | ищут администратора в стоматологию | — | сайт stom-demokrat.com отдаёт 402, но это клиника в Алматы, связь с таразским ТОО не подтверждена | не пишем |
 
 Отсеяно по налогам 2025 (вне 1–4 млн ₸): Defenium (795 ₸), Astana Creative, ADMAKER, CDEK-Analytics Asia (меньше 1 млн); AQUAPOLIS, STALT, Дез-Сити, ANIMED, Medina, Сила Харизмы, ТВК ЭлТау, ALEM LTD, Ирмас, Кодерлайн, KEY ONE, STEPLine, KazVgroup, TEAM Clinic, ASAI-Clinic, StudyON, Yasira, CorEn, KUB Group, International Drivers Association, Art Building Group (больше 4 млн); TRIO Clinic, TN.AN, Comfort Medical, Кровмаркет Алматы, Хелперстафф (зарегистрированы в 2025–2026).
+
+## Пачка 09.10 — малый бизнес (налоги 2025 от 1 до 4 млн ₸)
+
+Проверка по ba.prg.kz (КГД) 09.10: долга, банкротства, бездействия нет у всех ниже. Поиск: hh.kz «менеджер по продажам», «оператор колл-центра», «администратор» за 3 дня, Алматы, Астана, Шымкент, Караганда.
+
+| Компания | Налоги 2025 | Штат (КРП) | Повод | Услуга | Контакт | Итог |
+|---|---|---|---|---|---|---|
+| Бизнес-Эксперт Консалт / B-expert (ТОО, БИН 120540013455) | 2,73 млн ₸ | 6–10 | hh.kz/vacancy/137855598 — менеджер по продажам в Астане | поиск клиентов | info@b-expert.kz (сайт b-expert.kz) | черновик 09.10, ждёт «отправляй» |
+| Shanyraq Study (ТОО, БИН 250140021373) | 2,62 млн ₸ | до 5 (в hh 16 вакансий) | hh.kz/vacancy/135694609 — менеджер продаж, 15–20 заявок в день, запись на пробный урок | бот для заявок | app@shanyraqstudy.kz (сайт, политика) | черновик 09.10, ждёт «отправляй» |
+| LTC-BINST, языковая школа LTC (ТОО, БИН 220540021580, Астана) | 2,50 млн ₸ | 11–15 | ищут менеджера по продажам; домен ltc.kz из 2ГИС сейчас открывает казино, почты на нём нет (нет MX) | поиск клиентов / сайт | только WhatsApp из 2ГИС | ждёт WhatsApp; повод сказать про домен |
+| Flebo One Clinic (ТОО, Алматы) | 2,51 млн ₸ | 6–10 | hh.kz/vacancy/137322412 — оператор колл-центра | бот для записи | сайт fleboone.kz без почты, WhatsApp | ждёт WhatsApp |
+| Liberty Space (ТОО, БИН 210740030097) | 2,49 млн ₸ | до 5 | набор продавцов face-to-face | — | сайта и почты нет | не пишем |
+| Fahrenhite Jewelry Studio (ТОО, БИН 240240015915) | 1,81 млн ₸ | до 5 | менеджер по продажам | — | сайта и почты нет | не пишем |
+
+Отсеяно по налогам 2025: TechFusion (4,52 млн), Daratek (4,80 млн), VERITA GROUP (4,19 млн) чуть выше коридора; PalletHub, JOYU, KZ Film, QALANKZ, Homex Global, PROFIT-K, STARK Avtodetailing, Indigo Solutions, Attila Empire, Jet Logistic, TPA Sary Arka, Альфа-КТ, Westminster, DPB New Brands, CURADEN, MIA, Пром Энерго, Fitness IT, Экспромт-3, Казахстан-Мед Дез, Амперэль, ALTRA (больше 4 млн); BAS Holding Inc, ProExpert Management, Kiddi, LEAD MONSTER, HOWABOUTSMM, М2 (меньше 1 млн); Андромеда Эду, AV Master Wash (зарегистрированы в 2026); Форма Плюс, BigBro, EUROTEX (нет данных о налогах или не найдены).
