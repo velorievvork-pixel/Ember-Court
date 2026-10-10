@@ -17,6 +17,9 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">) {
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const lang = (await params).lang as Locale;
   const t = getT(lang, "index");
+  const ts = getT(lang, "services");
+  // The four services next to outbound, each straight to its sample on the examples page.
+  const four: [string, string, string][] = [["s2.ws.h", "four.ws", "sites"], ["s2.at.h", "four.at", "assistant"], ["s2.au.h", "four.au", "audit"], ["s2.vd.h", "four.vd", "video"]];
 
   const jsonLd = {
     "@context": "https://schema.org", "@type": "ProfessionalService", name: "Ember Court",
@@ -52,6 +55,25 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ember/15 font-semibold text-ember">{t("s.me").charAt(0)}</span>
               {t("s.me")}
             </p>
+          </div>
+        </section>
+
+        {/* The other four services, one tap from the first screen to a sample. */}
+        <section className="border-t border-rule">
+          <div className={`${wide} py-12 sm:py-16`}>
+            <h2 className="text-[clamp(1.4rem,2.4vw,1.75rem)] font-semibold tracking-[-0.02em]">{t("four.h")}</h2>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {four.map(([title, line, id]) => (
+                <li key={id}>
+                  <Link href={`${href(lang, "examples")}#${id}`}
+                    className="flex h-full flex-col rounded-[14px] border border-rule bg-sheet/70 p-5 transition-colors hover:border-ink/35">
+                    <span className="text-[17px] font-semibold">{ts(title)}</span>
+                    <span className="mt-2 flex-1 text-[15px] leading-[1.5] text-ink-muted">{t(line)}</span>
+                    <span className="mt-4 text-[14.5px] font-medium text-ember">{t("four.link")}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
