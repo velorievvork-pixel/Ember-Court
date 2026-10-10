@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import type { CSSProperties } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -26,7 +28,9 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
     { side: "out", key: "a.m6", time: "09:00" },
     { side: "in", key: "a.m7", time: "09:02" },
   ];
-  const jump: [string, string][] = [["assistant", "jump.a"], ["outbound", "jump.o"], ["audit", "jump.au"], ["sites", "jump.s"], ["video", "jump.v"], ["social", "jump.sm"]];
+  // The player shows only once the rendered file is committed to public/media.
+  const hasVideo = existsSync(join(process.cwd(), "public/media/assistant-demo.mp4")) && existsSync(join(process.cwd(), "public/media/assistant-demo.jpg"));
+  const jump: [string, string][] = [["assistant", "jump.a"], ["integrations", "jump.i"], ["outbound", "jump.o"], ["audit", "jump.au"], ["sites", "jump.s"], ["video", "jump.v"], ["social", "jump.sm"]];
   const label = "text-[14.5px] font-medium text-ember";
   const note = "mt-4 text-[14px] text-ink-muted";
 
@@ -86,6 +90,44 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
                   </li>
                 ))}
               </ol>
+            </div>
+          </div>
+        </section>
+
+        {/* Automation: the Telegram notice and the sheet row a site request turns into. */}
+        <section id="integrations" className="scroll-mt-20 border-t border-rule">
+          <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
+            <div>
+              <p className={label}>{t("i.tag")}</p>
+              <h2 className={`mt-2 ${h2l}`}>{t("i.h")}</h2>
+              <p className="mt-4 max-w-[30rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("i.p")}</p>
+              <p className={note}>{t("i.note")}</p>
+            </div>
+            <div className="grid gap-6">
+              <div className="max-w-[380px] rounded-[16px] border border-rule bg-sheet p-4 text-[15px] leading-[1.5]">
+                <p className="text-[13px] font-semibold text-[#5aa9e6]">{t("i.bot")}</p>
+                <p className="mt-1 font-semibold">{t("i.n1")}</p>
+                {[2, 3, 4, 5].map((n) => <p key={n}>{t(`i.n${n}`)}</p>)}
+                <p className="mt-2 text-[13.5px] text-ink-muted">{t("i.n6")}</p>
+              </div>
+              <div className="border-b border-rule">
+                <div aria-hidden className="hidden gap-4 pb-3 text-[13.5px] font-medium text-ink-muted sm:grid sm:grid-cols-[7.5rem_5rem_1fr_8rem]">
+                  {[1, 2, 3, 4].map((n) => <span key={n}>{t(`i.c${n}`)}</span>)}
+                </div>
+                {[1, 2, 3].map((r) => {
+                  const cells = t(`i.r${r}`).split("|");
+                  return (
+                    <dl key={r} className="grid gap-x-4 gap-y-1 border-t border-rule py-3 text-[15px] leading-[1.45] sm:grid-cols-[7.5rem_5rem_1fr_8rem]">
+                      {cells.map((c, i) => (
+                        <div key={i} className="grid grid-cols-[6.5rem_1fr] gap-3 sm:block">
+                          <dt className="text-[13.5px] text-ink-muted sm:sr-only">{t(`i.c${i + 1}`)}</dt>
+                          <dd className={r === 1 && i === 3 ? "text-ember" : ""}>{c}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
@@ -170,10 +212,10 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
               </ul>
               <p className={note}>{t("v.note")}</p>
             </div>
-            <video controls playsInline preload="none" poster="/media/assistant-demo.jpg" aria-label={t("v.label")}
+            {hasVideo && <video controls playsInline preload="none" poster="/media/assistant-demo.jpg" aria-label={t("v.label")}
               className="mx-auto aspect-[9/16] w-full max-w-[340px] rounded-[18px] border border-rule bg-black object-cover">
               <source src="/media/assistant-demo.mp4" type="video/mp4" />
-            </video>
+            </video>}
           </div>
         </section>
 

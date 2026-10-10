@@ -770,6 +770,25 @@
   "sm.r2": "Wed|Photo post|A new line in the workshop and what it gives clients",
   "sm.r3": "Fri|Carousel|Five questions people ask before their first order",
   "sm.r4": "Sat|Stories|A client review and answers to questions",
-  "sm.note": "Sample plan. The company is fictional."
+  "sm.note": "Sample plan. The company is fictional.",
+  "jump.i": "Requests to a sheet",
+  "i.tag": "Automation",
+  "i.h": "A site request on your phone and in a sheet at once",
+  "i.p": "A form on the site, a Google Sheet or CRM, and a Telegram notification. No manual copying: no request gets lost between the site, email and a notebook.",
+  "i.bot": "Request bot",
+  "i.n1": "New request from the site",
+  "i.n2": "Name: Aidar",
+  "i.n3": "Phone: +7 7•• ••• •• 12",
+  "i.n4": "Needs: a delivery quote for 20 tonnes",
+  "i.n5": "Source: form on the home page",
+  "i.n6": "Added to the sheet, row 148",
+  "i.c1": "Date",
+  "i.c2": "Name",
+  "i.c3": "Need",
+  "i.c4": "Status",
+  "i.r1": "10.10, 21:14|Aidar|Delivery quote, 20 t|New",
+  "i.r2": "10.10, 18:02|Olga|Wholesale price list|Offer sent",
+  "i.r3": "10.10, 11:40|Timur|Product samples|Call on Monday",
+  "i.note": "Sample. Names and requests are fictional."
  }
 }
