@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   // Without a key (or if Stripe is unreachable) the visitor still reaches the owner instead of an error page.
   // x-ec-reason carries only Stripe's error type/code (never keys or buyer data), so a failure can be diagnosed.
   const fallback = (reason: string) => new Response(null, { status: 303, headers: { location: contacts.telegram, "x-ec-reason": reason } });
-  if (!stripeReady()) return fallback("no_key");
+  if (!stripeReady()) return fallback("payments_off");
 
   const { lookupKey, mode } = OFFERS[offer];
   try {
