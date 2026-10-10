@@ -23,8 +23,9 @@ export async function POST(request: Request) {
   if (!isOffer(offer)) return new Response(null, { status: 400 });
 
   // Without a key (or if Stripe is unreachable) the visitor still reaches the owner instead of an error page.
-  const fallback = Response.redirect(contacts.telegram, 303);
-  if (!stripeReady()) return fallback;
+  // x-ec-reason carries only Stripe's error type/code (never keys or buyer data), so a failure can be diagnosed.
+  const fallback = (reason: string) => new Response(null, { status: 303, headers: { location: contacts.telegram, "x-ec-reason": reason } });
+  if (!stripeReady()) return fallback("no_key");
 
   const { lookupKey, mode } = OFFERS[offer];
   try {
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
     const price = prices.data[0];
     if (!price) {
       console.error("checkout: no active price for", lookupKey);
-      return fallback;
+      return fallback(`no_price:${lookupKey}`);
     }
     const session = await client.checkout.sessions.create({
       mode,
@@ -48,9 +49,10 @@ export async function POST(request: Request) {
       success_url: `${SITE}${href(lang, "paid")}?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${SITE}${href(lang, "pilot")}`,
     });
-    return session.url ? Response.redirect(session.url, 303) : fallback;
+    return session.url ? Response.redirect(session.url, 303) : fallback("no_url");
   } catch (e) {
     console.error("checkout: stripe error", e instanceof Error ? e.message.slice(0, 200) : e);
-    return fallback;
+    const err = e as { type?: string; code?: string; param?: string };
+    return fallback(`stripe:${err.type ?? "unknown"}:${err.code ?? ""}:${err.param ?? ""}`.slice(0, 120));
   }
 }
