@@ -284,7 +284,11 @@
   "four.ws": "A site that explains what you do in 30 seconds",
   "four.at": "Requests land in a sheet by themselves, an assistant replies at night",
   "four.au": "We'll show for free where your site loses requests",
-  "four.vd": "Videos and Reels from footage you already have"
+  "four.vd": "Videos and Reels from footage you already have",
+  "chips.label": "Quick links",
+  "chips.ex": "Examples of our work",
+  "chips.svc": "Services and prices",
+  "chips.ob": "Finding clients"
  },
  "services": {
   "jump.5": "Website audit",
