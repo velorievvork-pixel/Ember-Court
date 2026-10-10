@@ -278,7 +278,13 @@
   "s.wa": "Or message us on WhatsApp",
   "s.wa.text": "Hi! I'd like 10 companies for my website: ",
   "s.me": "Yaroslav, founder. I build and send the list myself.",
-  "ex.link": "Came here from our email? See examples of our work →"
+  "ex.link": "Came here from our email? See examples of our work →",
+  "four.h": "What else we help with",
+  "four.link": "See an example →",
+  "four.ws": "A site that explains what you do in 30 seconds",
+  "four.at": "Requests land in a sheet by themselves, an assistant replies at night",
+  "four.au": "We'll show for free where your site loses requests",
+  "four.vd": "Videos and Reels from footage you already have"
  },
  "services": {
   "jump.5": "Website audit",
