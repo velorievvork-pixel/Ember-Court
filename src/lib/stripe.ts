@@ -7,8 +7,11 @@ import Stripe from "stripe";
  */
 let client: Stripe | null = null;
 
-/** Pay buttons render only when the build has a key, so the site never shows a button that cannot work. */
-export const stripeReady = () => Boolean(process.env.STRIPE_SECRET_KEY?.trim());
+/**
+ * Payments are on only when the owner switches them on (PAYMENTS_ENABLED=1) and a key is set. Pay buttons are
+ * decided at build time, so the site never shows a button that cannot work; checkout refuses while it is off.
+ */
+export const stripeReady = () => process.env.PAYMENTS_ENABLED?.trim() === "1" && Boolean(process.env.STRIPE_SECRET_KEY?.trim());
 
 export function stripe() {
   const key = process.env.STRIPE_SECRET_KEY?.trim();
