@@ -19,6 +19,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const t = getT(lang, "index");
   const ts = getT(lang, "services");
   // The four services next to outbound, each straight to its sample on the examples page.
+  const chips: [string, string][] = [[t("chips.ob"), "outbound"], [ts("s2.ws.h"), "sites"], [ts("s2.at.h"), "assistant"], [ts("s2.au.h"), "audit"], [ts("s2.vd.h"), "video"]];
   const four: [string, string, string][] = [["s2.ws.h", "four.ws", "sites"], ["s2.at.h", "four.at", "assistant"], ["s2.au.h", "four.au", "audit"], ["s2.vd.h", "four.vd", "video"]];
 
   const jsonLd = {
@@ -35,9 +36,19 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <main id="main">
         {/* The offer and the form that gets it, on one screen. */}
         <section className={`${wide} grid gap-10 pb-16 pt-12 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:pb-24`}>
-          <div>
+          <div className="min-w-0">
             <h1 className="max-w-[18ch] text-balance text-[clamp(2.25rem,5vw,4rem)] font-semibold leading-[1.05] tracking-[-0.035em]">{t("s.h1")}</h1>
             <p className="mt-6 max-w-[34rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("s.sub")}</p>
+            {/* Services and samples reachable from the first screen, before the form, without opening the menu. */}
+            <nav aria-label={t("chips.label")} className="-mx-4 mt-6 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+              <ul className="flex w-max gap-2 sm:w-auto sm:flex-wrap">
+                <li><Link href={href(lang, "examples")} className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full bg-ember px-4 text-[14.5px] font-semibold text-paper">{t("chips.ex")}</Link></li>
+                {chips.map(([label, id]) => (
+                  <li key={id}><Link href={`${href(lang, "examples")}#${id}`} className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full border border-ink/20 px-4 text-[14.5px] transition-colors hover:border-ink/40">{label}</Link></li>
+                ))}
+                <li><Link href={href(lang, "services")} className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full border border-ink/20 px-4 text-[14.5px] transition-colors hover:border-ink/40">{t("chips.svc")}</Link></li>
+              </ul>
+            </nav>
           </div>
           <div id="lead" className="scroll-mt-20 rounded-[14px] border border-rule bg-sheet p-6 sm:p-8">
             <LeadForm lang={lang} telegram={contacts.telegram} thanks={href(lang, "thanks")} labels={{
