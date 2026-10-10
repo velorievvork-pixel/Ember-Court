@@ -26,6 +26,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
     { side: "out", key: "a.m6", time: "09:00" },
     { side: "in", key: "a.m7", time: "09:02" },
   ];
+  const jump: [string, string][] = [["assistant", "jump.a"], ["outbound", "jump.o"], ["audit", "jump.au"], ["sites", "jump.s"], ["video", "jump.v"], ["social", "jump.sm"]];
   const label = "text-[14.5px] font-medium text-ember";
   const note = "mt-4 text-[14px] text-ink-muted";
 
@@ -36,6 +37,14 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         <section className={`${wide} pb-12 pt-14 sm:pb-16 sm:pt-20`}>
           <h1 className="max-w-[18ch] text-balance text-[clamp(2.3rem,4.8vw,3.75rem)] font-semibold leading-[1.05] tracking-[-0.035em]">{t("ex.h1")}</h1>
           <p className="mt-6 max-w-[38rem] text-pretty text-[18px] leading-[1.6] text-ink-muted">{t("ex.lede")}</p>
+          <nav aria-label={t("jump.h")} className="mt-8">
+            <p className="text-[14.5px] text-ink-muted">{t("jump.h")}</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {jump.map(([id, key]) => (
+                <li key={id}><a href={`#${id}`} className="inline-flex min-h-10 items-center rounded-full border border-ink/20 px-4 text-[14.5px] transition-colors hover:border-ink/40">{t(key)}</a></li>
+              ))}
+            </ul>
+          </nav>
         </section>
 
         {/* Why this company got our message: the four facts that make a cold email less alarming. */}
@@ -51,7 +60,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         </section>
 
         {/* Assistant: a sample chat, evening request to morning confirmation. */}
-        <section className="border-t border-rule">
+        <section id="assistant" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16`}>
             <div>
               <p className={label}>{t("a.tag")}</p>
@@ -82,7 +91,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         </section>
 
         {/* Outbound: what the weekly list looks like, including a company we chose not to write to. */}
-        <section className="border-t border-rule bg-paper-deep/60">
+        <section id="outbound" className="scroll-mt-20 border-t border-rule bg-paper-deep/60">
           <div className={`${wide} py-16 sm:py-20`}>
             <p className={label}>{t("o.tag")}</p>
             <h2 className={`mt-2 ${h2l}`}>{t("o.h")}</h2>
@@ -111,7 +120,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         </section>
 
         {/* Audit: four sample findings in the report's own red/amber format. */}
-        <section className="border-t border-rule">
+        <section id="audit" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
             <div>
               <p className={label}>{t("au.tag")}</p>
@@ -127,6 +136,69 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        {/* Sites: the honest example is this site itself. */}
+        <section id="sites" className="scroll-mt-20 border-t border-rule bg-paper-deep/60">
+          <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
+            <div>
+              <p className={label}>{t("s.tag")}</p>
+              <h2 className={`mt-2 ${h2l}`}>{t("s.h")}</h2>
+              <p className="mt-4 max-w-[30rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("s.p")}</p>
+              <p className={note}>{t("s.note")}</p>
+            </div>
+            <ul className="grid gap-4 self-center">
+              {t("s.list").split("|").map((it, i) => (
+                <li key={it} className="flex gap-3 text-[16.5px] leading-[1.5]"><PenCheck delay={i * 0.12} className="mt-[-1px]" />{it}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* Video: a minute-long piece we made, loaded only when played (preload="none") to keep the page fast. */}
+        <section id="video" className="scroll-mt-20 border-t border-rule">
+          <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16`}>
+            <div>
+              <p className={label}>{t("v.tag")}</p>
+              <h2 className={`mt-2 ${h2l}`}>{t("v.h")}</h2>
+              <p className="mt-4 max-w-[32rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("v.p")}</p>
+              <ul className="mt-6 grid gap-3">
+                {t("v.list").split("|").map((it) => (
+                  <li key={it} className="flex gap-3 text-[16px] leading-[1.5]"><span aria-hidden className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />{it}</li>
+                ))}
+              </ul>
+              <p className={note}>{t("v.note")}</p>
+            </div>
+            <video controls playsInline preload="none" poster="/media/assistant-demo.jpg" aria-label={t("v.label")}
+              className="mx-auto aspect-[9/16] w-full max-w-[340px] rounded-[18px] border border-rule bg-black object-cover">
+              <source src="/media/assistant-demo.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </section>
+
+        {/* Social: a sample week from a monthly plan. */}
+        <section id="social" className="scroll-mt-20 border-t border-rule bg-paper-deep/60">
+          <div className={`${wide} py-16 sm:py-20`}>
+            <p className={label}>{t("sm.tag")}</p>
+            <h2 className={`mt-2 ${h2l}`}>{t("sm.h")}</h2>
+            <p className="mt-4 max-w-[36rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("sm.p")}</p>
+            <div className="mt-8 border-b border-rule">
+              <div aria-hidden className="hidden gap-4 pb-3 text-[13.5px] font-medium text-ink-muted sm:grid sm:grid-cols-[5rem_10rem_1fr]">
+                {[1, 2, 3].map((n) => <span key={n}>{t(`sm.c${n}`)}</span>)}
+              </div>
+              {[1, 2, 3, 4].map((r) => {
+                const [day, format, topic] = t(`sm.r${r}`).split("|");
+                return (
+                  <dl key={r} className="grid gap-x-4 gap-y-1 border-t border-rule py-4 text-[15.5px] leading-[1.45] sm:grid-cols-[5rem_10rem_1fr]">
+                    <dt className="sr-only">{t("sm.c1")}</dt><dd className="font-medium">{day}</dd>
+                    <dt className="sr-only">{t("sm.c2")}</dt><dd className="text-ember">{format}</dd>
+                    <dt className="sr-only">{t("sm.c3")}</dt><dd>{topic}</dd>
+                  </dl>
+                );
+              })}
+            </div>
+            <p className={note}>{t("sm.note")}</p>
           </div>
         </section>
 
