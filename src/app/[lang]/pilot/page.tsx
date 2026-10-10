@@ -5,6 +5,8 @@ import { MethodSteps } from "@/components/Reveal";
 import { btnAccent, btnGhost, wide } from "@/components/ui";
 import { briefHref, clockText, contacts, getT, langLabel, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
+import PayButton from "@/components/PayButton";
+import { stripeReady } from "@/lib/stripe";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/pilot">) {
   return pageMetadata((await params).lang as Locale, "pilot");
@@ -61,6 +63,15 @@ export default async function Pilot({ params }: PageProps<"/[lang]/pilot">) {
             <div>
               <p className="text-[34px] font-semibold tracking-[-0.02em] text-ember tabular-nums">$250 <span className="text-[16px] font-normal text-ink-muted">{t("h.pr.pilot.local")}</span></p>
               <p className="mt-2 max-w-[40rem] text-[17px] leading-[1.6] text-ink">{t("p.price.p")}</p>
+              {stripeReady() && (
+                <>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                    <PayButton lang={lang} offer="pilot" label={`${t("pay.pilot")} — $250`} />
+                    <PayButton lang={lang} offer="flow" label={t("pay.flow")} ghost />
+                  </div>
+                  <p className="no-print mt-3 max-w-[40rem] text-[14.5px] leading-[1.5] text-ink-muted">{t("pay.note")}</p>
+                </>
+              )}
             </div>
           </div>
           <div className={`${row} border-b`}>

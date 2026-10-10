@@ -46,6 +46,9 @@ Only `src/` and `public/` are built and deployed; the Python folders are ignored
   `hit` (an invited company is reading the site, see below), `watch` and `weekly` (called by the
   GitHub workflows). Telegram helper: `src/lib/telegram.ts`. The bot token is only in the server env
   (`TELEGRAM_BOT_TOKEN`); optional env: `LEADS_SHEET_URL`, `GOOGLE_SITE_VERIFICATION`, `NEXT_PUBLIC_CAL_URL`.
+- Card payments: Stripe Checkout (`/api/checkout`, webhook `/api/stripe/webhook`, return page `/paid.html`).
+  Pay buttons render only when the build has `STRIPE_SECRET_KEY` (a restricted `rk_` key); the webhook needs
+  `STRIPE_WEBHOOK_SECRET`. Setup and the event list: `docs/stripe.md`.
 - Company visits without cookies: every outreach email links to `https://ember-court.vercel.app/?r=<slug>`.
   The slug must be listed in `RECIPIENTS` in `src/lib/visit.ts`. After 5 s on screen the page posts to
   `/api/hit` and the owner gets "<company> is reading: <page>" in Telegram. No cookies or storage by

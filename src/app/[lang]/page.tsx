@@ -9,6 +9,8 @@ import { Reveal } from "@/components/Reveal";
 import { btnAccent, h2l, wide } from "@/components/ui";
 import { contacts, descriptions, getT, href, langLabel, SITE, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
+import PayButton from "@/components/PayButton";
+import { stripeReady } from "@/lib/stripe";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">) {
   return pageMetadata((await params).lang as Locale, "index");
@@ -204,6 +206,12 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                   <dd className="col-span-2 text-[15px] leading-[1.5] text-ink-muted">{r.p}</dd>
                 </div>
               ))}
+              {stripeReady() && (
+                <div className="border-t border-rule py-5">
+                  <PayButton lang={lang} offer="pilot" label={`${t("pay.pilot")} — $250`} />
+                  <p className="mt-3 text-[14px] leading-[1.5] text-ink-muted">{t("pay.note")}</p>
+                </div>
+              )}
               <div className="border-t border-rule py-5">
                 <Link href={href(lang, "pilot")} className="text-[15px] underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
                   {t("l.svc.more")}

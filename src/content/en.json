@@ -291,7 +291,10 @@
   "chips.ob": "Finding clients",
   "hook.lead": "Right now someone is hiring a",
   "hook.roles": "sales manager|logistician|accountant|front-desk administrator|marketer",
-  "demo.site": "your-site.com"
+  "demo.site": "your-site.com",
+  "pay.pilot": "Pay for the pilot by card",
+  "pay.flow": "Start the flow — $490 a month",
+  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer — write on Telegram."
  },
  "services": {
   "jump.5": "Website audit",
@@ -702,7 +705,10 @@
   "footer.tag": "Precision over volume",
   "h.pr.pilot.i": "30–50 verified companies matching your profile|A personal first message and one follow-up|Interested replies handed over the same day|A funnel report at the end of each week",
   "h.pr.pilot.g": "No interested reply at all — we continue for 2 more weeks for free. Interested means a real question, a request for details or agreement to a call; auto-replies and “not interested” do not count.",
-  "h.pr.pilot.local": "paid in USD"
+  "h.pr.pilot.local": "paid in USD",
+  "pay.pilot": "Pay for the pilot by card",
+  "pay.flow": "Start the flow — $490 a month",
+  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer — write on Telegram."
  },
  "examples": {
   "nav.home": "Home",
@@ -803,5 +809,18 @@
   "i.r2": "10.10, 18:02|Olga|Wholesale price list|Offer sent",
   "i.r3": "10.10, 11:40|Timur|Product samples|Call on Monday",
   "i.note": "Sample. Names and requests are fictional."
+ },
+ "paid": {
+  "nav.home": "Home",
+  "nav.services": "Services",
+  "nav.clients": "Clients",
+  "nav.cta": "Get in touch",
+  "footer.tag": "Precision over volume",
+  "pd.title": "Payment received | Ember Court",
+  "pd.h1": "Payment received",
+  "pd.p": "Thank you. Yaroslav will write within a business day to agree on the company profile and start. Stripe will email the receipt and invoice.",
+  "pd.brief": "To start sooner, fill in the brief — 10 minutes",
+  "pd.portal": "Manage subscription",
+  "pd.q": "Question about payment"
  }
 }
