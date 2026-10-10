@@ -52,7 +52,8 @@ export async function POST(request: Request) {
     return session.url ? Response.redirect(session.url, 303) : fallback("no_url");
   } catch (e) {
     console.error("checkout: stripe error", e instanceof Error ? e.message.slice(0, 200) : e);
-    const err = e as { type?: string; code?: string; param?: string };
-    return fallback(`stripe:${err.type ?? "unknown"}:${err.code ?? ""}:${err.param ?? ""}`.slice(0, 120));
+    const err = e as { type?: string; code?: string; param?: string; message?: string };
+    const msg = (err.message ?? "").replace(/\b(sk|rk|pk|whsec)_[A-Za-z0-9_*]+/g, "[key]").replace(/[^\x20-\x7E]/g, " ");
+    return fallback(`stripe:${err.type ?? "unknown"}:${err.code ?? ""}:${err.param ?? ""}:${msg}`.slice(0, 240));
   }
 }
