@@ -289,7 +289,9 @@
   "chips.ex": "Examples of our work",
   "chips.svc": "Services and prices",
   "chips.ob": "Finding clients",
-  "s.scroll": "See what the list looks like"
+  "hook.lead": "Right now someone is hiring a",
+  "hook.roles": "sales manager|logistician|accountant|front-desk administrator|marketer",
+  "demo.site": "your-site.com"
  },
  "services": {
   "jump.5": "Website audit",

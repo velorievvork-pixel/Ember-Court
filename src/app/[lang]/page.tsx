@@ -5,7 +5,6 @@ import LeadForm from "@/components/LeadForm";
 import MobileCta from "@/components/MobileCta";
 import TrackedLink from "@/components/TrackedLink";
 import type { CSSProperties } from "react";
-import { StruckLine } from "@/components/Pen";
 import { Reveal } from "@/components/Reveal";
 import { btnAccent, h2l, wide } from "@/components/ui";
 import { contacts, descriptions, getT, href, langLabel, SITE, type Locale } from "@/lib/i18n";
@@ -26,6 +25,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const te = getT(lang, "examples");
   // Fictional sample rows from the examples page: what one week of the list looks like.
   const rows = ["o.r1", "o.r2", "o.r3"].map((k) => te(k).split("|"));
+  const roles = t("hook.roles").split("|");
   const ticker = ["o.tag", "s.tag", "a.tag", "i.tag", "au.tag", "v.tag", "sm.tag"].map((k) => te(k));
   const d = (s: number) => ({ "--d": `${s}s` }) as CSSProperties;
   const four: [string, string, string][] = [["s2.ws.h", "four.ws", "sites"], ["s2.at.h", "four.at", "assistant"], ["s2.au.h", "four.au", "audit"], ["s2.vd.h", "four.vd", "video"]];
@@ -42,20 +42,46 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
     <>
       <Header lang={lang} page="index" labels={{ home: t("nav.home"), services: t("nav.services"), clients: t("nav.clients"), cta: t("nav.cta"), lang: langLabel[lang] }} />
       <main id="main">
-        {/* The offer and the form that gets it, on one screen. */}
+        {/* The hook: a role someone is hiring for right now, the promise, and the search playing out on the right.
+            The form sits under the promise, so the first screen both shows the result and asks for the site. */}
         <div className="relative isolate">
-        {/* Warm light behind the offer, so the first screen has depth instead of a flat fill. */}
-        <div aria-hidden className="hero-glow pointer-events-none absolute inset-x-0 -top-24 -z-10 h-[680px]" />
-        <section className={`${wide} grid gap-10 pb-12 pt-12 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16 lg:pb-16`}>
-          <div className="min-w-0">
-            <p className="fade-up inline-flex items-center gap-2 rounded-full border border-ember/30 bg-ember/10 px-3 py-1 text-[13.5px] font-medium text-ember">
-              <span aria-hidden className="ember-pulse h-2 w-2 rounded-full bg-ember" />{te("o.tag")}
+        <div aria-hidden className="hero-glow pointer-events-none absolute inset-x-0 -top-24 -z-10 h-[760px]" />
+        <section className={`${wide} grid gap-10 pb-14 pt-10 sm:pt-16 lg:grid-cols-[1fr_1fr] lg:gap-x-14 lg:gap-y-0 lg:pb-20`}>
+          <div className="min-w-0 max-lg:order-1 lg:self-end">
+            <p className="hero-rise text-[clamp(1.05rem,1.8vw,1.3rem)] font-medium leading-[1.3] text-ink-muted">
+              {t("hook.lead")}{" "}
+              <span className="rotator inline-block h-[1.3em] overflow-hidden align-bottom text-ember">
+                <span className="rotator-track block">
+                  {[...roles, roles[0]].map((r, i) => <span key={i} aria-hidden={i > 0} className="block h-[1.3em] whitespace-nowrap">{r}</span>)}
+                </span>
+              </span>
             </p>
-            <h1 className="hero-rise mt-5 max-w-[18ch] text-balance text-[clamp(2.4rem,5.4vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.04em]">
+            <h1 className="hero-rise mt-4 max-w-[14em] text-balance text-[clamp(2.5rem,5vw,4.1rem)] font-semibold leading-[1.0] tracking-[-0.045em]" style={d(0.08)}>
               {t("s.h1")}
             </h1>
-            <p className="hero-rise mt-6 max-w-[34rem] text-pretty text-[18px] leading-[1.6] text-ink-muted" style={d(0.12)}>{t("s.sub")}</p>
-            {/* Services and samples reachable from the first screen, before the form, without opening the menu. */}
+            <p className="hero-rise mt-5 max-w-[34rem] text-pretty text-[17.5px] leading-[1.6] text-ink-muted" style={d(0.16)}>{t("s.sub")}</p>
+          </div>
+          <div className="min-w-0 max-lg:order-3 lg:col-start-1 lg:row-start-2">
+            <div id="lead" className="hero-rise lg:mt-7 max-w-[34rem] scroll-mt-20 rounded-[16px] border border-rule bg-sheet/90 p-5 shadow-[0_30px_80px_-30px_rgba(5,10,25,0.9)] sm:p-6" style={d(0.24)}>
+              <LeadForm lang={lang} telegram={contacts.telegram} thanks={href(lang, "thanks")} labels={{
+                name: "", site: t("s.site"), contact: t("s.contact"), need: "", options: [t("s.send")],
+                send: t("s.send"), sending: t("l.form.sending"), msg: t("l.form.msg"), ok: t("s.ok"), more: t("l.form.more"),
+                done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
+              }} />
+              <p className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[14px] text-ink-muted">
+                <span>{t("s.note")}</span>
+                <TrackedLink href={`${contacts.whatsapp}?text=${encodeURIComponent(t("s.wa.text"))}`} event="whatsapp"
+                  className="underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
+                  {t("s.wa")} {contacts.whatsappLabel}
+                </TrackedLink>
+              </p>
+              {/* A one-person agency: the person who answers is the trust signal. */}
+              <p className="mt-4 flex items-center gap-3 border-t border-rule pt-4 text-[14px] leading-[1.45] text-ink-muted">
+                <span aria-hidden className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ember/15 font-semibold text-ember">{t("s.me").charAt(0)}</span>
+                {t("s.me")}
+              </p>
+            </div>
+            {/* Services and samples reachable from the first screen without opening the menu. */}
             <nav aria-label={t("chips.label")} className="-mx-4 mt-6 overflow-x-auto px-4 sm:mx-0 sm:px-0">
               <ul className="flex w-max gap-2 sm:w-auto sm:flex-wrap">
                 <li><Link href={href(lang, "examples")} className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full bg-ember px-4 text-[14.5px] font-semibold text-paper">{t("chips.ex")}</Link></li>
@@ -65,31 +91,43 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 <li><Link href={href(lang, "services")} className="inline-flex min-h-10 items-center whitespace-nowrap rounded-full border border-ink/20 px-4 text-[14.5px] transition-colors hover:border-ink/40">{t("chips.svc")}</Link></li>
               </ul>
             </nav>
-            {/* A visible next step down the page: the sample list right below. */}
-            <a href="#list" className="group mt-8 hidden items-center gap-3 text-[15px] text-ink-muted transition-colors hover:text-ink lg:inline-flex">
-              <span aria-hidden className="scroll-cue grid h-9 w-9 place-items-center rounded-full border border-ink/20 transition-colors group-hover:border-ember">
-                <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" /></svg>
-              </span>
-              {t("s.scroll")}
-            </a>
           </div>
-          <div id="lead" className="hero-rise scroll-mt-20 rounded-[16px] border border-rule bg-sheet/90 p-6 shadow-[0_30px_80px_-30px_rgba(5,10,25,0.9)] backdrop-blur sm:p-8" style={d(0.2)}>
-            <LeadForm lang={lang} telegram={contacts.telegram} thanks={href(lang, "thanks")} labels={{
-              name: "", site: t("s.site"), contact: t("s.contact"), need: "", options: [t("s.send")],
-              send: t("s.send"), sending: t("l.form.sending"), msg: t("l.form.msg"), ok: t("s.ok"), more: t("l.form.more"),
-              done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
-            }} />
-            <p className="mt-4 text-[14.5px] text-ink-muted">{t("s.note")}</p>
-            <TrackedLink href={`${contacts.whatsapp}?text=${encodeURIComponent(t("s.wa.text"))}`} event="whatsapp"
-              className="mt-3 inline-block text-[15px] underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
-              {t("s.wa")} {contacts.whatsappLabel}
-            </TrackedLink>
-            {/* A one-person agency: the person who answers is the trust signal. */}
-            <p className="mt-6 flex items-center gap-3 border-t border-rule pt-5 text-[14.5px] leading-[1.45] text-ink-muted">
-              <span aria-hidden className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ember/15 font-semibold text-ember">{t("s.me").charAt(0)}</span>
-              {t("s.me")}
-            </p>
-          </div>
+
+          {/* The search, played as a loop: the site goes in, the list comes out, a company with tax debt is struck off.
+              Fictional rows from the examples page; with reduced motion the finished list simply stands still. */}
+          <figure className="hero-rise min-w-0 max-lg:order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-start lg:pt-6" style={d(0.12)}>
+            <div aria-hidden className="demo relative rounded-[20px] border border-rule bg-sheet/85 p-3 shadow-[0_50px_100px_-40px_rgba(5,10,25,1)] backdrop-blur sm:p-4">
+              <div className="flex items-center gap-1.5 px-2 pb-3 pt-1">
+                {[0, 1, 2].map((i) => <span key={i} className="h-2.5 w-2.5 rounded-full bg-ink/15" />)}
+                <span className="ml-3 text-[12.5px] text-ink-muted">Ember Court</span>
+              </div>
+              <div className="rounded-[12px] border border-rule bg-paper px-4 py-3">
+                <span className="text-[12.5px] text-ink-muted">{t("s.site")}</span>
+                <span className="mt-1 flex items-center text-[16px] font-medium">
+                  <span className="demo-type inline-block whitespace-nowrap">{t("demo.site")}</span><span className="demo-caret ml-0.5 h-5 w-[2px] bg-ember" />
+                </span>
+              </div>
+              <div className="mt-3 flex items-center gap-3 px-1 text-[13px] text-ink-muted">
+                <span className="relative h-1 flex-1 overflow-hidden rounded-full bg-rule"><span className="demo-scan absolute inset-y-0 left-0 w-full origin-left rounded-full bg-ember" /></span>
+                <span className="demo-count tabular-nums text-ink" /> / 10
+              </div>
+              <ul className="mt-3 grid gap-2">
+                {rows.map(([co, why, check, status], i) => {
+                  const no = i === rows.length - 1;
+                  return (
+                    <li key={co} style={d(0.4 * i)}
+                      className={`demo-card grid gap-x-4 gap-y-1 rounded-[12px] border p-3.5 sm:grid-cols-[1fr_auto] sm:p-4 ${no ? "border-rule/60 bg-paper/50" : "border-rule bg-paper-deep"}`}>
+                      <span className="text-[15px] font-semibold sm:text-[16px]"><span className={no ? "demo-strike pen-strike bg-no-repeat" : ""}>{co}</span></span>
+                      <span className={`row-start-4 mt-1.5 inline-flex w-fit self-start rounded-full px-2.5 py-0.5 text-[12px] font-medium sm:row-start-auto sm:mt-0 ${no ? "bg-pen/15 text-pen-ink" : "bg-ember/15 text-ember"}`}>{status}</span>
+                      <span className="text-[13.5px] leading-[1.45] text-ink-muted sm:col-span-2">{why}</span>
+                      <span className={`text-[13.5px] leading-[1.45] sm:col-span-2 ${no ? "text-pen-ink" : "text-ink-muted"}`}>{check}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <figcaption className="mt-3 px-1 text-[13px] text-ink-muted">{te("o.note")}</figcaption>
+          </figure>
         </section>
         </div>
 
@@ -108,45 +146,19 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </Link>
 
-        {/* What the visitor gets: the four lines next to a sample of the list itself. */}
+        {/* What the visitor gets, line by line, in big numbered steps. */}
         <section id="list" className="scroll-mt-20">
-          <div className={`${wide} grid gap-12 py-16 sm:py-24 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16`}>
-            <div>
-              <Reveal><h2 className={h2l}>{t("s.what.h")}</h2></Reveal>
-              <ol className="mt-8 grid gap-1">
-                {t("s.what").split("|").map((it, i) => (
-                  <li key={it} data-inview="" style={d(0.08 * i)} className="reveal flex gap-4 border-t border-rule py-4 text-[17px] leading-[1.5]">
-                    <span className="w-6 shrink-0 text-[15px] font-semibold text-ember tabular-nums">0{i + 1}</span>{it}
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <figure className="min-w-0">
-              <div className="relative rounded-[18px] border border-rule bg-sheet/80 p-3 shadow-[0_40px_90px_-40px_rgba(5,10,25,0.95)] sm:p-4">
-                <div className="flex items-center justify-between px-2 pb-3 pt-1 text-[13px] text-ink-muted">
-                  <span className="flex items-center gap-2"><span aria-hidden className="ember-pulse h-2 w-2 rounded-full bg-ember" />{te("o.tag")}</span>
-                  <span className="tabular-nums">3 / 10</span>
-                </div>
-                <ul className="grid gap-2">
-                  {rows.map(([co, why, check, status], i) => {
-                    const no = i === rows.length - 1;
-                    return (
-                      <li key={co} data-inview="" style={d(0.15 + 0.15 * i)}
-                        className={`reveal lift grid gap-x-4 gap-y-1 rounded-[12px] border p-4 sm:grid-cols-[1fr_auto] ${no ? "border-rule/60 bg-paper/40" : "border-rule bg-paper-deep"}`}>
-                        <span className="text-[16px] font-semibold">{no ? <StruckLine text={co} delay={0.9} /> : co}</span>
-                        <span className={`row-start-4 mt-2 inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[12.5px] font-medium sm:row-start-auto sm:mt-0 ${no ? "bg-pen/15 text-pen-ink" : "bg-ember/15 text-ember"}`}>{status}</span>
-                        <span className="text-[14.5px] leading-[1.45] text-ink-muted sm:col-span-2">{te("o.c2")}: {why}</span>
-                        <span className={`text-[14.5px] leading-[1.45] sm:col-span-2 ${no ? "text-pen-ink" : "text-ink-muted"}`}>{te("o.c3")}: {check}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <figcaption className="mt-3 flex flex-wrap items-center justify-between gap-3 text-[13.5px] text-ink-muted">
-                {te("o.note")}
-                <Link href={`${href(lang, "examples")}#outbound`} className="font-medium text-ember underline decoration-ember/40 underline-offset-4 hover:decoration-ember">{t("ex.link")}</Link>
-              </figcaption>
-            </figure>
+          <div className={`${wide} py-16 sm:py-24`}>
+            <Reveal><h2 className={h2l}>{t("s.what.h")}</h2></Reveal>
+            <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {t("s.what").split("|").map((it, i) => (
+                <li key={it} data-inview="" style={d(0.08 * i)} className="reveal lift rounded-[16px] border border-rule bg-sheet/60 p-5">
+                  <span className="block text-[44px] font-semibold leading-none tracking-[-0.04em] text-ember/90 tabular-nums">0{i + 1}</span>
+                  <span className="mt-6 block text-[17px] leading-[1.45]">{it}</span>
+                </li>
+              ))}
+            </ol>
+            <Link href={`${href(lang, "examples")}#outbound`} className="mt-8 inline-block text-[16px] font-medium text-ember underline decoration-ember/40 underline-offset-4 hover:decoration-ember">{t("ex.link")}</Link>
           </div>
         </section>
 
