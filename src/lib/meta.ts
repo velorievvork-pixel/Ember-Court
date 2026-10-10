@@ -7,6 +7,7 @@ const titles: Record<Page, (t: (k: string) => string) => string> = {
   clients: (t) => `${t("nav.clients")} | Ember Court`,
   thanks: (t) => t("ty.title"),
   pilot: (t) => t("p.title"),
+  examples: (t) => t("ex.title"),
 };
 
 /** Title, description, canonical and hreflang alternates for one page in one language. */

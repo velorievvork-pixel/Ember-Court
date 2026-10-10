@@ -8,6 +8,7 @@ import { btnPrimary, wide } from "./ui";
 import { contacts, href, locales, type Locale, type Page } from "@/lib/i18n";
 
 const LANG_LABEL: Record<Locale, string> = { ru: "RU", en: "EN", uk: "UA" };
+const EXAMPLES: Record<Locale, string> = { ru: "Примеры", en: "Examples", uk: "Приклади" };
 
 export default function Header({ lang, page, labels, langHrefs }: {
   lang: Locale; page: Page; labels: { home: string; services: string; clients: string; cta: string; lang: string };
@@ -23,7 +24,7 @@ export default function Header({ lang, page, labels, langHrefs }: {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const nav: [Page, string][] = [["index", labels.home], ["services", labels.services], ["clients", labels.clients]];
+  const nav: [Page, string][] = [["index", labels.home], ["services", labels.services], ["examples", EXAMPLES[lang]], ["clients", labels.clients]];
   const links = nav.map(([p, label]) => (
     <Link key={p} href={href(lang, p)} onClick={() => setOpen(false)} aria-current={p === page ? "page" : undefined}
       className="py-2 text-[15px] text-ink-muted hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-pen aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8">

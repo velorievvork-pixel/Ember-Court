@@ -66,6 +66,9 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                 </li>
               ))}
             </ol>
+            <Link href={href(lang, "examples")} className="mt-8 inline-block text-[16px] font-medium underline decoration-ember/50 underline-offset-4 transition-colors hover:decoration-ember">
+              {t("ex.link")}
+            </Link>
           </div>
         </section>
 

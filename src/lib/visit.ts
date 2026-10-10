@@ -12,6 +12,14 @@ export const RECIPIENTS: Record<string, string> = {
   lamper: "Lamper",
   ecolos: "Ecolos Engineering",
   wellsun: "WellSun",
+  unitedexpo: "United Expo",
+  bexpert: "B-expert (Бизнес-Эксперт Консалт)",
+  shanyraqstudy: "Shanyraq Study",
+  ltc: "LTC (языковая школа)",
+  fleboone: "Flebo One Clinic",
+  dentalpractice: "Dental Practice (ДиАнТа Дент)",
+  recrutoman: "Recrutoman",
+  capedu: "CAP Education",
 };
 
 let recipient: string | null = null;

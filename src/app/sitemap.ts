@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { href, locales, NICHES, nicheHref, SITE, type Niche, type Page } from "@/lib/i18n";
 
-const pages: Page[] = ["index", "services", "clients", "pilot"];
+const pages: Page[] = ["index", "services", "clients", "examples", "pilot"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const niches = (Object.keys(NICHES) as Niche[]).flatMap((n) =>
