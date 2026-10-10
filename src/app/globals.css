@@ -130,6 +130,34 @@ details > summary::-webkit-details-marker { display: none; }
 @keyframes grow-x { from { transform: scaleX(0); } }
 @keyframes grow-y { from { transform: scaleY(0); } }
 
+/* Home: warm light behind the hero and the closing call. */
+.hero-glow {
+  background:
+    radial-gradient(42% 55% at 78% 30%, color-mix(in srgb, var(--color-ember) 22%, transparent), transparent 70%),
+    radial-gradient(38% 45% at 12% 8%, color-mix(in srgb, var(--color-pen) 13%, transparent), transparent 70%);
+}
+/* Cards that lift a little under the pointer. */
+.lift { transition: transform 300ms var(--ease-out), border-color 300ms, box-shadow 300ms; }
+.lift:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--color-ember) 45%, transparent); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* First screen comes in at once, in a short cascade (no JS needed). */
+  .hero-rise { animation: fade-up 800ms var(--ease-out) var(--d, 0s) both; }
+  /* The services strip drifts left forever; the second copy closes the loop. Pauses on hover. */
+  .ticker { animation: ticker 38s linear infinite; }
+  a:hover > .ticker { animation-play-state: paused; }
+  .scroll-cue { animation: nudge 2.2s var(--ease-out) infinite; }
+  .typing-dot { animation: typing 1.2s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lift:hover { transform: none; }
+  .ticker { flex-wrap: wrap; width: auto; }
+  .ticker > ul[aria-hidden="true"] { display: none; }
+}
+@keyframes ticker { to { transform: translateX(-50%); } }
+@keyframes nudge { 0%, 60%, 100% { transform: none; } 30% { transform: translateY(4px); } }
+@keyframes typing { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
 /* Phone: the pilot offer slides up from the bottom after the first screen. */
 .mobile-cta { transform: translateY(110%); visibility: hidden; }
 .mobile-cta[data-show] { transform: none; visibility: visible; }

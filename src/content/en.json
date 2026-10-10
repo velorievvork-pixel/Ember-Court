@@ -288,7 +288,8 @@
   "chips.label": "Quick links",
   "chips.ex": "Examples of our work",
   "chips.svc": "Services and prices",
-  "chips.ob": "Finding clients"
+  "chips.ob": "Finding clients",
+  "s.scroll": "See what the list looks like"
  },
  "services": {
   "jump.5": "Website audit",
