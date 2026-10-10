@@ -158,6 +158,41 @@ details > summary::-webkit-details-marker { display: none; }
 @keyframes nudge { 0%, 60%, 100% { transform: none; } 30% { transform: translateY(4px); } }
 @keyframes typing { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
+/* Home hook: the hired role rotates; the search demo plays as a 9 s loop. Still and complete without motion. */
+@property --n { syntax: "<integer>"; inherits: false; initial-value: 10; }
+.demo-count { counter-reset: n var(--n); }
+.demo-count::after { content: counter(n); }
+.demo-caret { display: none; }
+.demo-strike { background-size: 100% 1.5px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .rotator-track { animation: rotate-roles 12.5s var(--ease-out) infinite; }
+  .demo-caret { display: inline-block; animation: caret 9s steps(1) infinite; }
+  .demo-type { animation: demo-type 9s steps(14) infinite; }
+  .demo-scan { animation: demo-scan 9s var(--ease-out) infinite; }
+  .demo-count { animation: demo-count 9s linear infinite; }
+  .demo-card { animation: demo-card 9s var(--ease-out) var(--d, 0s) infinite both; }
+  .demo-strike { animation: demo-strike 9s var(--ease-out) infinite both; }
+}
+@keyframes rotate-roles {
+  0%, 16% { transform: translateY(0); }
+  20%, 36% { transform: translateY(-1.3em); }
+  40%, 56% { transform: translateY(-2.6em); }
+  60%, 76% { transform: translateY(-3.9em); }
+  80%, 96% { transform: translateY(-5.2em); }
+  100% { transform: translateY(-6.5em); }
+}
+@keyframes demo-type { 0%, 1% { clip-path: inset(0 100% 0 0); } 10%, 100% { clip-path: inset(0 0 0 0); } }
+@keyframes caret { 0%, 4%, 8%, 12% { opacity: 1; } 2%, 6%, 10%, 14%, 100% { opacity: 0; } }
+@keyframes demo-scan { 0%, 10% { transform: scaleX(0); } 42%, 92% { transform: scaleX(1); } 97%, 100% { transform: scaleX(0); opacity: 0; } }
+@keyframes demo-count { 0%, 10% { --n: 0; } 42%, 92% { --n: 10; } 97%, 100% { --n: 0; } }
+@keyframes demo-card {
+  0%, 12% { opacity: 0; transform: translateY(14px) scale(0.98); }
+  18%, 88% { opacity: 1; transform: none; }
+  94%, 100% { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes demo-strike { 0%, 36% { background-size: 0% 1.5px; } 42%, 92% { background-size: 100% 1.5px; } 97%, 100% { background-size: 0% 1.5px; } }
+
 /* Phone: the pilot offer slides up from the bottom after the first screen. */
 .mobile-cta { transform: translateY(110%); visibility: hidden; }
 .mobile-cta[data-show] { transform: none; visibility: visible; }
