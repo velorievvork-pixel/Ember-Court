@@ -41,6 +41,9 @@ export async function POST(request: Request) {
       line_items: [{ price: price.id, quantity: 1 }],
       // No payment_method_types: Stripe picks the methods turned on in the Dashboard for each buyer.
       locale: checkoutLocale[lang],
+      // We sell services, which Managed Payments (Stripe as merchant of record) does not cover; keep it off
+      // explicitly so a Dashboard default can't route these sessions there and fail them.
+      managed_payments: { enabled: false },
       tax_id_collection: { enabled: true },             // companies enter their BIN/VAT id; it lands on the invoice
       billing_address_collection: "required",
       ...(mode === "payment" ? { invoice_creation: { enabled: true }, customer_creation: "always" as const } : {}),
