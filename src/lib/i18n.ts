@@ -4,7 +4,7 @@ import uk from "@/content/uk.json";
 
 export const locales = ["ru", "en", "uk"] as const;
 export type Locale = (typeof locales)[number];
-export type Page = "index" | "services" | "clients" | "thanks" | "pilot";
+export type Page = "index" | "services" | "clients" | "thanks" | "pilot" | "examples";
 
 const dictionaries = { ru, en, uk };
 
@@ -63,6 +63,7 @@ export const descriptions: Record<Locale, Record<Page, string>> = {
     clients: "Клиент Ember Court — Camirix: задача, каналы и результат первой недели. И кому мы подходим.",
     thanks: "Заявка отправлена. Ярослав ответит в течение рабочего дня.",
     pilot: "Что входит в пилот outbound за $250, как идут две недели, что нужно от вас и гарантия.",
+    examples: "Как выглядит наша работа: почему мы пишем компаниям, пример ассистента для заявок, списка компаний для outbound и экспресс-аудита сайта.",
   },
   en: {
     index: "We bring B2B clients in Kazakhstan and Central Asia: companies hiring for the job your product does, messaged on WhatsApp and by email. 2-week pilot for $250.",
@@ -70,6 +71,7 @@ export const descriptions: Record<Locale, Record<Page, string>> = {
     clients: "Ember Court's client Camirix: the task, channels and first-week result. And who we fit.",
     thanks: "Request sent. Yaroslav replies within a business day.",
     pilot: "What the $250 outbound pilot includes, how the two weeks go, what we need from you and the guarantee.",
+    examples: "What our work looks like: why we write to companies, a sample request assistant, an outbound company list and an express site audit.",
   },
   uk: {
     index: "Приводимо B2B-клієнтів у Казахстані та Центральній Азії: компанії, які зараз наймають під ваше завдання, пишемо керівнику у WhatsApp і на пошту. Пілот на 2 тижні — $250.",
@@ -77,6 +79,7 @@ export const descriptions: Record<Locale, Record<Page, string>> = {
     clients: "Клієнт Ember Court — Camirix: завдання, канали й результат першого тижня. І кому ми підходимо.",
     thanks: "Заявку надіслано. Ярослав відповість протягом робочого дня.",
     pilot: "Що входить у пілот outbound за $250, як минають два тижні, що потрібно від вас і гарантія.",
+    examples: "Як виглядає наша робота: чому ми пишемо компаніям, приклад асистента для заявок, списку компаній для outbound і експрес-аудиту сайту.",
   },
 };
 
