@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 // The static site lived at /, /services.html and /clients.html. Those URLs are indexed,
 // so they stay public; the app routes under /[lang] are served behind them.
-const pages = ["services", "clients", "thanks", "pilot", "brief", "examples"];
+const pages = ["services", "clients", "thanks", "pilot", "brief", "examples", "paid"];
 const niches = { it: "outbound-it", pr: "outbound-production" };   // same as NICHES in src/lib/i18n.ts
 
 const nextConfig: NextConfig = {

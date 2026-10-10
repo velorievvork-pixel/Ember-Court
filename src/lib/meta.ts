@@ -8,6 +8,7 @@ const titles: Record<Page, (t: (k: string) => string) => string> = {
   thanks: (t) => t("ty.title"),
   pilot: (t) => t("p.title"),
   examples: (t) => t("ex.title"),
+  paid: (t) => t("pd.title"),
 };
 
 /** Title, description, canonical and hreflang alternates for one page in one language. */
@@ -22,7 +23,7 @@ export function pageMetadata(lang: Locale, page: Page): Metadata {
       canonical: href(lang, page),
       languages: { ...Object.fromEntries(locales.map((l) => [l, href(l, page)])), "x-default": href("ru", page) },
     },
-    ...(page === "thanks" ? { robots: { index: false, follow: true } } : {}),
+    ...(page === "thanks" || page === "paid" ? { robots: { index: false, follow: true } } : {}),
     openGraph: { type: "website", siteName: "Ember Court", title, description, url: href(lang, page), locale: lang },
   };
 }
