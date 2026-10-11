@@ -61,10 +61,17 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               done: t("l.form.done"), again: t("l.form.again"), edit: t("l.form.edit"),
             }} />
             <p className="mt-4 text-[14.5px] text-ink-muted">{t("s.note")}</p>
-            <TrackedLink href={`${contacts.whatsapp}?text=${encodeURIComponent(t("s.wa.text"))}`} event="whatsapp"
-              className="mt-3 inline-block text-[15px] underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
-              {t("s.wa")} {contacts.whatsappLabel}
-            </TrackedLink>
+            {/* Two direct channels next to the form: WhatsApp and Telegram, each opens with a prefilled message. */}
+            <div className="mt-3 flex flex-col gap-2 text-[15px]">
+              <TrackedLink href={`${contacts.whatsapp}?text=${encodeURIComponent(t("s.wa.text"))}`} event="whatsapp"
+                className="w-fit underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
+                {t("s.wa")} {contacts.whatsappLabel}
+              </TrackedLink>
+              <TrackedLink href={`${contacts.telegram}?text=${encodeURIComponent(t("s.wa.text"))}`} event="telegram"
+                className="w-fit underline decoration-ink/30 underline-offset-4 transition-colors hover:decoration-ink">
+                {t("s.tg")} {contacts.telegramHandle}
+              </TrackedLink>
+            </div>
             {/* A one-person agency: the person who answers is the trust signal. */}
             <p className="mt-6 border-t border-rule pt-5 text-[14.5px] leading-[1.45] text-ink-muted">{t("s.me")}</p>
           </div>

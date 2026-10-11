@@ -294,7 +294,8 @@
   "demo.site": "your-site.com",
   "pay.pilot": "Pay for the pilot by card",
   "pay.flow": "Start the flow — $490 a month",
-  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer? Write on Telegram."
+  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer? Write on Telegram.",
+  "s.tg": "Or on Telegram"
  },
  "services": {
   "jump.5": "Website audit",
