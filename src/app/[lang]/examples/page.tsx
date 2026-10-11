@@ -92,6 +92,15 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
               </ol>
             </div>
           </div>
+          {/* Two more bots in other trades, so a visitor finds one close to their own business. */}
+          <div className={`${wide} pb-16 sm:pb-20`}>
+            <h3 className="text-[22px] font-semibold tracking-[-0.015em]">{t("b.h")}</h3>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <MiniChat t={t} prefix="b1" head="bg-[#3390ec]" bg="bg-[#dfe7ee]" own="bg-[#effdde]" times={["14:02", "14:02", "14:03", "14:03"]} />
+              <MiniChat t={t} prefix="b2" head="bg-[#115e54]" bg="bg-[#ece5dd]" own="bg-[#d9f7c4]" times={["19:31", "19:31", "19:32", "19:32"]} />
+            </div>
+            <p className={note}>{t("b.note")}</p>
+          </div>
         </section>
 
         {/* Automation: the Telegram notice and the sheet row a site request turns into. */}
@@ -196,6 +205,20 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
               ))}
             </ul>
           </div>
+          {/* Three first screens for other trades, each in its own palette, drawn in HTML rather than as pictures. */}
+          <div className={`${wide} pb-16 sm:pb-20`}>
+            <p className={label}>{t("sc.tag")}</p>
+            <h3 className="mt-2 text-[clamp(1.5rem,2.6vw,2rem)] font-semibold tracking-[-0.02em]">{t("sc.h")}</h3>
+            <p className="mt-3 max-w-[40rem] text-pretty text-[16.5px] leading-[1.6] text-ink-muted">{t("sc.p")}</p>
+            <ul className="mt-8 grid gap-6 lg:grid-cols-3">
+              {CONCEPTS.map((c, i) => (
+                <li key={c.n} data-inview="" style={{ "--d": `${i * 0.1}s` } as CSSProperties} className="reveal">
+                  <SiteConcept t={t} n={c.n} theme={c} />
+                </li>
+              ))}
+            </ul>
+            <p className={note}>{t("sc.note")}</p>
+          </div>
         </section>
 
         {/* Video: a minute-long piece we made, loaded only when played (preload="none") to keep the page fast. */}
@@ -259,5 +282,65 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
       </main>
       <Footer tag={t("footer.tag")} clock={clockText(lang)} />
     </>
+  );
+}
+
+type T = (k: string) => string;
+
+/** A compact messenger window for a sample conversation: messages <prefix>.m1…m4, the client writes first. */
+function MiniChat({ t, prefix, head, bg, own, times }: { t: T; prefix: string; head: string; bg: string; own: string; times: string[] }) {
+  return (
+    <div className={`overflow-hidden rounded-[20px] border border-rule ${bg} shadow-[0_20px_50px_-30px_rgba(0,0,0,0.35)]`}>
+      <div className={`flex items-center gap-3 ${head} px-4 py-3 text-white`}>
+        <span aria-hidden className="grid h-8 w-8 place-items-center rounded-full bg-white/90 text-[12px] font-semibold text-[#1c1e21]">{t(`${prefix}.name`).charAt(0)}</span>
+        <div className="leading-tight">
+          <p className="text-[14.5px] font-semibold">{t(`${prefix}.name`)}</p>
+          <p className="text-[12px] text-white/75">{t(`${prefix}.status`)}</p>
+        </div>
+      </div>
+      <ol className="grid gap-2 p-4">
+        {[1, 2, 3, 4].map((n, i) => (
+          <li key={n} data-inview="" style={{ "--d": `${i * 0.1}s` } as CSSProperties}
+            className={`reveal max-w-[85%] rounded-[14px] px-3.5 py-2 text-[14.5px] leading-[1.45] text-[#1c1e21] shadow-[0_1px_1px_rgba(0,0,0,0.08)] ${n % 2 ? `justify-self-end ${own}` : "justify-self-start bg-white"}`}>
+            {t(`${prefix}.m${n}`)}<span className="ml-2 align-bottom text-[11px] text-[#788082]">{times[i]}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+const CONCEPTS = [
+  { n: 1, page: "bg-[#f7fafd]", hero: "bg-[linear-gradient(135deg,#e6f0fb,#f7fafd)]", ink: "text-[#0f2741]", muted: "text-[#4b5d73]", btn: "bg-[#f28c28] text-white", chip: "bg-white text-[#0f2741] ring-1 ring-[#d5e1ee]" },
+  { n: 2, page: "bg-[#f3fbf8]", hero: "bg-[linear-gradient(135deg,#dff5ec,#f3fbf8)]", ink: "text-[#12352e]", muted: "text-[#4a6a62]", btn: "bg-[#1f9d7a] text-white", chip: "bg-white text-[#12352e] ring-1 ring-[#cfe9df]" },
+  { n: 3, page: "bg-[#16181b]", hero: "bg-[linear-gradient(135deg,#24272c,#16181b)]", ink: "text-[#f4f4f2]", muted: "text-[#a9adb3]", btn: "bg-[#f5c518] text-[#16181b]", chip: "bg-white/5 text-[#f4f4f2] ring-1 ring-white/10" },
+];
+
+/** One concept site's first screen inside a browser frame. Decorative copy, real text, no images. */
+function SiteConcept({ t, n, theme }: { t: T; n: number; theme: (typeof CONCEPTS)[number] }) {
+  const k = (x: string) => t(`sc${n}.${x}`);
+  return (
+    <figure className="lift overflow-hidden rounded-[14px] border border-rule bg-sheet">
+      <div aria-hidden className="flex items-center gap-1.5 border-b border-rule px-3 py-2">
+        {[0, 1, 2].map((i) => <span key={i} className="h-2 w-2 rounded-full bg-ink/20" />)}
+        <span className="ml-2 h-4 flex-1 rounded-full bg-ink/10" />
+      </div>
+      <div className={`${theme.page} ${theme.ink}`}>
+        <div className="flex items-center justify-between px-5 py-3 text-[12.5px]">
+          <span className="font-semibold tracking-[-0.01em]">{k("name")}</span>
+          <span className={`hidden gap-3 sm:flex ${theme.muted}`}>{t("sc.nav").split("|").map((x) => <span key={x}>{x}</span>)}</span>
+        </div>
+        <div className={`${theme.hero} px-5 pb-6 pt-5`}>
+          <p className={`text-[11.5px] font-medium uppercase tracking-[0.06em] ${theme.muted}`}>{k("tag")}</p>
+          <p className="mt-2 text-balance text-[21px] font-semibold leading-[1.15] tracking-[-0.02em]">{k("h")}</p>
+          <p className={`mt-2 text-[13px] leading-[1.5] ${theme.muted}`}>{k("p")}</p>
+          <span className={`mt-4 inline-flex rounded-[8px] px-4 py-2 text-[13px] font-semibold ${theme.btn}`}>{k("cta")}</span>
+          <ul className="mt-4 flex flex-wrap gap-1.5">
+            {k("f").split("|").map((f) => <li key={f} className={`rounded-full px-2.5 py-1 text-[11.5px] ${theme.chip}`}>{f}</li>)}
+          </ul>
+        </div>
+      </div>
+      <figcaption className="sr-only">{k("name")}: {k("tag")}</figcaption>
+    </figure>
   );
 }
