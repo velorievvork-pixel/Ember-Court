@@ -9,6 +9,8 @@ import { clockText, contacts, getT, langLabel, type Locale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/meta";
 import ChatPlayer, { type Msg, type Scenario } from "@/components/examples/ChatPlayer";
 import ConceptGallery, { type Concept } from "@/components/examples/ConceptGallery";
+import LeadFlow from "@/components/examples/LeadFlow";
+import { StruckLine } from "@/components/Pen";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/examples">) {
   return pageMetadata((await params).lang as Locale, "examples");
@@ -38,10 +40,11 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
     f: t(`c${n}.f`).split("|"), svc: t(`c${n}.svc`).split("|").map((x) => x.split(";") as [string, string]), how: t(`c${n}.how`).split("|"),
   }));
   const gl = { desk: t("gal.desk"), phone: t("gal.phone"), svc: t("gal.svc"), how: t("gal.how"), form: t("gal.form"), fname: t("gal.fname"), fphone: t("gal.fphone"), send: t("gal.send"), reply: t("gal.reply") };
-  // The player shows only once the rendered file is committed to public/media.
-  const hasVideo = existsSync(join(process.cwd(), "public/media/assistant-demo.mp4")) && existsSync(join(process.cwd(), "public/media/assistant-demo.jpg"));
+  // Players show only for clips whose file and poster are committed to public/media.
+  const videos = ["assistant-demo", "logistics-demo", "steel-demo"]
+    .filter((n) => existsSync(join(process.cwd(), `public/media/${n}.mp4`)) && existsSync(join(process.cwd(), `public/media/${n}.jpg`)))
+    .map((n) => ({ src: `/media/${n}.mp4`, poster: `/media/${n}.jpg` }));
   const jump: [string, string][] = [["assistant", "jump.a"], ["integrations", "jump.i"], ["outbound", "jump.o"], ["audit", "jump.au"], ["sites", "jump.s"], ["video", "jump.v"], ["social", "jump.sm"]];
-  const label = "text-[14.5px] font-medium text-ember";
   const note = "mt-4 text-[14px] text-ink-muted";
 
   return (
@@ -77,8 +80,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         <section id="assistant" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16`}>
             <div className="lg:pt-14">
-              <p className={label}>{t("a.tag")}</p>
-              <h2 className={`mt-2 ${h2l}`}>{t("a.h")}</h2>
+              <h2 className={h2l}>{t("a.h")}</h2>
               <p className="mt-4 max-w-[30rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("a.p")}</p>
               <p className="mt-4 max-w-[30rem] text-[16px] leading-[1.55] text-ink">{t("cp.h")}. {t("cp.p")}</p>
               <p className={note}>{t("cp.note")}</p>
@@ -89,49 +91,24 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
           </div>
         </section>
 
-        {/* Automation: the Telegram notice and the sheet row a site request turns into. */}
+        {/* Automation: one request travels from the site form to Telegram and into the sheet, on a loop. */}
         <section id="integrations" className="scroll-mt-20 border-t border-rule">
-          <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
-            <div>
-              <p className={label}>{t("i.tag")}</p>
-              <h2 className={`mt-2 ${h2l}`}>{t("i.h")}</h2>
-              <p className="mt-4 max-w-[30rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("i.p")}</p>
-              <p className={note}>{t("i.note")}</p>
+          <div className={`${wide} py-16 sm:py-20`}>
+            <h2 className={h2l}>{t("i.h")}</h2>
+            <p className="mt-4 max-w-[40rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("i.p")}</p>
+            <div className="mt-8">
+              <LeadFlow values={t("i.fv").split("|")} today={t("i.r1").split("|")[0]} rows={[t("i.r2").split("|"), t("i.r3").split("|")]}
+                l={{ site: t("i.site"), name: t("i.f.name"), phone: t("i.f.phone"), need: t("i.f.need"), send: t("i.f.send"), bot: t("i.bot"),
+                  n1: t("i.n1"), n5: t("i.n5"), n6: t("i.n6"), sheet: t("i.sheet"), cols: [1, 2, 3, 4].map((n) => t(`i.c${n}`)), isNew: t("i.new") }} />
             </div>
-            <div className="grid gap-6">
-              <div className="max-w-[380px] rounded-[16px] border border-rule bg-sheet p-4 text-[15px] leading-[1.5]">
-                <p className="text-[13px] font-semibold text-[#5aa9e6]">{t("i.bot")}</p>
-                <p className="mt-1 font-semibold">{t("i.n1")}</p>
-                {[2, 3, 4, 5].map((n) => <p key={n}>{t(`i.n${n}`)}</p>)}
-                <p className="mt-2 text-[13.5px] text-ink-muted">{t("i.n6")}</p>
-              </div>
-              <div className="border-b border-rule">
-                <div aria-hidden className="hidden gap-4 pb-3 text-[13.5px] font-medium text-ink-muted sm:grid sm:grid-cols-[7.5rem_5rem_1fr_8rem]">
-                  {[1, 2, 3, 4].map((n) => <span key={n}>{t(`i.c${n}`)}</span>)}
-                </div>
-                {[1, 2, 3].map((r) => {
-                  const cells = t(`i.r${r}`).split("|");
-                  return (
-                    <dl key={r} className="grid gap-x-4 gap-y-1 border-t border-rule py-3 text-[15px] leading-[1.45] sm:grid-cols-[7.5rem_5rem_1fr_8rem]">
-                      {cells.map((c, i) => (
-                        <div key={i} className="grid grid-cols-[6.5rem_1fr] gap-3 sm:block">
-                          <dt className="text-[13.5px] text-ink-muted sm:sr-only">{t(`i.c${i + 1}`)}</dt>
-                          <dd className={r === 1 && i === 3 ? "text-ember" : ""}>{c}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  );
-                })}
-              </div>
-            </div>
+            <p className={note}>{t("i.note")}</p>
           </div>
         </section>
 
         {/* Outbound: what the weekly list looks like, including a company we chose not to write to. */}
         <section id="outbound" className="scroll-mt-20 border-t border-rule bg-paper-deep/60">
           <div className={`${wide} py-16 sm:py-20`}>
-            <p className={label}>{t("o.tag")}</p>
-            <h2 className={`mt-2 ${h2l}`}>{t("o.h")}</h2>
+            <h2 className={h2l}>{t("o.h")}</h2>
             <p className="mt-4 max-w-[36rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("o.p")}</p>
             {/* Rows as cards on a phone, a four-column table from sm up; the last row is a company we chose not to write to. */}
             <div className="mt-8 border-b border-rule">
@@ -141,11 +118,11 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
               {[1, 2, 3].map((r) => {
                 const cells = t(`o.r${r}`).split("|");
                 return (
-                  <dl key={r} className={`grid gap-x-4 gap-y-2 border-t border-rule py-4 text-[15px] leading-[1.45] sm:grid-cols-4 ${r === 3 ? "text-ink-muted" : ""}`}>
+                  <dl key={r} data-inview="" style={{ "--d": `${r * 0.15}s` } as CSSProperties} className={`reveal grid gap-x-4 gap-y-2 border-t border-rule py-4 text-[15px] leading-[1.45] sm:grid-cols-4 ${r === 3 ? "text-ink-muted" : ""}`}>
                     {cells.map((c, i) => (
                       <div key={i} className="grid grid-cols-[6.5rem_1fr] gap-3 sm:block">
                         <dt className="text-[13.5px] text-ink-muted sm:sr-only">{t(`o.c${i + 1}`)}</dt>
-                        <dd className={`${i === 0 ? "font-medium" : ""} ${r === 3 && i === 3 ? "text-ember" : ""}`}>{c}</dd>
+                        <dd className={`${i === 0 ? "font-medium" : ""} ${r === 3 && i >= 2 ? "text-pen-ink" : ""}`}>{r === 3 && i === 0 ? <StruckLine text={c} delay={0.8} /> : c}</dd>
                       </div>
                     ))}
                   </dl>
@@ -160,8 +137,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         <section id="audit" className="scroll-mt-20 border-t border-rule">
           <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
             <div>
-              <p className={label}>{t("au.tag")}</p>
-              <h2 className={`mt-2 ${h2l}`}>{t("au.h")}</h2>
+              <h2 className={h2l}>{t("au.h")}</h2>
               <p className="mt-4 max-w-[30rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("au.p")}</p>
               <p className={note}>{t("au.note")}</p>
             </div>
@@ -180,8 +156,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
         <section id="sites" className="scroll-mt-20 border-t border-rule bg-paper-deep/60">
           <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16`}>
             <div>
-              <p className={label}>{t("s.tag")}</p>
-              <h2 className={`mt-2 ${h2l}`}>{t("s.h")}</h2>
+              <h2 className={h2l}>{t("s.h")}</h2>
               <p className="mt-4 max-w-[30rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("s.p")}</p>
               <p className={note}>{t("s.note")}</p>
             </div>
@@ -200,32 +175,31 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
           </div>
         </section>
 
-        {/* Video: a minute-long piece we made, loaded only when played (preload="none") to keep the page fast. */}
+        {/* Video: three vertical pieces we made. Each loads only when played (preload="none"). */}
         <section id="video" className="scroll-mt-20 border-t border-rule">
-          <div className={`${wide} grid gap-10 py-16 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-16`}>
-            <div>
-              <p className={label}>{t("v.tag")}</p>
-              <h2 className={`mt-2 ${h2l}`}>{t("v.h")}</h2>
-              <p className="mt-4 max-w-[32rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("v.p")}</p>
-              <ul className="mt-6 grid gap-3">
-                {t("v.list").split("|").map((it) => (
-                  <li key={it} className="flex gap-3 text-[16px] leading-[1.5]"><span aria-hidden className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-ember" />{it}</li>
-                ))}
-              </ul>
-              <p className={note}>{t("v.note")}</p>
-            </div>
-            {hasVideo && <video controls playsInline preload="none" poster="/media/assistant-demo.jpg" aria-label={t("v.label")}
-              className="mx-auto aspect-[9/16] w-full max-w-[340px] rounded-[18px] border border-rule bg-black object-cover">
-              <source src="/media/assistant-demo.mp4" type="video/mp4" />
-            </video>}
+          <div className={`${wide} py-16 sm:py-20`}>
+            <h2 className={h2l}>{t("v.h")}</h2>
+            <p className="mt-4 max-w-[40rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("v.p")}</p>
+            <ul className="-mx-4 mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:overflow-visible sm:px-0">
+              {videos.map((v, i) => (
+                <li key={v.src} data-inview="" style={{ "--d": `${i * 0.1}s` } as CSSProperties} className="reveal w-[72%] shrink-0 snap-start sm:w-auto">
+                  <video controls playsInline preload="none" poster={v.poster} aria-label={t(`v${i + 1}.t`)}
+                    className="aspect-[9/16] w-full rounded-[18px] border border-rule bg-black object-cover">
+                    <source src={v.src} type="video/mp4" />
+                  </video>
+                  <p className="mt-3 text-[16px] font-semibold leading-[1.35]">{t(`v${i + 1}.t`)}</p>
+                  <p className="mt-1 text-[14px] text-ink-muted">{t(`v${i + 1}.d`)}</p>
+                </li>
+              ))}
+            </ul>
+            <p className={note}>{t("v.note")}</p>
           </div>
         </section>
 
         {/* Social: a sample week from a monthly plan. */}
         <section id="social" className="scroll-mt-20 border-t border-rule bg-paper-deep/60">
           <div className={`${wide} py-16 sm:py-20`}>
-            <p className={label}>{t("sm.tag")}</p>
-            <h2 className={`mt-2 ${h2l}`}>{t("sm.h")}</h2>
+            <h2 className={h2l}>{t("sm.h")}</h2>
             <p className="mt-4 max-w-[36rem] text-pretty text-[17px] leading-[1.6] text-ink-muted">{t("sm.p")}</p>
             <div className="mt-8 border-b border-rule">
               <div aria-hidden className="hidden gap-4 pb-3 text-[13.5px] font-medium text-ink-muted sm:grid sm:grid-cols-[5rem_10rem_1fr]">
@@ -234,7 +208,7 @@ export default async function Examples({ params }: PageProps<"/[lang]/examples">
               {[1, 2, 3, 4].map((r) => {
                 const [day, format, topic] = t(`sm.r${r}`).split("|");
                 return (
-                  <dl key={r} className="grid gap-x-4 gap-y-1 border-t border-rule py-4 text-[15.5px] leading-[1.45] sm:grid-cols-[5rem_10rem_1fr]">
+                  <dl key={r} data-inview="" style={{ "--d": `${r * 0.12}s` } as CSSProperties} className="reveal grid gap-x-4 gap-y-1 border-t border-rule py-4 text-[15.5px] leading-[1.45] sm:grid-cols-[5rem_10rem_1fr]">
                     <dt className="sr-only">{t("sm.c1")}</dt><dd className="font-medium">{day}</dd>
                     <dt className="sr-only">{t("sm.c2")}</dt><dd className="text-ember">{format}</dd>
                     <dt className="sr-only">{t("sm.c3")}</dt><dd>{topic}</dd>
