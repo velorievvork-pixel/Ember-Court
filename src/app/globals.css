@@ -130,6 +130,10 @@ details > summary::-webkit-details-marker { display: none; }
 @keyframes grow-x { from { transform: scaleX(0); } }
 @keyframes grow-y { from { transform: scaleY(0); } }
 
+/* Typing indicator in the sample chats (examples page). */
+@media (prefers-reduced-motion: no-preference) { .typing-dot { animation: typing 1.2s ease-in-out infinite; } }
+@keyframes typing { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
 /* Cards that lift a little under the pointer (examples page). */
 .lift { transition: transform 300ms var(--ease-out), border-color 300ms, box-shadow 300ms; }
 .lift:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px color-mix(in srgb, var(--color-ember) 45%, transparent); }
