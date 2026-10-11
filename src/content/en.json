@@ -151,7 +151,7 @@
   "l.case.h": "Camirix: daily outbound for B2B automation",
   "l.case.p": "Camirix builds AI employees and automations on top of accounting systems so a business can grow without growing headcount. We find companies in Kazakhstan and Russia hiring people for routine work right now.",
   "l.case.k1": "Client profile",
-  "l.case.v1": "B2B, 30–150 employees",
+  "l.case.v1": "B2B, 30-150 employees",
   "l.case.k2": "Rhythm",
   "l.case.v2": "Every working day",
   "l.case.k3": "Result",
@@ -294,7 +294,7 @@
   "demo.site": "your-site.com",
   "pay.pilot": "Pay for the pilot by card",
   "pay.flow": "Start the flow — $490 a month",
-  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer — write on Telegram."
+  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer? Write on Telegram."
  },
  "services": {
   "jump.5": "Website audit",
@@ -708,7 +708,7 @@
   "h.pr.pilot.local": "paid in USD",
   "pay.pilot": "Pay for the pilot by card",
   "pay.flow": "Start the flow — $490 a month",
-  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer — write on Telegram."
+  "pay.note": "Card payment via Stripe; the receipt and invoice arrive by email. Need an invoice for a bank transfer? Write on Telegram."
  },
  "examples": {
   "nav.home": "Home",
