@@ -66,7 +66,7 @@ export default async function Pilot({ params }: PageProps<"/[lang]/pilot">) {
               {stripeReady() && (
                 <>
                   <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                    <PayButton lang={lang} offer="pilot" label={`${t("pay.pilot")} — $250`} />
+                    <PayButton lang={lang} offer="pilot" label={`${t("pay.pilot")}: $250`} />
                     <PayButton lang={lang} offer="flow" label={t("pay.flow")} ghost />
                   </div>
                   <p className="no-print mt-3 max-w-[40rem] text-[14.5px] leading-[1.5] text-ink-muted">{t("pay.note")}</p>
