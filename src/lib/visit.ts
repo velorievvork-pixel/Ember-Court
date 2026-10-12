@@ -20,6 +20,11 @@ export const RECIPIENTS: Record<string, string> = {
   dentalpractice: "Dental Practice (ДиАнТа Дент)",
   recrutoman: "Recrutoman",
   capedu: "CAP Education",
+  todaytravel: "Today.travel",
+  liftgarant: "Лифт Гарант",
+  frontline: "Front Line",
+  hcg: "Human Capital Group (My Benefit)",
+  cpokaisar: "ЦПО Кайсар",
 };
 
 let recipient: string | null = null;
