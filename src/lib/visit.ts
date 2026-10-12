@@ -31,6 +31,11 @@ export const RECIPIENTS: Record<string, string> = {
   isschool: "Innovative School",
   janabaspana: "Jana Baspana",
   behype: "Behype",
+  boginya: "Богиня Travel",
+  vernao: "Vernao Group",
+  sdelkaplus: "Sdelka Plus",
+  zerdeli: "Zerdeli",
+  kookoo: "ProCoffee (KooKoo)",
 };
 
 let recipient: string | null = null;
