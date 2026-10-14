@@ -36,6 +36,9 @@ export const RECIPIENTS: Record<string, string> = {
   sdelkaplus: "Sdelka Plus",
   zerdeli: "Zerdeli",
   kookoo: "ProCoffee (KooKoo)",
+  kriadera: "Kriadera",
+  likeservice: "Like Service",
+  astanaorleu: "Astana Orleu",
 };
 
 let recipient: string | null = null;
